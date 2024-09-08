@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, Image, StyleSheet } from 'react-native';
 
-import { MagnifyingGlassIcon } from 'react-native-heroicons/outline';
+import { MagnifyingGlassIcon, XCircleIcon } from 'react-native-heroicons/outline';
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => (
   <View style={styles.searchBar}>
@@ -15,6 +15,15 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
       onChangeText={(text) => setSearchQuery(text)}
       placeholderTextColor="gray"
     />
+    {searchQuery.length > 0 && (
+      <View style={styles.clearIconContainer}>
+        <XCircleIcon
+          size={20}
+          color="gray"
+          onPress={() => setSearchQuery('')}
+        />
+      </View>
+    )}
   </View>
 );
 
@@ -35,9 +44,13 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
-    paddingVertical: 10,
     paddingHorizontal: 10,
     fontSize: 16,
+  },
+  clearIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingRight: 10,
   },
 });
 

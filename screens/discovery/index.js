@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, Text, StyleSheet } from 'react-native';
 
 import SearchBar from './SearchBar';
 import FilterButtons from './FilterButtons';
@@ -41,9 +41,7 @@ const DiscoveryScreen = () => {
     });
   };
 
-  const renderCarItem = ({ item }) => (
-    <CarCard item={item} />
-  );
+  const data = filterCars(carsData);
 
   return (
     <View style={styles.container}>
@@ -53,12 +51,24 @@ const DiscoveryScreen = () => {
         setSelectedFilters={setSelectedFilters}
         filters={filters}
       />
+      
+      {
+        data.length === 0 && (
+          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+            No cars found. Try changing your filters.
+          </Text>
+        )
+      }
+      
       <FlatList
-        data={filterCars(carsData)}
-        renderItem={renderCarItem}
-        keyExtractor={(item) => item.id}
+        data={data}
+        renderItem={({ item }) => <CarCard item={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        
+        numColumns={2}
         showsVerticalScrollIndicator={false}
       />
+
     </View>
   );
 };
@@ -67,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f0f0f0',
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingTop: 40,
     flex: 1,
     gap: 10,
