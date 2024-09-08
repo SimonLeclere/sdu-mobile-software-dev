@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   },
   gradient: {
     position: 'absolute',
+    pointerEvents: 'none',
     left: 0,
     right: 0,
     top: 0,
