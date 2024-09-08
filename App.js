@@ -5,13 +5,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import DiscoveryScreen from './screens/discovery';
 import ProfileScreen from './screens/profile';
+import OrdersScreen from './screens/orders';
 import CarDetails from './screens/discovery/CarDetails/index';
 
-import { GlobeAltIcon, UserIcon } from "react-native-heroicons/outline";
+import { GlobeAltIcon, UserIcon, ShoppingCartIcon } from "react-native-heroicons/outline";
 
 const tabIcons = {
   Discovery: GlobeAltIcon,
   Profile: UserIcon,
+  Orders: ShoppingCartIcon
 };
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +34,7 @@ function HomeTabs() {
       })}
     >
       <Tab.Screen name="Discovery" component={DiscoveryScreen} />
+      <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -52,7 +55,7 @@ export default function App() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Car Details'
+            title: 'Details'
           }}
           name="CarDetails"
           component={CarDetails}
