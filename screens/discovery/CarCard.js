@@ -1,15 +1,16 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
+import { ArrowRightIcon } from "react-native-heroicons/outline";
 
 const CarCard = ({ item }) => (
   <View style={styles.carCard}>
     <Image source={item.image} style={styles.carImage} />
     <View style={styles.cardContent}>
-      <Text style={styles.carName}>{item.name}</Text>
-      <Text style={styles.carBrand}>{item.type}</Text>
-      <Text style={styles.carPrice}>{item.price} / Day</Text>
-      <View style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>Voir plus</Text>
+      <Text style={styles.carName}>{item.modelName}</Text>
+      <Text style={styles.carBrand}>{item.brandName}</Text>
+      <View style={styles.bottomContent}>
+        <Text style={styles.carPrice}>{item.price} kr / day</Text>
+        <ArrowRightIcon size={20} color="#666" />
       </View>
     </View>
   </View>
@@ -44,17 +45,14 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   carPrice: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#666",
   },
-  buttonContainer: {
-    marginTop: 10,
+  bottomContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 14,
-    color: "#337ab7",
-    textDecorationLine: "underline",
+    marginTop: 10,
   },
 });
 

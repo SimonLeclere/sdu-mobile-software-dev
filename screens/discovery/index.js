@@ -6,16 +6,16 @@ import FilterButtons from './FilterButtons';
 import CarCard from './CarCard';
 
 const carsData = [
-  { id: 1, name: 'Sportback RS 5', price: '1.400 kr', image: require('../../assets/car1.png'), type: 'Luxury Car', tags: ['Sporty'] },
-  { id: 2, name: 'Cabriolet A5', price: '1.700 kr', image: require('../../assets/car1.png'), type: 'Luxury Car', tags: ['Convertible', 'Elegant'] },
-  { id: 3, name: 'ES Hybrid 2022', price: '1.500 kr', image: require('../../assets/car1.png'), type: 'Family Car', tags: ['Hybrid', 'Comfortable'] },
-  { id: 4, name: 'LS F Sport', price: '2.000 kr', image: require('../../assets/car1.png'), type: 'Luxury Car', tags: ['Sporty', 'Luxury'] },
-  { id: 5, name: 'Tesla Model 3', price: '1.200 kr', image: require('../../assets/car1.png'), type: 'Electric Car', tags: ['Electric', 'Autonomous'] },
-  { id: 6, name: 'Toyota Prius', price: '1.000 kr', image: require('../../assets/car1.png'), type: 'Electric Car', tags: ['Electric', 'Economical'] },
-  { id: 7, name: 'BMW X5', price: '1.800 kr', image: require('../../assets/car1.png'), type: 'SUV', tags: ['Luxury', 'Spacious'] },
-  { id: 8, name: 'Ford Mustang', price: '1.600 kr', image: require('../../assets/car1.png'), type: 'Sport Car', tags: ['Fast', 'Classic'] },
-  { id: 9, name: 'Chevrolet Tahoe', price: '1.900 kr', image: require('../../assets/car1.png'), type: 'SUV', tags: ['Large', 'Comfortable'] },
-  { id: 10, name: 'Nissan Leaf', price: '900 kr', image: require('../../assets/car1.png'), type: 'Electric Car', tags: ['Electric', 'Compact'] }
+  { id: 1, brandName: 'Audi', modelName: 'Sportback RS 5', price: '1.400', image: require('../../assets/cars/Audi RS5 Sportback.png'), type: 'Luxury Car', tags: ['Sporty'] },
+  { id: 2, brandName: 'Audi', modelName: 'Cabriolet A5', price: '1.700', image: require('../../assets/cars/Audi A5 Cabriolet.png'), type: 'Luxury Car', tags: ['Convertible', 'Elegant'] },
+  { id: 3, brandName: 'Lexus', modelName: 'ES Hybrid', price: '1.500', image: require('../../assets/cars/Lexus ES hybrid.png'), type: 'Family Car', tags: ['Hybrid', 'Comfortable'] },
+  { id: 4, brandName: 'Lexus', modelName: 'LS F Sport', price: '2.000', image: require('../../assets/cars/Lexus LS F Sport.png'), type: 'Luxury Car', tags: ['Sporty', 'Luxury'] },
+  { id: 5, brandName: 'Tesla', modelName: 'Model 3', price: '1.200', image: require('../../assets/cars/Tesla model 3.png'), type: 'Electric Car', tags: ['Electric', 'Autonomous'] },
+  { id: 6, brandName: 'Toyota', modelName: 'Prius', price: '1.000', image: require('../../assets/cars/Toyota prius.png'), type: 'Electric Car', tags: ['Electric', 'Economical'] },
+  { id: 7, brandName: 'BMW', modelName: 'X5', price: '1.800', image: require('../../assets/cars/BMW X5.png'), type: 'SUV', tags: ['Luxury', 'Spacious'] },
+  { id: 8, brandName: 'Ford', modelName: 'Mustang', price: '1.600', image: require('../../assets/cars/Ford mustang.png'), type: 'Sport Car', tags: ['Fast', 'Classic'] },
+  { id: 9, brandName: 'Chevrolet', modelName: 'Tahoe', price: '1.900', image: require('../../assets/cars/Chevrolet Tahoe.png'), type: 'SUV', tags: ['Large', 'Comfortable'] },
+  { id: 10, brandName: 'Nissan', modelName: 'Leaf', price: '900', image: require('../../assets/cars/Nissan Leaf.png'), type: 'Electric Car', tags: ['Electric', 'Compact'] }
 ];
 
 
@@ -33,7 +33,7 @@ const DiscoveryScreen = () => {
 
   const filterCars = (cars) => {
     return cars.filter((car) => {
-      const isSearchMatch = car.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const isSearchMatch = `${car.brandName} ${car.modelName}`.toLowerCase().includes(searchQuery.toLowerCase());
       const isFilterMatch = Object.keys(selectedFilters).every((filter) => {
         return selectedFilters[filter] ? car.tags.includes(filter) : true;
       });
