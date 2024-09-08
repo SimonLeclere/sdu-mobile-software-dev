@@ -1,20 +1,28 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, TouchableOpacity , StyleSheet } from "react-native";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
+import { useNavigation } from "@react-navigation/native";
 
-const CarCard = ({ item }) => (
-  <View style={styles.carCard}>
-    <Image source={item.image} style={styles.carImage} />
-    <View style={styles.cardContent}>
-      <Text style={styles.carName}>{item.modelName}</Text>
-      <Text style={styles.carBrand}>{item.brandName}</Text>
-      <View style={styles.bottomContent}>
-        <Text style={styles.carPrice}>{item.price} kr / day</Text>
-        <ArrowRightIcon size={20} color="#666" />
+const CarCard = ({ item }) => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity
+      style={styles.carCard}
+      onPress={() => navigation.navigate("CarDetails", { item })}
+    >
+      <Image source={item.image} style={styles.carImage} />
+      <View style={styles.cardContent}>
+        <Text style={styles.carName}>{item.modelName}</Text>
+        <Text style={styles.carBrand}>{item.brandName}</Text>
+        <View style={styles.bottomContent}>
+          <Text style={styles.carPrice}>{item.price} kr / day</Text>
+          <ArrowRightIcon size={20} color="#666" />
+        </View>
       </View>
-    </View>
-  </View>
-);
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
   carCard: {
@@ -55,6 +63,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
 
 export default CarCard;
