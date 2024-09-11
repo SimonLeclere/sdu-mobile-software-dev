@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, TextInput, Image, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
 import { MagnifyingGlassIcon, XCircleIcon } from 'react-native-heroicons/outline';
 
-const SearchBar = ({ searchQuery, setSearchQuery }) => (
+const SearchBar = ({ searchQuery, setSearchQuery }) => {
+
+  return (
   <View style={styles.searchBar}>
     <View style={styles.searchIconContainer}>
       <MagnifyingGlassIcon size={20} color="gray" />
@@ -25,7 +27,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
       </View>
     )}
   </View>
-);
+)};
 
 const styles = StyleSheet.create({
   searchBar: {

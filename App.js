@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+
+import * as NavigationBar from 'expo-navigation-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -6,9 +9,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DiscoveryScreen from './screens/discovery';
 import ProfileScreen from './screens/profile';
 import OrdersScreen from './screens/orders';
+import PaymentScreen from './screens/payment';
 import CarDetails from './screens/discovery/CarDetails/index';
+import FilterScreen from './screens/discovery/Filters/index';
 
 import { GlobeAltIcon, UserIcon, ShoppingCartIcon } from "react-native-heroicons/outline";
+
+import { FilterProvider, useFilters } from './contexts/filterContext';
+import { ThemeProvider, useTheme } from './contexts/themeContext';
 
 const tabIcons = {
   Discovery: GlobeAltIcon,
@@ -20,6 +28,9 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function HomeTabs() {
+
+  const { isColorful } = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -28,7 +39,7 @@ function HomeTabs() {
             tabIcons[route.name] || DiscoveryIcon;
           return <Icon color={color} size={size} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: isColorful ? '#c1121f' : 'tomato',
         tabBarInactiveTintColor: 'gray',
         headerShown: false
       })}
@@ -43,7 +54,13 @@ function HomeTabs() {
 // Here we nest the HomeTabs navigator inside the Stack navigator
 // This way we can navigate to the CarDetails screen from the Discovery screen without showing the tabs
 // see https://reactnavigation.org/docs/hiding-tabbar-in-screens 
-export default function App() {
+function AppContent() {
+
+  const { isColorful } = useTheme();
+  const { resetSelectedFilters, isDefaultFilter } = useFilters();
+
+  NavigationBar.setBackgroundColorAsync('#fff');
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -60,29 +77,55 @@ export default function App() {
           name="CarDetails"
           component={CarDetails}
         />
+        <Stack.Screen
+          options={({ navigation }) => ({
+            headerShown: true,
+            title: 'Filters',
+            headerShadowVisible: false,
+
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  resetSelectedFilters();
+                  navigation.navigate('Discovery');
+                }}
+                style={{
+                  padding: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#000',
+                    fontWeight: 'bold',
+                  }}
+                >Reset</Text>
+              </TouchableOpacity>
+            ),
+          })}
+          name="Filters"
+          component={FilterScreen}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: 'Payment'
+          }}
+          name="Payment"
+          component={PaymentScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator
-//         screenOptions={({ route }) => ({
-//           tabBarIcon: ({ focused, color, size }) => {
-//             const Icon =
-//               tabIcons[route.name] || DiscoveryIcon;
-//             return <Icon color={color} size={size} />;
-//           },
-//           tabBarActiveTintColor: 'tomato',
-//           tabBarInactiveTintColor: 'gray',
-//           headerShown: false
-//         })}
-//       >
-//         <Tab.Screen name="Discovery" component={DiscoveryScreen} />
-//         <Tab.Screen name="Profile" component={ProfileScreen} />
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// }
+
+export default function App() {
+  // The FilterProvider is a context provider that will allow us to share the selected filters between the filter screen and the discovery screen
+  return (
+    <ThemeProvider >
+      <FilterProvider>
+        <AppContent />
+      </FilterProvider>
+    </ThemeProvider >
+  );
+}
