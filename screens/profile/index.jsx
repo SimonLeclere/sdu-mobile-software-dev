@@ -13,19 +13,19 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.themeButton} onPress = {toggleTheme}>
-          {
-          isColorful ? <MoonIcon size={35} color="gray" style={styles.inputIcon} /> : <SunIcon size={35} color="gray" style={styles.inputIcon} />
-          }
-        </TouchableOpacity>
-        <View style = {styles.profileContainer}>
-          <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
-          <Text style={styles.profileName}>Donald Duck</Text>
-        </View>
-        <View style={styles.pointsContainer}>
-          <StarIcon size={25} color='purple' />
-          <Text style={styles.pointsText}>30 points!</Text>
-        </View>
+      <TouchableOpacity style={styles.themeButton} onPress = {toggleTheme}>
+        {
+        isColorful ? <MoonIcon size={35} color="gray" style={styles.inputIcon} /> : <SunIcon size={35} color="gray" style={styles.inputIcon} />
+        }
+      </TouchableOpacity>
+      <View style = {styles.profileContainer}>
+        <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
+        <Text style={styles.profileName}>Donald Duck</Text>
+      </View>
+      <View style={styles.pointsContainer}>
+        <StarIcon size={25} color='purple' />
+        <Text style={styles.pointsText}>30 points!</Text>
+      </View>
       <View style={styles.infoContainer}>
         <HomeIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
@@ -69,8 +69,8 @@ function getStyles (isColorful) {
       width: 130,
       height: 130,
       borderRadius: 100,
-      borderWidth: 4,
-      borderColor: isColorful ? 'white' : 'black',
+      // borderWidth: 4,
+      // borderColor: isColorful ? 'white' : 'black',
     },
 
     profileName: {
