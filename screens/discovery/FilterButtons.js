@@ -105,41 +105,6 @@ const FilterButtons = () => {
 };
 
 const getStyles = (isColorful) => {
-
-  if (isColorful) {
-    return StyleSheet.create({
-      filterButtons: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-      },
-      filterButton: {
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        marginRight: 10,
-        backgroundColor: "transparent",
-        borderColor: "#333",
-        borderWidth: 1,
-        borderRadius: 50,
-      },
-      filterButtonSelected: {
-        backgroundColor: "#003049",
-        borderColor: "#003049",
-      },
-      filterButtonText: {
-        fontSize: 16,
-      },
-      gradient: {
-        position: 'absolute',
-        pointerEvents: 'none',
-        left: 0,
-        right: 0,
-        top: 0,
-        height: '100%',
-      },
-      gradientColors: ['rgba(0,0,0,0)', '#fdf0d5'],
-    });
-  }
-
   return StyleSheet.create({
     filterButtons: {
       flexDirection: "row",
@@ -150,13 +115,13 @@ const getStyles = (isColorful) => {
       paddingHorizontal: 10,
       marginRight: 10,
       backgroundColor: "transparent",
-      borderColor: "#333",
+      borderColor: isColorful ? "#333" : "#333",
       borderWidth: 1,
       borderRadius: 50,
     },
     filterButtonSelected: {
-      backgroundColor: "#666",
-      borderColor: "#666",
+      backgroundColor: isColorful ? "#003049" : "#666",
+      borderColor: isColorful ? "#003049" : "#666",
     },
     filterButtonText: {
       fontSize: 16,
@@ -169,8 +134,11 @@ const getStyles = (isColorful) => {
       top: 0,
       height: '100%',
     },
-    gradientColors: ['rgba(0,0,0,0)', 'rgba(240,240,240,1)'],
-  });
-}
+    gradientColors: isColorful 
+        ? ['rgba(0,0,0,0)', '#fdf0d5'] 
+        : ['rgba(0,0,0,0)', 'rgba(240,240,240,1)'],
+    }
+  )};
+
 
 export default FilterButtons;

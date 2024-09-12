@@ -153,88 +153,45 @@ export default function FilterScreen() {
 }
 
 const getStyles = (isColorful) => {
-
-    if (isColorful) {
-        return StyleSheet.create({
-            container: {
-                flex: 1,
-                backgroundColor: '#FFFFFF',
-            },
-            scrollContainer: {
-                flex: 1,
-                paddingHorizontal: 15,
-                gap: 10,
-            },
-            sortSelector: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingVertical: 15,
-            },
-            separator: {
-                height: 1,
-                backgroundColor: '#ddd',
-                marginVertical: 5,
-            },
-            categoryLabel: {
-                fontSize: 16,
-                color: '#333',
-                marginTop: 10,
-            },
-            button: {
-                backgroundColor: '#669bbc',
-                paddingVertical: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 10,
-                margin: 15,
-            },
-            buttonText: {
-                color: '#fff',
-                fontSize: 18,
-                fontWeight: 'bold',
-            },
-        });
-    }
-
     return StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: '#FFFFFF',
-        },
-        scrollContainer: {
-            flex: 1,
-            paddingHorizontal: 15,
-            gap: 10,
-        },
-        sortSelector: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingVertical: 15,
-        },
-        separator: {
-            height: 1,
-            backgroundColor: '#ddd',
-            marginVertical: 5,
-        },
-        categoryLabel: {
-            fontSize: 16,
-            color: '#333',
-            marginTop: 10,
-        },
-        button: {
-            backgroundColor: '#007bff',
-            paddingVertical: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            margin: 15,
-        },
-        buttonText: {
-            color: '#fff',
-            fontSize: 18,
-            fontWeight: 'bold',
-        },
+      container: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+      },
+      scrollContainer: {
+        flex: 1,
+        paddingHorizontal: 15,
+        gap: 10,
+      },
+      sortSelector: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 15,
+      },
+      separator: {
+        height: 1,
+        backgroundColor: '#ddd',
+        marginVertical: 5,
+      },
+      categoryLabel: {
+        fontSize: 16,
+        color: '#333',
+        marginTop: 10,
+      },
+      button: {
+        backgroundColor: isColorful ? '#669bbc' : '#007bff',
+        paddingVertical: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        margin: 15,
+      },
+      buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
     });
-};
+  };
+  

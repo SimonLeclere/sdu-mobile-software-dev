@@ -59,96 +59,49 @@ export default function SelectorWithModal({ label, selectedSortOption, sortOptio
 }
 
 const getStyles = (isColorful) => {
-
-    if (isColorful) {
-        return StyleSheet.create({
-            sortSelector: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingVertical: 15,
-            },
-            label: {
-                color: '#999',
-                fontSize: 16,
-            },
-            selectedLabel: {
-                color: '#669bbc',
-                fontSize: 16,
-            },
-            modalContainer: {
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            },
-            modalContent: {
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                paddingHorizontal: 20,
-                width: '80%',
-                maxHeight: '80%',
-            },
-            modalOption: {
-                paddingVertical: 15,
-            },
-            modalOptionText: {
-                fontSize: 16,
-                color: '#333',
-            },
-            modalCloseButton: {
-                paddingVertical: 10,
-                alignItems: 'center',
-            },
-            modalCloseButtonText: {
-                fontSize: 16,
-                color: '#669bbc',
-            },
-        });
-    }
-
     return StyleSheet.create({
-        sortSelector: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingVertical: 15,
-        },
-        label: {
-            color: '#999',
-            fontSize: 16,
-        },
-        selectedLabel: {
-            color: '#007bff',
-            fontSize: 16,
-        },
-        modalContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-        modalContent: {
-            backgroundColor: '#fff',
-            borderRadius: 10,
-            paddingHorizontal: 20,
-            width: '80%',
-            maxHeight: '80%',
-        },
-        modalOption: {
-            paddingVertical: 15,
-        },
-        modalOptionText: {
-            fontSize: 16,
-            color: '#333',
-        },
-        modalCloseButton: {
-            paddingVertical: 10,
-            alignItems: 'center',
-        },
-        modalCloseButtonText: {
-            fontSize: 16,
-            color: '#007bff',
-        },
+      sortSelector: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 15,
+      },
+      label: {
+        color: '#999',
+        fontSize: 16,
+      },
+      selectedLabel: {
+        color: isColorful ? '#669bbc' : '#007bff',
+        fontSize: 16,
+      },
+      modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+      modalContent: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        width: '80%',
+        maxHeight: '80%',
+      },
+      modalOption: {
+        paddingVertical: 15,
+      },
+      modalOptionText: {
+        fontSize: 16,
+        color: '#333',
+      },
+      modalCloseButton: {
+        paddingVertical: 10,
+        alignItems: 'center',
+      },
+      modalCloseButtonText: {
+        fontSize: 16,
+        color: isColorful ? '#669bbc' : '#007bff',
+      },
     });
-};
+  };
+  

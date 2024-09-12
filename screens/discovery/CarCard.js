@@ -29,51 +29,6 @@ const CarCard = ({ item }) => {
 }
 
 const getStyles = (isColorful) => {
-
-  if (isColorful) {
-    return StyleSheet.create({
-      carCard: {
-        backgroundColor: "#fff",
-        padding: 10,
-        borderRadius: 10,
-        elevation: 5,
-        marginBottom: 20,
-        marginTop: 5,
-        width: '45%', // Chaque carte prendra 45% de la largeur disponible
-        marginHorizontal: '2.5%', // Ajoute un espacement horizontal entre les cartes
-      },
-      carImage: {
-        width: "100%", // Assure que l'image prend toute la largeur disponible
-        height: 90,
-        borderRadius: 10,
-      },
-      cardContent: {
-        paddingHorizontal: 10,
-        paddingTop: 10,
-      },
-      carName: {
-        fontSize: 14,
-        fontWeight: "bold",
-        color: "#003049",
-      },
-      carBrand: {
-        fontSize: 14,
-        color: "#666",
-      },
-      carPrice: {
-        fontSize: 12,
-        color: "#666",
-      },
-      bottomContent: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginTop: 10,
-      },
-      arrowColor: "#c1121f",
-    });
-  }
-
   return StyleSheet.create({
     carCard: {
       backgroundColor: "#fff",
@@ -97,6 +52,7 @@ const getStyles = (isColorful) => {
     carName: {
       fontSize: 14,
       fontWeight: "bold",
+      color: isColorful ? "#003049" : "#000", // Changement de couleur selon isColorful
     },
     carBrand: {
       fontSize: 14,
@@ -112,9 +68,10 @@ const getStyles = (isColorful) => {
       alignItems: "center",
       marginTop: 10,
     },
-    arrowColor: "#666",
+    arrowColor: isColorful ? "#c1121f" : "#666", // Changement de couleur selon isColorful
   });
 };
+
 
 
 export default CarCard;

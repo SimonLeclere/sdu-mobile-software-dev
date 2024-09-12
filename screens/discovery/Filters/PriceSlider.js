@@ -27,18 +27,11 @@ export default function PriceSlider({ sliderValues, handleSliderChange }) {
                     step={50}
                     sliderLength={300}
                     onValuesChange={handleSliderChange}
-                    selectedStyle={{ backgroundColor: isColorful ? '#669bbc' : '#007bff' }}
-                    unselectedStyle={{ backgroundColor: '#ddd' }}
-                    markerStyle={{
-                        backgroundColor: isColorful ? '#669bbc' : '#007bff',
-                        width: 20,
-                        height: 20,
-                    }}
+                    selectedStyle={styles.selectedStyle}
+                    unselectedStyle={styles.unselectedStyle}
+                    markerStyle={styles.markerStyle}
                     snapped={true}
-                    trackStyle={{
-                        height: 4,
-                        borderRadius: 10,
-                    }}
+                    trackStyle={styles.trackStyle}
                     markerOffsetY={2}
                 />
             </View>
@@ -47,30 +40,6 @@ export default function PriceSlider({ sliderValues, handleSliderChange }) {
 }
 
 const getStyles = (isColorful) => {
-
-    if (isColorful) {
-        return StyleSheet.create({
-            categoryLabel: {
-                fontSize: 16,
-                color: '#333',
-                marginTop: 10,
-            },
-            price: {
-                color: 'black',
-            },
-            priceInputs: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 10,
-                paddingHorizontal: 5,
-            },
-            multiSliderContainer: {
-                alignItems: 'center',
-            },
-        });
-
-    }
-
     return StyleSheet.create({
         categoryLabel: {
             fontSize: 16,
@@ -89,6 +58,21 @@ const getStyles = (isColorful) => {
         multiSliderContainer: {
             alignItems: 'center',
         },
-    });
+        markerStyle: {
+            backgroundColor: isColorful ? '#669bbc' : '#007bff',
+            width: 20,
+            height: 20,
+        },
+        trackStyle: {
+            height: 4,
+            borderRadius: 10,
+        },
+        unselectedStyle: {
+            backgroundColor: '#ddd'
+        },
+        selectedStyle: {
+            backgroundColor: isColorful ? '#669bbc' : '#007bff'
+        }
 
-}
+    });
+};

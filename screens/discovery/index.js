@@ -138,23 +138,11 @@ const DiscoveryScreen = () => {
 };
 
 const getStyles = (isColorful) => {
-  if (isColorful) {
-    return StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: '#fdf0d5',
-        paddingHorizontal: 15,
-        paddingTop: 40,
-        flex: 1,
-        gap: 10,
-      },
-    });
-  }
 
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#f0f0f0',
+      backgroundColor: isColorful ? '#fdf0d5' : '#f0f0f0',
       paddingHorizontal: 15,
       paddingTop: 40,
       flex: 1,
