@@ -128,7 +128,7 @@ const DiscoveryScreen = () => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={fetchCars}
-            colors={['#0000ff']} // Optionnel: couleur de l'anneau de chargement
+            colors={['#0000ff']}
           />
         }
       />

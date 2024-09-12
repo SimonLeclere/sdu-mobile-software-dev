@@ -19,9 +19,7 @@ const carsData = [
     { id: 18, brandName: 'Subaru', modelName: 'Outback', price: 1800, image: require('../assets/vehiclesPictures/Subaru Outback.png'), type: 'SUVs', tags: ['Adventurous', 'Spacious'], transmission: 'Automatic' },
 ];
 
-
 async function getCars() {
-
     // wait for 1 second to simulate a network request
     await new Promise(resolve => setTimeout(resolve, 1000));
 
