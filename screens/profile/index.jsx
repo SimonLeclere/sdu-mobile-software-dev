@@ -1,10 +1,10 @@
 import { View, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SunIcon, MoonIcon } from 'react-native-heroicons/outline';
+import { SunIcon, MoonIcon, HomeIcon, PhoneIcon } from 'react-native-heroicons/outline';
 import { StarIcon } from 'react-native-heroicons/solid';
 
-const image = require ('../../assets/profilepic.jpg') 
+const image = require ('../../assets/DonaldDuckProfilePic.png') 
 
 
 export default function ProfileScreen() {
@@ -13,19 +13,34 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.themeButton} onPress = {toggleTheme}>
-        {
-        isColorful ? <MoonIcon size={35} color="white" style={styles.inputIcon} /> : <SunIcon size={35} color="gray" style={styles.inputIcon} />
-        }
-      </TouchableOpacity>
-      <View style = {styles.profileContainer}>
-        <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
-        <Text style={styles.profileName}>Jasper Buijnink</Text>
+        <TouchableOpacity style={styles.themeButton} onPress = {toggleTheme}>
+          {
+          isColorful ? <MoonIcon size={35} color="gray" style={styles.inputIcon} /> : <SunIcon size={35} color="gray" style={styles.inputIcon} />
+          }
+        </TouchableOpacity>
+        <View style = {styles.profileContainer}>
+          <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
+          <Text style={styles.profileName}>Donald Duck</Text>
+        </View>
+        <View style={styles.pointsContainer}>
+          <StarIcon size={25} color='purple' />
+          <Text style={styles.pointsText}>30 points!</Text>
+        </View>
+      <View style={styles.infoContainer}>
+        <HomeIcon size={30} color='gray' style={styles.infoIcon} />
+        <View>
+          <Text style={{ fontWeight: 'bold' }}>Address:</Text>
+          <Text style={styles.infoText}>156 Rusty Ln{"\n"} Waxahachie{"\n"} Texas 75165</Text>
+        </View>
       </View>
-      <View style={styles.pointsContainer}>
-        <StarIcon size={25} color='purple' />
-        <Text style={styles.pointsText}>30 points!</Text>
+      <View style={styles.infoContainer}>
+        <PhoneIcon size={30} color='gray' style={styles.infoIcon} />
+        <View>
+          <Text style={{ fontWeight: 'bold' }}>Phone Number:</Text>
+          <Text style={styles.infoText}>1-877-7-MICKEY</Text>
+        </View>
       </View>
+
 
     </SafeAreaView>
   );
@@ -34,7 +49,7 @@ export default function ProfileScreen() {
 function getStyles (isColorful) {
   return StyleSheet.create({
     container: {
-      backgroundColor: isColorful ?  'pink' : 'white',
+      backgroundColor: isColorful ?  '#fdf0d5' : '#f0f0f0',
       flex: 1,
 
     },
@@ -46,7 +61,6 @@ function getStyles (isColorful) {
 
     profileContainer: {
       alignItems: 'center',
-      // backgroundColor: 'lightblue',
       marginBottom: 10,
       gap: 10
     },
@@ -67,16 +81,33 @@ function getStyles (isColorful) {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center', // Center items vertically
-      backgroundColor: 'lightblue',
-      padding: 5, // Optional: Add padding to ensure proper spacing
+      padding: 5, // Optional: Add padding to ensure proper spacing,
+      gap: 5
     },
 
     pointsText: {
       fontSize: 18, // Adjust the font size if needed
-      marginLeft: 5, // Adds spacing between the icon and the text
     },
     
-    
+    infoContainer: {
+      borderRadius: 20,
+      elevation: 5,
+      padding: 15,
+      margin: 15,
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      gap: 10
+    },
+
+    infoIcon: {
+      alignSelf: 'center'
+    },
+
+    infoText: {
+      color: '#666'
+    }
+
+
 
 
   });
