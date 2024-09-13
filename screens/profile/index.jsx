@@ -69,7 +69,6 @@ function getStyles (isColorful) {
       flexDirection: 'row',
       justifyContent: 'space-between',
       padding: 20,
-      backgroundColor: 'lightblue'
     },
 
     profile: {
