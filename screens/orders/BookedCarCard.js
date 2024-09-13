@@ -18,6 +18,23 @@ const calculateDaysLeft = (fromDate) => {
     return daysLeft > 0 ? daysLeft : 0; // Ensure no negative days are returned
   };
 
+  // Helper function to format dates in "14 Sept. 2024" format
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+  
+    // Format the date using toLocaleDateString but manually add a dot to the month abbreviation
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    let formattedDate = date.toLocaleDateString('en-GB', options);
+  
+    // Ensure there's a dot after the month abbreviation if it's missing
+    const monthWithDot = formattedDate.replace(/(\b\w+\b)(?=\s\d{4})/, (month) => {
+      return month.endsWith('.') ? month : `${month}.`;
+    });
+  
+    return monthWithDot;
+  };
+  
+
 const BookedCarCard = ({ item }) => {
   const navigation = useNavigation();
 
@@ -39,10 +56,10 @@ const BookedCarCard = ({ item }) => {
         <Text style={styles.carName}>{item.modelName}</Text>
         <Text style={styles.carBrand}>{item.brandName}</Text>
         <Text style={styles.carBookingDate}>
-          {`From: ${item.fromDate}`}
+          {`From: ${formatDate(item.fromDate)}`}
         </Text>
         <Text style={styles.carBookingDate}>
-          {`To: ${item.toDate}`}
+          {`To: ${formatDate(item.toDate)}`}
         </Text>
         <Text style={styles.carLocation}>
           {`Location: ${item.location}`}

@@ -44,7 +44,7 @@ const BookedCarsScreen = () => {
   return (
     
     <View style={styles.container}>
-      <Text>Orders</Text>
+      <Text style={styles.title}>My Trips</Text>
       {
         carsData.length === 0 && (
           <Text style={{ textAlign: 'center', marginTop: 20 }}>
@@ -76,7 +76,12 @@ const getStyles = (isColorful) => {
       flex: 1,
       backgroundColor: isColorful ? '#fdf0d5' : '#f0f0f0',
       paddingHorizontal: 15,
-      paddingTop: 40,
+      paddingTop: 55,
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      marginBottom: 20,
     },
   });
 };
