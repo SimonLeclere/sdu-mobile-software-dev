@@ -101,7 +101,7 @@ const getStyles = (isColorful) => {
       carName: {
         fontSize: 16,
         fontWeight: "bold",
-        color: isColorful ? "#003049" : "#000",
+        color: isColorful ? "#21B0FE" : "#000",
         marginBottom: 5,
       },
       carBrand: {
@@ -140,7 +140,7 @@ const getStyles = (isColorful) => {
         justifyContent: "flex-end",
         marginTop: 10,
       },
-      arrowColor: isColorful ? "#c1121f" : "#666",
+      arrowColor: isColorful ? "#fe218b" : "#666",
     });
 };
   

@@ -49,7 +49,7 @@ export default function ProfileScreen() {
 function getStyles (isColorful) {
   return StyleSheet.create({
     container: {
-      backgroundColor: isColorful ?  '#fdf0d5' : '#f0f0f0',
+      backgroundColor: isColorful ?  '#fbf8ef' : '#f0f0f0',
       flex: 1,
 
     },

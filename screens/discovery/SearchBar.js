@@ -27,7 +27,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
       {/* Search bar */}
       <TouchableOpacity onPress={openModal} style={styles.searchBar}>
         <View style={styles.searchIconContainer}>
-          <MagnifyingGlassIcon size={25} color="gray" />
+          <MagnifyingGlassIcon size={25} color="#fe218b" />
         </View>
         
         <View>
@@ -51,7 +51,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             </TouchableOpacity>
 
             <View style={styles.inputContainer}>
-              <MapPinIcon size={25} color="gray" style={styles.inputIcon} />
+              <MapPinIcon size={25} color="#fe218b" style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 placeholder="Enter location"
@@ -74,7 +74,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             </View>
 
             <Pressable
-              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (isColorful ? '#669bbc' : '#000') : 'gray' }]}
+              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (isColorful ? '#21B0FE' : '#000') : 'gray' }]}
               onPress={isDateRangeValid ? closeModal : undefined}
               disabled={!isDateRangeValid}
             >

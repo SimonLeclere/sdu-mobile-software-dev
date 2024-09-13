@@ -9,7 +9,7 @@ const DateInput = ({ label, value, onChange }) => {
     return (
         <View style={styles.dateInputContainer}>
             <TouchableOpacity onPress={() => setOpen(true)} style={styles.touchableContainer}>
-                <CalendarIcon size={25} color="gray" style={styles.inputIcon} />
+                <CalendarIcon size={25} color="#fe218b" style={styles.inputIcon} />
                 <Text style={styles.dateText}>
                     {value ? value.format('DD/MM/YYYY') : label}
                 </Text>

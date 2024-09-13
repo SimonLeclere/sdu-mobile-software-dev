@@ -142,7 +142,7 @@ const getStyles = (isColorful) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: isColorful ? '#fdf0d5' : '#f0f0f0',
+      backgroundColor: isColorful ? '#fbf8ef' : '#f0f0f0',
       paddingHorizontal: 15,
       paddingTop: 40,
       flex: 1,

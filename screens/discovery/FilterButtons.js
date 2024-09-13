@@ -120,8 +120,8 @@ const getStyles = (isColorful) => {
       borderRadius: 50,
     },
     filterButtonSelected: {
-      backgroundColor: isColorful ? "#003049" : "#666",
-      borderColor: isColorful ? "#003049" : "#666",
+      backgroundColor: isColorful ? "#fe218b" : "#666",
+      borderColor: isColorful ? "#fe218b" : "#666",
     },
     filterButtonText: {
       fontSize: 16,

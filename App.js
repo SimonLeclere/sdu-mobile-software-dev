@@ -39,7 +39,7 @@ function HomeTabs() {
             tabIcons[route.name] || DiscoveryIcon;
           return <Icon color={color} size={size} />;
         },
-        tabBarActiveTintColor: isColorful ? '#c1121f' : 'tomato',
+        tabBarActiveTintColor: isColorful ? '#fe218b' : 'tomato',
         tabBarInactiveTintColor: 'gray',
         headerShown: false
       })}

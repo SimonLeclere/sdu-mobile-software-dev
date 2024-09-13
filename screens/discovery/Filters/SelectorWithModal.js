@@ -71,7 +71,7 @@ const getStyles = (isColorful) => {
         fontSize: 16,
       },
       selectedLabel: {
-        color: isColorful ? '#669bbc' : '#007bff',
+        color: isColorful ? '#21B0FE' : '#007bff',
         fontSize: 16,
       },
       modalContainer: {
@@ -100,7 +100,7 @@ const getStyles = (isColorful) => {
       },
       modalCloseButtonText: {
         fontSize: 16,
-        color: isColorful ? '#669bbc' : '#007bff',
+        color: isColorful ? '#21B0FE' : '#007bff',
       },
     });
   };

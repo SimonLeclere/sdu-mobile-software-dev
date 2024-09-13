@@ -180,7 +180,7 @@ const getStyles = (isColorful) => {
         marginTop: 10,
       },
       button: {
-        backgroundColor: isColorful ? '#669bbc' : '#007bff',
+        backgroundColor: isColorful ? '#21B0FE' : '#007bff',
         paddingVertical: 15,
         justifyContent: 'center',
         alignItems: 'center',

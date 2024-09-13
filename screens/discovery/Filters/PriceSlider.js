@@ -59,7 +59,7 @@ const getStyles = (isColorful) => {
             alignItems: 'center',
         },
         markerStyle: {
-            backgroundColor: isColorful ? '#669bbc' : '#007bff',
+            backgroundColor: isColorful ? '#21B0FE' : '#007bff',
             width: 20,
             height: 20,
         },
@@ -71,7 +71,7 @@ const getStyles = (isColorful) => {
             backgroundColor: '#ddd'
         },
         selectedStyle: {
-            backgroundColor: isColorful ? '#669bbc' : '#007bff'
+            backgroundColor: isColorful ? '#21B0FE' : '#007bff'
         }
 
     });
