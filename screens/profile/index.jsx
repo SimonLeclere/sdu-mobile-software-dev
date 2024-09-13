@@ -68,15 +68,17 @@ function getStyles (isColorful) {
     profileAndThemeContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 20
+      padding: 20,
+      backgroundColor: 'lightblue'
     },
 
     profile: {
-      fontSize: 25
+      fontSize: 32,
+      fontWeight: 'bold',
     },
 
     themeButton: {
-      alignSelf: 'flex-end',
+      alignSelf: 'center',
     },
 
     profileContainer: {
