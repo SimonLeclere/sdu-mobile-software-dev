@@ -48,61 +48,107 @@ export default function CarDetails({ route, navigation }) {
     );
   }
 
-
   return (
-    <TouchableOpacity
+    <View
       style={styles.carCard}
-      onPress={() => navigation.navigate("CarDetails", { item: carData })}
     >
       <Image source={carData.image} style={styles.carImage} />
       <View style={styles.cardContent}>
         <Text style={styles.carName}>{carData.modelName}</Text>
         <Text style={styles.carBrand}>{carData.brandName}</Text>
-        <View style={styles.bottomContent}>
-          <Text style={styles.carPrice}>{carData.price} kr / day</Text>
-          <ArrowRightIcon size={20} color="#666" />
+        <Text style={styles.subtitle}>Transmission type: {carData.transmission}</Text>
+        <Text style={styles.subtitle}>Fuel Type: {carData.fuelType}</Text>
+        <Text style={styles.subtitle}>Seating Capacity: {carData.seatingCapacity}</Text>
+
+        <View style={styles.tagContainer}>
+          {carData.tags.map((tag, index) => (
+            <View key={index} style={styles.tag}>
+              <Text style={styles.tagText}>{tag}</Text>
+            </View>
+          ))}
         </View>
       </View>
-    </TouchableOpacity>
+      <View style={styles.bottomContent}>
+        <Text style={styles.carPrice}>{carData.price} kr / day</Text>
+        <TouchableOpacity style={styles.rentButton}>
+          <Text style={styles.rentButtonText}>RENT NOW</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   carCard: {
-    backgroundColor: "#fff",
+    flex: 1,
+    borderRadius: 10,
+    height: "100%",
+    marginTop: 5,
+    width: '95%',
+    marginHorizontal: '2.5%',
+  },
+  tagContainer: {
+    flexDirection: "row",
+    marginTop: 10
+  },
+  tagText: {
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
-    elevation: 5,
-    marginBottom: 20,
-    marginTop: 5,
-    width: '45%', // Chaque carte prendra 45% de la largeur disponible
-    marginHorizontal: '2.5%', // Ajoute un espacement horizontal entre les cartes
+    marginRight: 10,
+    elevation: 5
   },
   carImage: {
-    width: "100%", // Assure que l'image prend toute la largeur disponible
-    height: 90,
+    width: "100%",
+    height: 250,
     borderRadius: 10,
+    backgroundColor: 'white',
   },
   cardContent: {
     paddingHorizontal: 10,
     paddingTop: 10,
   },
+  subtitle: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+
   carName: {
-    fontSize: 14,
+    fontSize: 28,
     fontWeight: "bold",
   },
   carBrand: {
-    fontSize: 14,
+    fontSize: 20,
     color: "#666",
+    marginBottom: 15
   },
   carPrice: {
-    fontSize: 12,
-    color: "#666",
+    fontSize: 24,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    color: "black",
   },
   bottomContent: {
+    position: "absolute",
+    backgroundColor: "white",
+    width: "100%",
+    height: 80,
+    borderRadius: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
-    marginTop: 10,
+    bottom: 10,
+    elevation: 5,
   },
+  rentButton: {
+    borderRadius: 10,
+    padding: 14,
+    backgroundColor: "#007BFF"
+  },
+  rentButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
 });
