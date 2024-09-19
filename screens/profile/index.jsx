@@ -45,28 +45,28 @@ export default function ProfileScreen() {
           <Text style={styles.profileName}>Donald Duck</Text>
         </View>
         <View style={styles.pointsContainer}>
-          <StarIcon size={25} color='purple' />
+          <StarIcon size={25} color={colors.accent} />
           <Text style={styles.pointsText}>30 points!</Text>
         </View>
       <View style={styles.infoContainer}>
         <HomeIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
-          <Text style={styles.infoTextPrimary}>Address:</Text>
-          <Text style={styles.infoTextSecondary}>156 Rusty Ln{"\n"} Waxahachie{"\n"} Texas 75165</Text>
+          <Text style={styles.infoTextLabel}>Address:</Text>
+          <Text style={styles.infoTextDescription}>156 Rusty Ln{"\n"} Waxahachie{"\n"} Texas 75165</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
         <PhoneIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
-          <Text style={styles.infoTextPrimary}>Phone Number:</Text>
-          <Text style={styles.infoTextSecondary}>1-877-7-MICKEY</Text>
+          <Text style={styles.infoTextLabel}>Phone Number:</Text>
+          <Text style={styles.infoTextDescription}>1-877-7-MICKEY</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
         <EnvelopeIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
-          <Text style = {styles.infoTextPrimary}>E-mail:</Text>
-          <Text style={styles.infoTextSecondary}>donald.duck@disney.com</Text>
+          <Text style = {styles.infoTextLabel}>E-mail:</Text>
+          <Text style={styles.infoTextDescription}>donald.duck@disney.com</Text>
         </View>
       </View>
       
@@ -148,12 +148,12 @@ function getStyles (colors) {
       alignSelf: 'center'
     },
 
-    infoTextPrimary: {
+    infoTextLabel: {
       fontWeight: 'bold',
-      color: colors.text
+      color: colors.secondaryText
     },
 
-    infoTextSecondary: {
+    infoTextDescription: {
       color: colors.text
     }
 
