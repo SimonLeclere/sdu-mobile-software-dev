@@ -81,13 +81,14 @@ function getStyles (colors) {
     container: {
       backgroundColor: colors.background,
       flex: 1,
-
+      paddingTop: 30,
     },
 
     profileAndThemeContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 20,
+      paddingLeft: 15,
+      paddingRight: 15,
     },
 
     profile: {

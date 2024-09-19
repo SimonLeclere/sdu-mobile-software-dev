@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Text, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, FlatList, Text, StyleSheet, ActivityIndicator, RefreshControl, SafeAreaView } from 'react-native';
 
 import BookedCarCard from './BookedCarCard'; // Updated to use BookedCarCard instead of CarCard
 import { useTheme } from '../../contexts/themeContext';
@@ -43,7 +43,7 @@ const BookedCarsScreen = () => {
 
   return (
     
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>My Trips</Text>
       {
         carsData.length === 0 && (
@@ -66,7 +66,7 @@ const BookedCarsScreen = () => {
           />
         }
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
