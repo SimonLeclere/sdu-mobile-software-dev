@@ -32,7 +32,7 @@ const Tab = createBottomTabNavigator();
 
 function HomeTabs() {
 
-  const { isColorful } = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Tab.Navigator
@@ -42,7 +42,7 @@ function HomeTabs() {
             tabIcons[route.name] || DiscoveryIcon;
           return <Icon color={color} size={size} />;
         },
-        tabBarActiveTintColor: isColorful ? '#fe218b' : 'tomato',
+        tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: 'gray',
         headerShown: false
       })}
@@ -59,10 +59,10 @@ function HomeTabs() {
 // see https://reactnavigation.org/docs/hiding-tabbar-in-screens 
 function AppContent() {
 
-  const { isColorful } = useTheme();
+  const { colors } = useTheme();
   const { resetSelectedFilters, isDefaultFilter } = useFilters();
 
-  NavigationBar.setBackgroundColorAsync('#fff');
+  NavigationBar.setBackgroundColorAsync(colors.backgroundColor);
 
   return (
     <NavigationContainer>

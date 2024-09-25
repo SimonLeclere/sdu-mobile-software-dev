@@ -5,8 +5,8 @@ import { formatDate } from './BookedCarCard';
 
 const BookingDetailsScreen = ({ route }) => {
   const { item } = route.params; 
-  const { isColorful } = useTheme(); 
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme(); 
+  const styles = getStyles(colors);
 
 
   return (
@@ -35,11 +35,11 @@ const BookingDetailsScreen = ({ route }) => {
   );
 };
 
-const getStyles = (isColorful) => StyleSheet.create({
+const getStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
   },
   carImage: {
     width: '80%',
@@ -51,23 +51,23 @@ const getStyles = (isColorful) => StyleSheet.create({
   carName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: isColorful ? '#21B0FE' : '#000',
+    color: colors.primary,
     marginBottom: 10,
   },
   carBrand: {
     fontSize: 18,
-    color: '#666',
+    color: colors.secondaryText,
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: colors.tertiaryText,
     marginTop: 10,
   },
   infoText: {
     fontSize: 14,
-    color: '#555',
+    color: colors.infoText,
     marginBottom: 5,
   }
 });

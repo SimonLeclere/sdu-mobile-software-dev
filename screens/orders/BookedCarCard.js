@@ -36,8 +36,8 @@ export const formatDate = (dateString) => {
 
 const BookedCarCard = ({ item }) => {
   const navigation = useNavigation();
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   // Calculate days left until the booking starts
   const daysLeft = calculateDaysLeft(item.fromDate);
@@ -80,11 +80,11 @@ const BookedCarCard = ({ item }) => {
   );
 };
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
     const { width } = Dimensions.get("window");
     return StyleSheet.create({
       carCard: {
-        backgroundColor: "#fff",
+        backgroundColor: colors.cardBackground,
         padding: 10,
         borderRadius: 10,
         elevation: 5,
@@ -106,22 +106,22 @@ const getStyles = (isColorful) => {
       carName: {
         fontSize: 16,
         fontWeight: "bold",
-        color: isColorful ? "#21B0FE" : "#000",
+        color: colors.primary,
         marginBottom: 5,
       },
       carBrand: {
         fontSize: 14,
-        color: "#666",
+        color: colors.secondaryText,
         marginBottom: 5,
       },
       carBookingDate: {
         fontSize: 12,
-        color: "#888",
+        color: colors.timeLocationText,
         marginBottom: 5,
       },
       carLocation: {
         fontSize: 12,
-        color: "#888",
+        color: colors.timeLocationText,
       },
       daysLeftContainer: {
         position: 'relative',
@@ -131,7 +131,7 @@ const getStyles = (isColorful) => {
       },
       daysLeftText: {
         fontSize: 10,
-        color: "#fff",
+        color: colors.text,
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 5,
@@ -151,7 +151,7 @@ const getStyles = (isColorful) => {
         justifyContent: "flex-end",
         marginTop: 10,
       },
-      arrowColor: isColorful ? "#fe218b" : "#666",
+      arrowColor: colors.accent,
     });
 };
 

@@ -11,8 +11,8 @@ const PastBookingsScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   // Fetch booked cars data when the component mounts
   const fetchCars = useCallback(async () => {
@@ -70,11 +70,11 @@ const PastBookingsScreen = ({ navigation }) => {
   );
 };
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: isColorful ? '#fbf8ef' : '#f0f0f0',
+      backgroundColor: colors.backgroundColor,
       paddingHorizontal: 15,
       paddingTop: 10,
     },
@@ -82,7 +82,7 @@ const getStyles = (isColorful) => {
       fontSize: 32,
       fontWeight: 'bold',
       marginBottom: 20,
-      color: isColorful ? "#fe218b" : "#666",
+      color: colors.accent,
     },
   });
 };

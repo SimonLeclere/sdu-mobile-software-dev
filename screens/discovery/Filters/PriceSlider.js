@@ -6,8 +6,8 @@ import { useFilters } from '../../../contexts/filterContext';
 
 export default function PriceSlider({ sliderValues, handleSliderChange }) {
 
-    const { isColorful } = useTheme();
-    const styles = getStyles(isColorful);
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
 
     const { selectedFilters } = useFilters();
 
@@ -39,15 +39,15 @@ export default function PriceSlider({ sliderValues, handleSliderChange }) {
     );
 }
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
     return StyleSheet.create({
         categoryLabel: {
             fontSize: 16,
-            color: '#333',
+            color: colors.tertiaryText,
             marginTop: 10,
         },
         price: {
-            color: 'black',
+            color: colors.text,
         },
         priceInputs: {
             flexDirection: 'row',
@@ -59,7 +59,7 @@ const getStyles = (isColorful) => {
             alignItems: 'center',
         },
         markerStyle: {
-            backgroundColor: isColorful ? '#21B0FE' : '#007bff',
+            backgroundColor: colors.primary,
             width: 20,
             height: 20,
         },
@@ -68,10 +68,10 @@ const getStyles = (isColorful) => {
             borderRadius: 10,
         },
         unselectedStyle: {
-            backgroundColor: '#ddd'
+            backgroundColor: colors.backgroundColor
         },
         selectedStyle: {
-            backgroundColor: isColorful ? '#21B0FE' : '#007bff'
+            backgroundColor: colors.primary
         }
 
     });
