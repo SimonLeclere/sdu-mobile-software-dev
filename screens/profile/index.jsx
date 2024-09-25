@@ -8,17 +8,36 @@ const image = require ('../../assets/DonaldDuckProfilePic.png')
 
 
 export default function ProfileScreen() {
-  const { isColorful, toggleTheme } = useTheme();
-  const styles = getStyles(isColorful)
+  const { colors, switchTheme, theme } = useTheme();
+  console.log(theme, colors)
+  const styles = getStyles(colors)
+
+  let themeIcon
+  switch (theme) {
+    case 'light': 
+      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
+      break;
+    case 'dark':
+      themeIcon = <SunIcon size={35} color="gray" style={styles.inputIcon} />
+      break;
+    default: 
+      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
+      break;
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style = {styles.profileAndThemeContainer}>
         <Text style={styles.profile}>Profile</Text>
-        <TouchableOpacity style={styles.themeButton} onPress = {toggleTheme}>
-          {
-          isColorful ? <MoonIcon size={35} color="gray" style={styles.inputIcon} /> : <SunIcon size={35} color="gray" style={styles.inputIcon} />
-          }
+      <TouchableOpacity style={styles.themeButton} onPress = {() => {
+        if (theme == 'light') {
+          switchTheme('dark')
+        } else {
+        switchTheme('light')
+      }
+      }}>
+          {themeIcon}
         </TouchableOpacity>
       </View>
         <View style = {styles.profileContainer}>
@@ -26,28 +45,28 @@ export default function ProfileScreen() {
           <Text style={styles.profileName}>Donald Duck</Text>
         </View>
         <View style={styles.pointsContainer}>
-          <StarIcon size={25} color='purple' />
+          <StarIcon size={25} color={colors.accent} />
           <Text style={styles.pointsText}>30 points!</Text>
         </View>
       <View style={styles.infoContainer}>
         <HomeIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
-          <Text style={{ fontWeight: 'bold' }}>Address:</Text>
-          <Text style={styles.infoText}>156 Rusty Ln{"\n"} Waxahachie{"\n"} Texas 75165</Text>
+          <Text style={styles.infoTextLabel}>Address:</Text>
+          <Text style={styles.infoTextDescription}>156 Rusty Ln{"\n"} Waxahachie{"\n"} Texas 75165</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
         <PhoneIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
-          <Text style={{ fontWeight: 'bold' }}>Phone Number:</Text>
-          <Text style={styles.infoText}>1-877-7-MICKEY</Text>
+          <Text style={styles.infoTextLabel}>Phone Number:</Text>
+          <Text style={styles.infoTextDescription}>1-877-7-MICKEY</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
         <EnvelopeIcon size={30} color='gray' style={styles.infoIcon} />
         <View>
-          <Text style={{ fontWeight: 'bold' }}>E-mail:</Text>
-          <Text style={styles.infoText}>donald.duck@disney.com</Text>
+          <Text style = {styles.infoTextLabel}>E-mail:</Text>
+          <Text style={styles.infoTextDescription}>donald.duck@disney.com</Text>
         </View>
       </View>
       
@@ -57,21 +76,23 @@ export default function ProfileScreen() {
   );
 }
 
-function getStyles (isColorful) {
+function getStyles (colors) {
   return StyleSheet.create({
     container: {
-      backgroundColor: isColorful ?  '#fbf8ef' : '#f0f0f0',
+      backgroundColor: colors.background,
       flex: 1,
-
+      paddingTop: 30,
     },
 
     profileAndThemeContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 20,
+      paddingLeft: 15,
+      paddingRight: 15,
     },
 
     profile: {
+      color: colors.text,
       fontSize: 32,
       fontWeight: 'bold',
     },
@@ -95,6 +116,7 @@ function getStyles (isColorful) {
     },
 
     profileName: {
+      color: colors.text,
       fontSize: 20
     },
 
@@ -108,27 +130,32 @@ function getStyles (isColorful) {
     },
 
     pointsText: {
+      color: colors.text,
       fontSize: 18, // Adjust the font size if needed
     },
     
     infoContainer: {
       borderRadius: 20,
-      elevation: 5,
       padding: 15,
       marginLeft: 15,
       marginRight: 15,
       marginBottom: 20,
-      backgroundColor: 'white',
       flexDirection: 'row',
-      gap: 10
+      gap: 10,
+      backgroundColor: colors.cardBackground
     },
 
     infoIcon: {
       alignSelf: 'center'
     },
 
-    infoText: {
-      color: '#666'
+    infoTextLabel: {
+      fontWeight: 'bold',
+      color: colors.secondaryText
+    },
+
+    infoTextDescription: {
+      color: colors.text
     }
 
 

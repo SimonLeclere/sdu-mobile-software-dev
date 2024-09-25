@@ -46,6 +46,7 @@ const BookedCarsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+
       <Text style={styles.title}>My Trips</Text>
       
       {upcomingBookings.length === 0 && (
@@ -73,6 +74,7 @@ const BookedCarsScreen = ({ navigation }) => {
         <Text style={styles.linkText}>View Past Bookings</Text>
       </TouchableOpacity>
     </View>
+
   );
 };
 
