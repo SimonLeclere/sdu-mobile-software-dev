@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: "100%",
     marginTop: 5,
-    width: '95%',
-    marginHorizontal: '2.5%',
+    width: '100%',
+    
   },
   tagContainer: {
     flexDirection: "row",
@@ -101,15 +101,15 @@ const styles = StyleSheet.create({
   carImage: {
     width: "100%",
     height: 250,
-    borderRadius: 10,
-    backgroundColor: 'white',
+    // borderRadius: 10,
+    // backgroundColor: 'white',
   },
   cardContent: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingTop: 10,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 10,
   },
 
@@ -132,12 +132,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "white",
     width: "100%",
-    height: 80,
-    borderRadius: 10,
+    height: 100,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    bottom: 10,
+    bottom: 0,
     elevation: 5,
   },
   rentButton: {

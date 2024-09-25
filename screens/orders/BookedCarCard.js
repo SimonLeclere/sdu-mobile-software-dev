@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/themeContext";
 
 // Helper function to calculate days left
-const calculateDaysLeft = (fromDate) => {
+export const calculateDaysLeft = (fromDate) => {
     const currentDate = new Date(); // Today's date
     const bookedDate = new Date(fromDate); // Convert the string date to a Date object
   
@@ -16,10 +16,10 @@ const calculateDaysLeft = (fromDate) => {
     const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   
     return daysLeft > 0 ? daysLeft : 0; // Ensure no negative days are returned
-  };
+};
 
-  // Helper function to format dates in "14 Sept. 2024" format
-  const formatDate = (dateString) => {
+// Helper function to format dates in "14 Sept. 2024" format
+export const formatDate = (dateString) => {
     const date = new Date(dateString);
   
     // Format the date using toLocaleDateString but manually add a dot to the month abbreviation
@@ -32,24 +32,23 @@ const calculateDaysLeft = (fromDate) => {
     });
   
     return monthWithDot;
-  };
-  
+};
 
 const BookedCarCard = ({ item }) => {
   const navigation = useNavigation();
-
   const { isColorful } = useTheme();
   const styles = getStyles(isColorful);
 
   // Calculate days left until the booking starts
   const daysLeft = calculateDaysLeft(item.fromDate);
 
-// Conditional background color for the days left text
+  // Conditional background color for the days left text
   const daysLeftBackgroundColor = daysLeft < 10 ? '#6FCF97' : '#BDBDBD'; // Green if less than 10 days, grey otherwise
 
   return (
     <TouchableOpacity
       style={styles.carCard}
+      onPress={() => navigation.navigate("BookingDetails", { item })} // Navigate to BookingDetails with item data
     >
       <Image source={item.image} style={styles.carImage} />
       <View style={styles.cardContent}>
@@ -64,12 +63,18 @@ const BookedCarCard = ({ item }) => {
         <Text style={styles.carLocation}>
           {`Location: ${item.location}`}
         </Text>
-        <View style={styles.daysLeftContainer}>
-          <Text style={[styles.daysLeftText, { backgroundColor: daysLeftBackgroundColor }]}>
-            {daysLeft > 0 ? `${daysLeft} days before adventure` : "Booking date has passed"}
-          </Text>
+        {daysLeft > 0 ? (
+          <View style={styles.daysLeftContainer}>
+            <Text style={[styles.daysLeftText, { backgroundColor: daysLeftBackgroundColor }]}>
+              {`${daysLeft} days before adventure`}
+            </Text>
+            <ArrowRightIcon size={20} color={styles.arrowColor} style={styles.arrowIcon} />
+          </View>
+        ) : (
+          <View style={styles.arrowContainer}>
           <ArrowRightIcon size={20} color={styles.arrowColor} style={styles.arrowIcon} />
         </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -135,6 +140,12 @@ const getStyles = (isColorful) => {
         position: 'absolute',
         right: 0,
       },
+      arrowContainer: {
+        position: 'relative',
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 10
+      },
       bottomContent: {
         flexDirection: "row",
         justifyContent: "flex-end",
@@ -143,6 +154,5 @@ const getStyles = (isColorful) => {
       arrowColor: isColorful ? "#fe218b" : "#666",
     });
 };
-  
 
 export default BookedCarCard;

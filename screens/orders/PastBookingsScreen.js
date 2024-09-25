@@ -1,10 +1,11 @@
+// PastBookingsScreen.js
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Text, StyleSheet, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, StyleSheet, ActivityIndicator, RefreshControl } from 'react-native';
 import BookedCarCard from './BookedCarCard';
 import { useTheme } from '../../contexts/themeContext';
 import { getBookedCars } from './bookedCarsData'; // Fetch booked cars
 
-const BookedCarsScreen = ({ navigation }) => {
+const PastBookingsScreen = ({ navigation }) => {
   const [carsData, setCarsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,23 +41,20 @@ const BookedCarsScreen = ({ navigation }) => {
     return <Text style={{ textAlign: 'center', marginTop: 20 }}>Error: {error}</Text>;
   }
 
-  // Separate upcoming bookings
+  // Filter past bookings
   const currentDate = new Date();
-  const upcomingBookings = carsData.filter(item => new Date(item.fromDate) >= currentDate);
+  const pastBookings = carsData.filter(item => new Date(item.toDate) < currentDate);
 
   return (
-    <View style={styles.container}>
-
-      <Text style={styles.title}>My Trips</Text>
-      
-      {upcomingBookings.length === 0 && (
+    <View style={styles.container}>      
+      {pastBookings.length === 0 && (
         <Text style={{ textAlign: 'center', marginTop: 20 }}>
-          No upcoming trips found.
+          No past bookings found.
         </Text>
       )}
       
       <FlatList
-        data={upcomingBookings}
+        data={pastBookings}
         renderItem={({ item }) => <BookedCarCard item={item} />}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
@@ -68,13 +66,7 @@ const BookedCarsScreen = ({ navigation }) => {
           />
         }
       />
-
-      {/* Link to Past Bookings Screen */}
-      <TouchableOpacity onPress={() => navigation.navigate('PastBookings')}>
-        <Text style={styles.linkText}>View Past Bookings</Text>
-      </TouchableOpacity>
     </View>
-
   );
 };
 
@@ -84,7 +76,7 @@ const getStyles = (isColorful) => {
       flex: 1,
       backgroundColor: isColorful ? '#fbf8ef' : '#f0f0f0',
       paddingHorizontal: 15,
-      paddingTop: 55,
+      paddingTop: 10,
     },
     title: {
       fontSize: 32,
@@ -92,14 +84,7 @@ const getStyles = (isColorful) => {
       marginBottom: 20,
       color: isColorful ? "#fe218b" : "#666",
     },
-    linkText: {
-      fontSize: 14,
-      color: 'grey',
-      marginTop: 10,
-      marginBottom: 10,
-      textAlign: 'center',
-    },
   });
 };
 
-export default BookedCarsScreen;
+export default PastBookingsScreen;

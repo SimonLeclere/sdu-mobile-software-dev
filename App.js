@@ -12,6 +12,9 @@ import OrdersScreen from './screens/orders';
 import PaymentScreen from './screens/payment';
 import CarDetails from './screens/discovery/CarDetails/index';
 import FilterScreen from './screens/discovery/Filters/index';
+import BookingDetailsScreen from './screens/orders/BookingDetailsScreen';
+import PastBookingsScreen from './screens/orders/PastBookingsScreen';
+
 
 import { GlobeAltIcon, UserIcon, ShoppingCartIcon } from "react-native-heroicons/outline";
 
@@ -112,6 +115,23 @@ function AppContent() {
           }}
           name="Payment"
           component={PaymentScreen}
+        />
+        {/* Add the BookingDetailsScreen to the stack */}
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: 'Booking Details'
+          }}
+          name="BookingDetails"
+          component={BookingDetailsScreen}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: 'Past Bookings'
+          }}
+          name="PastBookings"
+          component={PastBookingsScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
