@@ -12,8 +12,9 @@ const themeList = {
     secondaryText: '#666',
     tertiaryText: '#333',
     infoText:'#555',
-    timeLocationText: '#888'
-
+    timeLocationText: '#888',
+    tabBar: "white",
+    statusBarStyle: 'dark'
   },
   dark: {
     primary:  '#21B0FE',
@@ -26,7 +27,9 @@ const themeList = {
     secondaryText: '#666',
     tertiaryText: '#333',
     infoText: '#555',
-    timeLocationText: '#888'
+    timeLocationText: '#888',
+    tabBar: '#1f1f1f',
+    statusBarStyle: 'light'
   },
   colorful: {
     primary:  '#21B0FE',
@@ -39,7 +42,9 @@ const themeList = {
     secondaryText: '#666',
     tertiaryText: '#333',
     infoText: '#555',
-    timeLocationText: '#888'
+    timeLocationText: '#888',
+    tabBar: "white",
+    statusBarStyle: 'dark'
   }
 }
 

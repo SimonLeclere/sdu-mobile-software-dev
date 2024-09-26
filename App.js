@@ -5,6 +5,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
 
 import DiscoveryScreen from './screens/discovery';
 import ProfileScreen from './screens/profile';
@@ -44,7 +45,10 @@ function HomeTabs() {
         },
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: 'gray',
-        headerShown: false
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.tabBar,
+        },
       })}
     >
       <Tab.Screen name="Discovery" component={DiscoveryScreen} />
@@ -62,13 +66,14 @@ function AppContent() {
   const { colors } = useTheme();
   const { resetSelectedFilters, isDefaultFilter } = useFilters();
 
-  NavigationBar.setBackgroundColorAsync(colors.backgroundColor);
+  NavigationBar.setBackgroundColorAsync(colors.tabBar);
 
   return (
+    <>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Home" component={HomeTabs} />
@@ -135,6 +140,8 @@ function AppContent() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    <StatusBar style={colors.statusBarStyle} />
+    </>
   );
 }
 
