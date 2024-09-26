@@ -1,19 +1,27 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext } from 'react';
+import { SunIcon, MoonIcon, SwatchIcon } from "react-native-heroicons/outline";
+
 
 const themeList = {
   light: {
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
-    background: '#fdf0d5',
+    background: 'white',
     cardBackground: 'white',
     filterBackground: 'white',
     text: 'black',
     secondaryText: '#666',
     tertiaryText: '#333',
     infoText:'#555',
+    
+    icon: SunIcon,
+    markerIcon: require('../assets/marker.png'),
+    mapStyle: undefined,
+
     timeLocationText: '#888',
     tabBar: "white",
+    tabBarBorder: '#eee',
     statusBarStyle: 'dark'
   },
   dark: {
@@ -28,24 +36,15 @@ const themeList = {
     tertiaryText: '#333',
     infoText: '#555',
     timeLocationText: '#888',
+    
+    icon: MoonIcon,
+    markerIcon: require('../assets/marker-dark.png'),
+    mapStyle: require('../assets/mapstyle-dark.json'),
+
     tabBar: '#1f1f1f',
+    tabBarBorder: '#333',
     statusBarStyle: 'light'
   },
-  colorful: {
-    primary:  '#21B0FE',
-    secondary: '#FED700',
-    accent: '#FE218B',
-    background: '#fdf0d5',
-    cardBackground: 'white',
-    filterBackground: 'white',
-    text: 'black',
-    secondaryText: '#666',
-    tertiaryText: '#333',
-    infoText: '#555',
-    timeLocationText: '#888',
-    tabBar: "white",
-    statusBarStyle: 'dark'
-  }
 }
 
 const ThemeContext = createContext();
@@ -60,10 +59,10 @@ export const ThemeProvider = ({ children }) => {
   };
 
   // Convert children to a function if it's a function
-  const renderChildren = typeof children === 'function' ? children({ colors: themeList[theme], switchTheme, theme }) : children;
+  const renderChildren = typeof children === 'function' ? children({ colors: themeList[theme], switchTheme, theme, themes: themeList }) : children;
 
   return (
-    <ThemeContext.Provider value={{ colors: themeList[theme], switchTheme, theme }}>
+    <ThemeContext.Provider value={{ colors: themeList[theme], switchTheme, theme, themes: themeList }}>
       {renderChildren}
     </ThemeContext.Provider>
   );

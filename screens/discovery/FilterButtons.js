@@ -8,8 +8,8 @@ import { useTheme } from "../../contexts/themeContext";
 
 const FilterButtons = () => {
 
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   const [showEndGradient, setShowEndGradient] = useState(true);
   const [showStartGradient, setShowStartGradient] = useState(false);
@@ -76,36 +76,24 @@ const FilterButtons = () => {
                 }))
               }
             >
-              <Text style={{ ...styles.filterButtonText, color: selectedFilters.tagFilter[item] ? "#fff" : "#333" }}>{item}</Text>
+              <Text
+                style={[
+                  styles.filterButtonText,
+                  selectedFilters.tagFilter[item] ? styles.filterButtonSelectedText : null,
+                ]}
+              >
+              {item}
+              </Text>
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item}
         />
-        
-        {/* {showStartGradient && (
-          <LinearGradient
-            colors={styles.gradientColors}
-
-            start={{x: 1, y: 0.75}} end={{x: 0, y: 0.25}}
-            locations={[0.8, 1]}
-            style={styles.gradient}
-          />
-        )}
-        {showEndGradient && (
-          <LinearGradient
-            colors={styles.gradientColors}
-            start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}}
-            locations={[0.8, 1]}
-            style={styles.gradient}
-          />
-        )} */}
       </View>
-
     </View>
   );
 };
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
   return StyleSheet.create({
     filterButtons: {
       flexDirection: "row",
@@ -116,31 +104,25 @@ const getStyles = (isColorful) => {
       paddingVertical: 5,
       paddingHorizontal: 10,
       marginRight: 10,
-      backgroundColor: "transparent",
-      backgroundColor: 'white',
+      backgroundColor: colors.cardBackground,
+      borderColor: colors.cardBackground,
       borderRadius: 50,
       marginBottom: 5,
     },
     filterButtonSelected: {
-      backgroundColor: isColorful ? "#fe218b" : "#666",
-      borderColor: isColorful ? "#fe218b" : "#666",
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
     },
     filterButtonText: {
       fontSize: 16,
+      color: colors.secondaryText,
     },
-    gradient: {
-      position: 'absolute',
-      pointerEvents: 'none',
-      left: 0,
-      right: 0,
-      top: 0,
-      height: '100%',
+    filterButtonSelectedText: {
+      fontSize: 16,
+      color: colors.text,
     },
-    gradientColors: isColorful 
-        ? ['rgba(0,0,0,0)', '#fdf0d5'] 
-        : ['rgba(0,0,0,0)', 'rgba(240,240,240,1)'],
-    }
-  )};
+  });
+}
 
 
 export default FilterButtons;

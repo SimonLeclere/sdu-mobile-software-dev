@@ -1,44 +1,27 @@
 import { View, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SunIcon, MoonIcon, HomeIcon, PhoneIcon, EnvelopeIcon } from 'react-native-heroicons/outline';
+import { HomeIcon, PhoneIcon, EnvelopeIcon, SwatchIcon } from 'react-native-heroicons/outline';
 import { StarIcon } from 'react-native-heroicons/solid';
+import ThemeSelector from './themeSelector.jsx';
+
 
 const image = require ('../../assets/DonaldDuckProfilePic.png') 
 
 
 export default function ProfileScreen() {
   const { colors, switchTheme, theme } = useTheme();
-  console.log(theme, colors)
+  
   const styles = getStyles(colors)
-
-  let themeIcon
-  switch (theme) {
-    case 'light': 
-      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
-      break;
-    case 'dark':
-      themeIcon = <SunIcon size={35} color="gray" style={styles.inputIcon} />
-      break;
-    default: 
-      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
-      break;
-
-  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style = {styles.profileAndThemeContainer}>
         <Text style={styles.profile}>Profile</Text>
-      <TouchableOpacity style={styles.themeButton} onPress = {() => {
-        if (theme == 'light') {
-          switchTheme('dark')
-        } else {
-        switchTheme('light')
-      }
-      }}>
-          {themeIcon}
-        </TouchableOpacity>
+      
+      {/* Theme selector, placed on the top right */}
+      <ThemeSelector /> 
+
       </View>
         <View style = {styles.profileContainer}>
           <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
@@ -69,9 +52,6 @@ export default function ProfileScreen() {
           <Text style={styles.infoTextDescription}>donald.duck@disney.com</Text>
         </View>
       </View>
-      
-
-
     </SafeAreaView>
   );
 }
@@ -104,15 +84,13 @@ function getStyles (colors) {
     profileContainer: {
       alignItems: 'center',
       marginBottom: 5,
-      gap: 10
+      gap: 10,
     },
 
     profilepic: {
       width: 130,
       height: 130,
       borderRadius: 100,
-      // borderWidth: 4,
-      // borderColor: isColorful ? 'white' : 'black',
     },
 
     profileName: {
@@ -142,7 +120,8 @@ function getStyles (colors) {
       marginBottom: 20,
       flexDirection: 'row',
       gap: 10,
-      backgroundColor: colors.cardBackground
+      backgroundColor: colors.cardBackground,
+      elevation: 3,
     },
 
     infoIcon: {
@@ -157,10 +136,5 @@ function getStyles (colors) {
     infoTextDescription: {
       color: colors.text
     }
-
-
-
-
   });
-  
 }

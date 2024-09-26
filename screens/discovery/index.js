@@ -11,19 +11,25 @@ import MapView, { Marker } from 'react-native-maps';
 import { getCars } from '../../api/cars';
 import { getShops } from '../../api/shops';
 
+const MAP_INITIAL_REGION = {
+  latitude: 55.39594,
+  longitude: 10.38831,
+  latitudeDelta: 0.1,
+  longitudeDelta: 0.1,
+};
+
 const DiscoveryScreen = () => {
   const [locationQuery, setLocationQuery] = useState('');
-  
   const [carsData, setCarsData] = useState([]);
   const [shopsData, setShopsData] = useState([]);
-  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [shopsInView, setShopsInView] = useState([]);
 
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  
+
   const { selectedFilters, setSelectedFilters, setAvailableTagFilters } = useFilters();
 
   const mapRef = useRef(null);
@@ -73,10 +79,26 @@ const DiscoveryScreen = () => {
     }
   }, [setAvailableTagFilters, setSelectedFilters]);
 
+  const isShopInRegion = useCallback((shop, region) => {
+    const { latitude, longitude } = shop.location;
+    const { latitudeDelta, longitudeDelta } = region;
+    return (
+      latitude >= region.latitude - latitudeDelta / 2 &&
+      latitude <= region.latitude + latitudeDelta / 2 &&
+      longitude >= region.longitude - longitudeDelta / 2 &&
+      longitude <= region.longitude + longitudeDelta / 2
+    );
+  }, []);
+
+  const handleRegionChangeComplete = useCallback((region) => {
+    const visibleShops = shopsData.filter(shop => isShopInRegion(shop, region));
+    setShopsInView(visibleShops);
+  }, [shopsData, isShopInRegion]);
+
   useEffect(() => {
-    fetchCars();
     fetchShops();
-  }, [fetchCars]);
+    fetchCars();
+  }, []);
 
   const filterCars = useMemo(() => {
     return carsData
@@ -84,8 +106,9 @@ const DiscoveryScreen = () => {
       .filter(car => car.price >= selectedFilters.priceRange[0] && car.price <= selectedFilters.priceRange[1])
       .filter(car => selectedFilters.vehicleType.length === 0 || selectedFilters.vehicleType.includes(car.type))
       .filter(car => selectedFilters.brand === 'all' || selectedFilters.brand === car.brandName)
-      .filter(car => selectedFilters.gearbox === 'all' || selectedFilters.gearbox === car.transmission.toLowerCase());
-  }, [carsData, selectedFilters]);
+      .filter(car => selectedFilters.gearbox === 'all' || selectedFilters.gearbox === car.transmission.toLowerCase())
+      .filter(car => car.shops.some(shopId => shopsInView.some(shop => shop.id === shopId)))
+  }, [carsData, selectedFilters, shopsInView]);
 
   if (loading && !refreshing) {
     return <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />;
@@ -97,7 +120,6 @@ const DiscoveryScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Search and Filter Header */}
       <View style={styles.header}>
         <SearchBar
           locationQuery={locationQuery}
@@ -114,20 +136,16 @@ const DiscoveryScreen = () => {
         <FilterButtons />
       </View>
 
-      {/* Map behind the header and the bottom sheet */}
       <MapView
         ref={mapRef}
+        key={colors.mapStyle}
         style={styles.map}
         showsCompass={false}
         rotateEnabled={false}
         pitchEnabled={false}
-        initialRegion={{
-          // Default to Odense, Denmark
-          latitude: 55.39594,
-          longitude: 10.38831,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}
+        customMapStyle={colors.mapStyle}
+        initialRegion={MAP_INITIAL_REGION}
+        onRegionChangeComplete={handleRegionChangeComplete}
         onPoiClick={e => {
           setLocationQuery(e.nativeEvent.name)
           mapRef.current.animateToRegion({
@@ -137,15 +155,31 @@ const DiscoveryScreen = () => {
             longitudeDelta: 0.1,
           });
         }}
+        onMapReady={() => handleRegionChangeComplete(MAP_INITIAL_REGION)}
+
+        onMarkerPress={e => {
+          const shop = shopsData.find(shop => shop.id.toString() === e.nativeEvent.id);
+          
+          if (!shop) return;
+          
+          setLocationQuery(shop.city);
+          mapRef.current.animateToRegion({
+            latitude: shop.location.latitude,
+            longitude: shop.location.longitude,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1,
+          });
+        }}
       >
         {
           shopsData.map(shop => (
             <Marker
-              key={shop.id}
+              key={shop.id + colors.markerIcon.toString()}
+              identifier={shop.id.toString()}
               coordinate={shop.location}
               title={shop.name}
               description={shop.city}
-              image={require('../../assets/marker.png')}
+              image={colors.markerIcon}
             />
           ))
         }
@@ -154,14 +188,13 @@ const DiscoveryScreen = () => {
       <BottomSheet
         snapPoints={snapPoints}
         handleIndicatorStyle={{ backgroundColor: 'lightgray' }}
-        backgroundStyle={{ borderRadius: 25 }}
+        backgroundStyle={styles.bottomSheet}
       >
-        
-        {/* Display number of available cars */}
-        <Text style={styles.carsAvailableText}>{filterCars.length} available cars</Text>
-        
+        <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text>
+
         <BottomSheetFlatList
           data={filterCars}
+          style={styles.bottomSheetFlatList}
           renderItem={({ item }) => <CarCard item={item} />}
           keyExtractor={item => item.id.toString()}
           numColumns={2}
@@ -173,7 +206,6 @@ const DiscoveryScreen = () => {
   );
 };
 
-
 const getStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
@@ -183,13 +215,13 @@ const getStyles = (colors) => StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    zIndex: 1000, // Make sure the header is above the map
+    zIndex: 1000,
     gap: 10,
     paddingTop: 40,
     paddingHorizontal: 15,
   },
   map: {
-    ...StyleSheet.absoluteFillObject, // This will make the map fill the whole screen
+    ...StyleSheet.absoluteFillObject,
   },
   loader: {
     flex: 1,
@@ -204,10 +236,25 @@ const getStyles = (colors) => StyleSheet.create({
     marginVertical: 10,
     fontSize: 16,
     fontWeight: 'bold',
+    color: colors.text,
   },
   emptyText: {
     textAlign: 'center',
     marginTop: 20,
+    color: colors.text,
+  },
+  shopsInViewText: {
+    textAlign: 'center',
+    marginVertical: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  bottomSheet: {
+    borderRadius: 25,
+    backgroundColor: colors.background,
+  },
+  bottomSheetFlatList: {
+    backgroundColor: colors.background,
   },
 });
 
