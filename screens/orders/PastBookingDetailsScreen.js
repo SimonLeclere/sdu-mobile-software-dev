@@ -2,12 +2,20 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { formatDate } from './BookedCarCard';
+import GiveStars from './giveStars'; // Ensure this path is correct
 
-const BookingDetailsScreen = ({ route }) => {
+const PastBookingDetailsScreen = ({ route }) => {
   const { item } = route.params; 
   const { colors } = useTheme(); 
   const styles = getStyles(colors);
 
+  // Debugging: Log the item to check its content
+  console.log(item);
+
+  // Check if item is defined
+  if (!item) {
+    return <Text>No booking details available.</Text>;
+  }
 
   return (
     <View style={styles.container}>
@@ -27,26 +35,27 @@ const BookingDetailsScreen = ({ route }) => {
         </View>
       </View>
       
-      {/* Display pick up location */}
+      {/* Display location */}
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.label}>Where?</Text>
           <Text style={styles.infoText}>{item.exactAddress}</Text>
         </View>
       </View>
+    
+      {/* Display the Give a Star component */}
+      <View style={styles.infoContainer}>
+        <GiveStars />
+      </View>
       
-
-     
-      
-      
-      {/* Add the complete address with a link to open a map */}
       {/* Add more details here like the payment infos */}
-
+      {/* Keep the rating in memory so that when you leave the page, it's stay */}
+      {/* Add a text on the miniature that remind the user to rate their experience */}
     </View>
   );
 };
 
-const getStyles = (colors) =>{
+const getStyles = (colors) => {
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -94,4 +103,4 @@ const getStyles = (colors) =>{
   });
 }; 
 
-export default BookingDetailsScreen;
+export default PastBookingDetailsScreen;

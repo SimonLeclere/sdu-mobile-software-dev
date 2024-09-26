@@ -7,6 +7,7 @@ const shops = [
             latitude: 55.39492,
             longitude: 10.39488
         },
+        address: "Tværgade 9, 5000 Odense, Denmark",
     },
     {
         id: 2,
@@ -16,6 +17,7 @@ const shops = [
             latitude: 55.6761,
             longitude: 12.5683
         },
+        address: "Rådhuspladsen 5, 1550 København, Denmark",
     },
     {
         id: 3,
@@ -25,6 +27,7 @@ const shops = [
             latitude: 56.1629,
             longitude: 10.2039
         },
+        address: "Livøsmøgen 36, 8000 Aarhus, Denmark",
     },
     {
         id: 4,
@@ -34,6 +37,7 @@ const shops = [
             latitude: 57.0488,
             longitude: 9.9217
         },
+        address:"Østerågade 17, 9000 Aalborg, Denmark",
     },
     {
         id: 5,
@@ -43,6 +47,7 @@ const shops = [
             latitude: 55.4670,
             longitude: 8.4528
         },
+        address: "Skolegade 31, 6700 Esbjerg, Denmark",
     },
     {
         id: 6,
@@ -52,6 +57,7 @@ const shops = [
             latitude: 55.6419,
             longitude: 12.0878
         },
+        address: "Dronning Margrethes Vej 14, 4000 Roskilde, Denmark",
     }
 ];
 

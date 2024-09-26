@@ -4,29 +4,28 @@ import { ArrowRightIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/themeContext";
 
-// Helper function to calculate days left
 export const calculateDaysLeft = (fromDate) => {
-    const currentDate = new Date(); // Today's date
-    const bookedDate = new Date(fromDate); // Convert the string date to a Date object
+    const currentDate = new Date(); 
+    const bookedDate = new Date(fromDate); 
   
-    // Calculate the time difference in milliseconds
     const timeDiff = bookedDate - currentDate;
   
-    // Convert time difference from milliseconds to days
     const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   
-    return daysLeft > 0 ? daysLeft : 0; // Ensure no negative days are returned
+    return daysLeft > 0 ? daysLeft : 0; 
 };
 
-// Helper function to format dates in "14 Sept. 2024" format
+export const calculateEndDate = (toDate) => {
+  return new Date(toDate); // Convert the string date to a Date object
+};
+
 export const formatDate = (dateString) => {
     const date = new Date(dateString);
+    
   
-    // Format the date using toLocaleDateString but manually add a dot to the month abbreviation
     const options = { day: 'numeric', month: 'short', year: 'numeric' };
     let formattedDate = date.toLocaleDateString('en-GB', options);
   
-    // Ensure there's a dot after the month abbreviation if it's missing
     const monthWithDot = formattedDate.replace(/(\b\w+\b)(?=\s\d{4})/, (month) => {
       return month.endsWith('.') ? month : `${month}.`;
     });
@@ -39,16 +38,23 @@ const BookedCarCard = ({ item }) => {
   const { colors } = useTheme();
   const styles = getStyles(colors);
 
-  // Calculate days left until the booking starts
+  const endDate = calculateEndDate(item.toDate);
+  const currentDate = new Date();
+
   const daysLeft = calculateDaysLeft(item.fromDate);
 
-  // Conditional background color for the days left text
-  const daysLeftBackgroundColor = daysLeft < 10 ? '#6FCF97' : '#BDBDBD'; // Green if less than 10 days, grey otherwise
+  const daysLeftBackgroundColor = daysLeft < 10 ? '#6FCF97' : '#BDBDBD'; 
 
   return (
     <TouchableOpacity
       style={styles.carCard}
-      onPress={() => navigation.navigate("BookingDetails", { item })} // Navigate to BookingDetails with item data
+      onPress={() => {
+        if (currentDate > endDate) {
+          navigation.navigate("PastBookingDetails", { item });
+        } else {
+          navigation.navigate("BookingDetails", { item });
+        }
+      }}
     >
       <Image source={item.image} style={styles.carImage} />
       <View style={styles.cardContent}>

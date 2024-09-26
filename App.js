@@ -14,6 +14,7 @@ import PaymentScreen from './screens/payment';
 import CarDetails from './screens/discovery/CarDetails/index';
 import FilterScreen from './screens/discovery/Filters/index';
 import BookingDetailsScreen from './screens/orders/BookingDetailsScreen';
+import PastBookingDetailsScreen from './screens/orders/PastBookingDetailsScreen';
 import PastBookingsScreen from './screens/orders/PastBookingsScreen';
 
 
@@ -123,7 +124,7 @@ function AppContent() {
           name="Payment"
           component={PaymentScreen}
         />
-        {/* Add the BookingDetailsScreen to the stack */}
+        
         <Stack.Screen
           options={{
             headerShown: true,
@@ -132,6 +133,16 @@ function AppContent() {
           name="BookingDetails"
           component={BookingDetailsScreen}
         />
+
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: 'PastBooking Details'
+          }}
+          name="PastBookingDetails"
+          component={PastBookingDetailsScreen}
+        />
+
         <Stack.Screen
           options={{
             headerShown: true,
