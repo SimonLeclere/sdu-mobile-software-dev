@@ -6,8 +6,8 @@ import DateInput from './DateInput'; // Assurez-vous de bien mettre le chemin d'
 import dayjs from 'dayjs';
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [location, setLocation] = useState('');
@@ -27,7 +27,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
       {/* Search bar */}
       <TouchableOpacity onPress={openModal} style={styles.searchBar}>
         <View style={styles.searchIconContainer}>
-          <MagnifyingGlassIcon size={25} color="#fe218b" />
+          <MagnifyingGlassIcon size={25} color={colors.accent} />
         </View>
         
         <View>
@@ -51,7 +51,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             </TouchableOpacity>
 
             <View style={styles.inputContainer}>
-              <MapPinIcon size={25} color="#fe218b" style={styles.inputIcon} />
+              <MapPinIcon size={25} color={colors.accent} style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 placeholder="Enter location"
@@ -74,7 +74,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             </View>
 
             <Pressable
-              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (isColorful ? '#21B0FE' : '#000') : 'gray' }]}
+              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (colors.primary) : 'gray' }]}
               onPress={isDateRangeValid ? closeModal : undefined}
               disabled={!isDateRangeValid}
             >
@@ -87,12 +87,12 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
   );
 };
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
   return StyleSheet.create({
     searchBar: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#fff',
+      backgroundColor: colors.cardBackground,
       paddingHorizontal: 10,
       paddingVertical: 5,
       borderRadius: 20,
@@ -104,11 +104,11 @@ const getStyles = (isColorful) => {
     },
     searchTextLocation: {
       fontSize: 16,
-      color: '#000',
+      color: colors.text,
     },
     searchTextDates: {
       fontSize: 14,
-      color: 'gray',
+      color: colors.timeLocationText,
     },
     backdrop: {
       flex: 1,
@@ -168,7 +168,7 @@ const getStyles = (isColorful) => {
       borderRadius: 5,
     },
     searchButtonText: {
-      color: 'white',
+      color: colors.text,
       fontWeight: 'bold',
     },
   });

@@ -7,8 +7,8 @@ import { useTheme } from "../../contexts/themeContext";
 const CarCard = ({ item }) => {
   const navigation = useNavigation();
 
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   return (
     <TouchableOpacity
@@ -28,10 +28,10 @@ const CarCard = ({ item }) => {
   );
 }
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
   return StyleSheet.create({
     carCard: {
-      backgroundColor: "#fff",
+      backgroundColor: colors.cardBackground,
       padding: 10,
       borderRadius: 10,
       elevation: 5,
@@ -52,15 +52,15 @@ const getStyles = (isColorful) => {
     carName: {
       fontSize: 14,
       fontWeight: "bold",
-      color: isColorful ? "#21B0FE" : "#000", // Changement de couleur selon isColorful
+      color: colors.primary, // Changement de couleur selon isColorful
     },
     carBrand: {
       fontSize: 14,
-      color: "#666",
+      color: colors.secondaryText,
     },
     carPrice: {
       fontSize: 12,
-      color: "#666",
+      color: colors.secondaryText,
     },
     bottomContent: {
       flexDirection: "row",
@@ -68,7 +68,7 @@ const getStyles = (isColorful) => {
       alignItems: "center",
       marginTop: 10,
     },
-    arrowColor: isColorful ? "#fe218b" : "#666", // Changement de couleur selon isColorful
+    arrowColor: colors.accent, // Changement de couleur selon isColorful
   });
 };
 

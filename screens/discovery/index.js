@@ -17,8 +17,8 @@ const DiscoveryScreen = () => {
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   const { selectedFilters, setSelectedFilters, setAvailableTagFilters } = useFilters();
 
@@ -137,12 +137,12 @@ const DiscoveryScreen = () => {
   );
 };
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
 
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: isColorful ? '#fbf8ef' : '#f0f0f0',
+      backgroundColor: colors.background,
       paddingHorizontal: 15,
       paddingTop: 40,
       flex: 1,
