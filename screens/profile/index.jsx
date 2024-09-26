@@ -84,15 +84,13 @@ function getStyles (colors) {
     profileContainer: {
       alignItems: 'center',
       marginBottom: 5,
-      gap: 10
+      gap: 10,
     },
 
     profilepic: {
       width: 130,
       height: 130,
       borderRadius: 100,
-      // borderWidth: 4,
-      // borderColor: isColorful ? 'white' : 'black',
     },
 
     profileName: {

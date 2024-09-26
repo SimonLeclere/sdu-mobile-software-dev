@@ -20,18 +20,16 @@ const MAP_INITIAL_REGION = {
 
 const DiscoveryScreen = () => {
   const [locationQuery, setLocationQuery] = useState('');
-  
   const [carsData, setCarsData] = useState([]);
   const [shopsData, setShopsData] = useState([]);
-  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [shopsInView, setShopsInView] = useState([]); // Nouvel état pour les magasins visibles
+  const [shopsInView, setShopsInView] = useState([]);
 
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  
+
   const { selectedFilters, setSelectedFilters, setAvailableTagFilters } = useFilters();
 
   const mapRef = useRef(null);
@@ -81,14 +79,7 @@ const DiscoveryScreen = () => {
     }
   }, [setAvailableTagFilters, setSelectedFilters]);
 
-  useEffect(() => {
-    fetchShops();
-    fetchCars();
-    handleRegionChangeComplete(MAP_INITIAL_REGION);
-  }, [fetchCars, fetchShops, handleRegionChangeComplete]);
-
-  // Fonction pour déterminer si un shop est dans la région visible
-  const isShopInRegion = (shop, region) => {
+  const isShopInRegion = useCallback((shop, region) => {
     const { latitude, longitude } = shop.location;
     const { latitudeDelta, longitudeDelta } = region;
     return (
@@ -97,13 +88,17 @@ const DiscoveryScreen = () => {
       longitude >= region.longitude - longitudeDelta / 2 &&
       longitude <= region.longitude + longitudeDelta / 2
     );
-  };
+  }, []);
 
-  // Mettre à jour les magasins visibles quand la région de la carte change
   const handleRegionChangeComplete = useCallback((region) => {
     const visibleShops = shopsData.filter(shop => isShopInRegion(shop, region));
-    setShopsInView(visibleShops); // Mise à jour de l'état
-  }, [shopsData]);
+    setShopsInView(visibleShops);
+  }, [shopsData, isShopInRegion]);
+
+  useEffect(() => {
+    fetchShops();
+    fetchCars();
+  }, []);
 
   const filterCars = useMemo(() => {
     return carsData
@@ -125,7 +120,6 @@ const DiscoveryScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Search and Filter Header */}
       <View style={styles.header}>
         <SearchBar
           locationQuery={locationQuery}
@@ -142,17 +136,16 @@ const DiscoveryScreen = () => {
         <FilterButtons />
       </View>
 
-      {/* Map behind the header and the bottom sheet */}
       <MapView
         ref={mapRef}
-        key={colors.mapStyle} // Re-render the map when the map style changes
+        key={colors.mapStyle}
         style={styles.map}
         showsCompass={false}
         rotateEnabled={false}
         pitchEnabled={false}
         customMapStyle={colors.mapStyle}
         initialRegion={MAP_INITIAL_REGION}
-        onRegionChangeComplete={handleRegionChangeComplete} // Appel lors du changement de la région
+        onRegionChangeComplete={handleRegionChangeComplete}
         onPoiClick={e => {
           setLocationQuery(e.nativeEvent.name)
           mapRef.current.animateToRegion({
@@ -162,6 +155,8 @@ const DiscoveryScreen = () => {
             longitudeDelta: 0.1,
           });
         }}
+        onMapReady={() => handleRegionChangeComplete(MAP_INITIAL_REGION)}
+
         onMarkerPress={e => {
           const shop = shopsData.find(shop => shop.id.toString() === e.nativeEvent.id);
           
@@ -195,8 +190,6 @@ const DiscoveryScreen = () => {
         handleIndicatorStyle={{ backgroundColor: 'lightgray' }}
         backgroundStyle={styles.bottomSheet}
       >
-        
-        {/* Display number of available cars */}
         <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text>
 
         <BottomSheetFlatList
@@ -228,7 +221,7 @@ const getStyles = (colors) => StyleSheet.create({
     paddingHorizontal: 15,
   },
   map: {
-    ...StyleSheet.absoluteFillObject, // This will make the map fill the whole screen
+    ...StyleSheet.absoluteFillObject,
   },
   loader: {
     flex: 1,

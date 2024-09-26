@@ -45,27 +45,6 @@ const themeList = {
     tabBarBorder: '#333',
     statusBarStyle: 'light'
   },
-  colorful: {
-    primary:  '#21B0FE',
-    secondary: '#FED700',
-    accent: '#FE218B',
-    background: '#fdf0d5',
-    cardBackground: 'white',
-    filterBackground: 'white',
-    text: 'black',
-    secondaryText: '#666',
-    tertiaryText: '#333',
-    infoText: '#555',
-    timeLocationText: '#888',
-    
-    icon: SwatchIcon,
-    markerIcon: require('../assets/marker.png'),
-    mapStyle: null,
-    
-    tabBar: "white",
-    tabBarBorder: '#eee',
-    statusBarStyle: 'dark'
-  }
 }
 
 const ThemeContext = createContext();
