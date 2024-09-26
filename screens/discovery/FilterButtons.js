@@ -56,6 +56,7 @@ const FilterButtons = () => {
           ref={flatListRef}
           horizontal
           showsHorizontalScrollIndicator={false}
+          fadingEdgeLength={100}
           data={availableTagFilters}
           onScroll={handleScroll}
           scrollEventThrottle={16}
@@ -81,7 +82,7 @@ const FilterButtons = () => {
           keyExtractor={(item) => item}
         />
         
-        {showStartGradient && (
+        {/* {showStartGradient && (
           <LinearGradient
             colors={styles.gradientColors}
 
@@ -97,7 +98,7 @@ const FilterButtons = () => {
             locations={[0.8, 1]}
             style={styles.gradient}
           />
-        )}
+        )} */}
       </View>
 
     </View>
@@ -111,13 +112,14 @@ const getStyles = (isColorful) => {
       justifyContent: "space-between",
     },
     filterButton: {
+      elevation: 5,
       paddingVertical: 5,
       paddingHorizontal: 10,
       marginRight: 10,
       backgroundColor: "transparent",
-      borderColor: isColorful ? "#333" : "#333",
-      borderWidth: 1,
+      backgroundColor: 'white',
       borderRadius: 50,
+      marginBottom: 5,
     },
     filterButtonSelected: {
       backgroundColor: isColorful ? "#fe218b" : "#666",

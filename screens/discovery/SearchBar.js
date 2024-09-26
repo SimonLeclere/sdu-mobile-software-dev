@@ -1,37 +1,70 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Modal, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform, StatusBar, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 import { MagnifyingGlassIcon, ArrowLeftIcon, MapPinIcon } from 'react-native-heroicons/outline';
 import { useTheme } from '../../contexts/themeContext';
-import DateInput from './DateInput'; // Assurez-vous de bien mettre le chemin d'importation correct
+import DateInput from './DateInput';
 import dayjs from 'dayjs';
+import useLocationAutoComplete from '../../hooks/useLocationAutoComplete';
 
-const SearchBar = ({ searchQuery, setSearchQuery }) => {
+const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
   const { isColorful } = useTheme();
   const styles = getStyles(isColorful);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [location, setLocation] = useState('');
+  const [query, setQuery] = useState('');
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null);
   const [fromDate, setFromDate] = useState(dayjs());
   const [toDate, setToDate] = useState(dayjs().add(1, 'day'));
+
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const { suggestions, loading, error } = useLocationAutoComplete(query);
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
 
-  // Check if the date range is valid
   const isDateRangeValid = fromDate.isBefore(toDate);
   const daysBetween = toDate.diff(fromDate, 'day');
-  
+
+  const handleSuggestionPress = (suggestion) => {
+    setLocationQuery(suggestion.display_place || suggestion.display_name);
+    setQuery(suggestion.display_name);
+    setSelectedSuggestion(suggestion);
+    setIsInputFocused(false);
+  };
+
+  const handleConfirmPress = () => {
+    if (!isDateRangeValid) return;
+
+    if (selectedSuggestion) {
+      const latitude = parseFloat(selectedSuggestion.lat);
+      const longitude = parseFloat(selectedSuggestion.lon);
+      const latitudeDelta = parseFloat(selectedSuggestion.boundingbox[0]) - parseFloat(selectedSuggestion.boundingbox[1]);
+      const longitudeDelta = parseFloat(selectedSuggestion.boundingbox[2]) - parseFloat(selectedSuggestion.boundingbox[3]);
+
+      animateToRegion({
+        latitude,
+        longitude,
+        latitudeDelta: Math.abs(latitudeDelta),
+        longitudeDelta: Math.abs(longitudeDelta),
+      });
+    }
+
+    if (locationQuery !== query) {
+      setLocationQuery(query);
+    }
+
+    closeModal();
+  };
 
   return (
-    <View>
-      {/* Search bar */}
+    <SafeAreaView>
       <TouchableOpacity onPress={openModal} style={styles.searchBar}>
         <View style={styles.searchIconContainer}>
           <MagnifyingGlassIcon size={25} color="#fe218b" />
         </View>
-        
         <View>
-          <Text style={styles.searchTextLocation}>{location || 'Anywhere'}</Text>
+          <Text style={styles.searchTextLocation}>{locationQuery || 'Anywhere'}</Text>
           <Text style={styles.searchTextDates}>
             {fromDate.format('DD MMM')} - {toDate.format('DD MMM')} ({daysBetween > 1 ? `${daysBetween} days` : `${daysBetween} day`})
           </Text>
@@ -41,6 +74,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
       <Modal
         animationType="fade"
         transparent={true}
+        statusBarTranslucent={true}
         visible={modalVisible}
         onRequestClose={closeModal}
       >
@@ -55,37 +89,59 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
               <TextInput
                 style={styles.input}
                 placeholder="Enter location"
-                value={location}
-                onChangeText={setLocation}
+                value={query}
+                onChangeText={(text) => {
+                  setQuery(text);
+                  setSelectedSuggestion(null);
+                }}
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => setIsInputFocused(false)}
               />
+              {loading && (
+                  <ActivityIndicator size="small" color="#fe218b" />
+              )}
             </View>
 
+            {error && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{JSON.stringify(error)}</Text>
+              </View>
+            )}
+
+            {isInputFocused && !loading && suggestions.length > 0 && (
+              <View style={styles.suggestionsContainer}>
+                <FlatList
+                  data={suggestions}
+                  keyboardShouldPersistTaps="handled"
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity style={styles.suggestionItem} onPress={() => handleSuggestionPress(item)}>
+                      <Text style={styles.suggestionText}>{item.display_name}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            )}
+
             <View style={styles.datesInputsContainer}>
-              <DateInput
-                label="From"
-                value={fromDate}
-                onChange={setFromDate}
-              />
-              <DateInput
-                label="To"
-                value={toDate}
-                onChange={setToDate}
-              />
+              <DateInput label="From" value={fromDate} onChange={setFromDate} />
+              <DateInput label="To" value={toDate} onChange={setToDate} />
             </View>
 
             <Pressable
-              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (isColorful ? '#21B0FE' : '#000') : 'gray' }]}
-              onPress={isDateRangeValid ? closeModal : undefined}
-              disabled={!isDateRangeValid}
+              style={[styles.searchButton, { backgroundColor: isDateRangeValid && selectedSuggestion !== null ? (isColorful ? '#21B0FE' : '#000') : 'gray' }]}
+              onPress={handleConfirmPress}
+              disabled={!isDateRangeValid || selectedSuggestion === null}
             >
               <Text style={styles.searchButtonText}>Search</Text>
             </Pressable>
           </Pressable>
         </Pressable>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 };
+
 
 const getStyles = (isColorful) => {
   return StyleSheet.create({
@@ -96,6 +152,8 @@ const getStyles = (isColorful) => {
       paddingHorizontal: 10,
       paddingVertical: 5,
       borderRadius: 20,
+      elevation: 5,
+      overflow: 'hidden',
     },
     searchIconContainer: {
       width: 40,
@@ -115,6 +173,7 @@ const getStyles = (isColorful) => {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       justifyContent: 'flex-start',
       alignItems: 'center',
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     modalView: {
       marginTop: 10,
@@ -152,6 +211,42 @@ const getStyles = (isColorful) => {
     input: {
       flex: 1,
       height: 40,
+    },
+    loadingContainer: {
+      marginVertical: 10,
+      alignItems: 'center',
+    },
+    loadingText: {
+      fontSize: 16,
+      color: 'gray',
+    },
+    errorContainer: {
+      marginVertical: 10,
+      alignItems: 'center',
+    },
+    errorText: {
+      fontSize: 16,
+      color: 'red',
+    },
+    suggestionsContainer: {
+      position: 'absolute',
+      top: 120, // Adjust this value to position below the input
+      left: 10,
+      right: 10,
+      paddingHorizontal: 10,
+      backgroundColor: 'white',
+      borderRadius: 5,
+      maxHeight: 150,
+      zIndex: 10,
+      elevation: 5,
+    },
+    suggestionItem: {
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ddd',
+    },
+    suggestionText: {
+      fontSize: 16,
     },
     datesInputsContainer: {
       width: '100%',
