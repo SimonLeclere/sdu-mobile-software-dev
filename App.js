@@ -22,6 +22,8 @@ import { GlobeAltIcon, UserIcon, ShoppingCartIcon } from "react-native-heroicons
 import { FilterProvider, useFilters } from './contexts/filterContext';
 import { ThemeProvider, useTheme } from './contexts/themeContext';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 const tabIcons = {
   Discovery: GlobeAltIcon,
   Profile: UserIcon,
@@ -149,10 +151,12 @@ function AppContent() {
 export default function App() {
   // The FilterProvider is a context provider that will allow us to share the selected filters between the filter screen and the discovery screen
   return (
-    <ThemeProvider >
-      <FilterProvider>
-        <AppContent />
-      </FilterProvider>
-    </ThemeProvider >
+    <GestureHandlerRootView>
+      <ThemeProvider >
+        <FilterProvider>
+          <AppContent />
+        </FilterProvider>
+      </ThemeProvider >
+    </GestureHandlerRootView>
   );
 }
