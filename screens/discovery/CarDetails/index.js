@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { ArrowRightIcon } from 'react-native-heroicons/outline';
 import { useTheme } from '../../../contexts/themeContext';
 
@@ -52,25 +52,30 @@ export default function CarDetails({ route, navigation }) {
   }
 
   return (
-    <View
-      style={styles.carCard}
-    >
-      <Image source={carData.image} style={styles.carImage} />
-      <View style={styles.cardContent}>
-        <Text style={styles.carName}>{carData.modelName}</Text>
-        <Text style={styles.carBrand}>{carData.brandName}</Text>
-        <Text style={styles.subtitle}>Transmission type: {carData.transmission}</Text>
-        <Text style={styles.subtitle}>Fuel Type: {carData.fuelType}</Text>
-        <Text style={styles.subtitle}>Seating Capacity: {carData.seatingCapacity}</Text>
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.carCard}
+      >
+        <Image source={carData.image} style={styles.carImage} />
+        <View style={styles.cardContent}>
+          <Text style={styles.carName}>{carData.modelName}</Text>
+          <Text style={styles.carBrand}>{carData.brandName}</Text>
+          <Text style={styles.subtitle}>Transmission type: {carData.transmission}</Text>
+          <Text style={styles.subtitle}>Fuel Type: {carData.fuelType}</Text>
+          <Text style={styles.subtitle}>Seating Capacity: {carData.seatingCapacity}</Text>
 
-        <View style={styles.tagContainer}>
-          {carData.tags.map((tag, index) => (
-            <View key={index} style={styles.tag}>
-              <Text style={styles.tagText}>{tag}</Text>
-            </View>
-          ))}
+          <View style={styles.tagContainer}>
+            {carData.tags.map((tag, index) => (
+              <View key={index} style={styles.tag}>
+                <Text style={styles.tagText}>{tag}</Text>
+              </View>
+            ))}
+          </View>
+          <Text style={styles.footnote}>
+            When renting a vehicle, it’s important to understand your insurance coverage. Our rental cars come with basic insurance included, which protects you against damage to the vehicle and liability for injuries to others.We recommend checking your personal auto insurance policy and credit card benefits, as they may offer additional coverage during your rental period. If you have questions or need assistance, our customer service team is here to help!
+          </Text>
         </View>
-      </View>
+      </ScrollView>
       <View style={styles.bottomContent}>
         <Text style={styles.carPrice}>{carData.price} kr / day</Text>
         <TouchableOpacity style={styles.rentButton}>
@@ -83,14 +88,16 @@ export default function CarDetails({ route, navigation }) {
 
 function getStyles ( colors ) {
   return StyleSheet.create({
+  container: {
+    flex: 1,
+  },  
   carCard: {
     flex: 1,
     borderRadius: 10,
     height: "100%",
-    marginTop: 5,
     width: '100%',
-    backgroundColor: colors.background
-    
+    backgroundColor: colors.background,
+    marginBottom: 100,
   },
   tagContainer: {
     flexDirection: "row",
@@ -104,6 +111,12 @@ function getStyles ( colors ) {
     marginRight: 10,
     elevation: 5
   },
+  footnote: {
+    textAlign: "center",
+    fontSize: 12,
+    marginTop: 80,
+    marginBottom: 20
+  },  
   carImage: {
     width: "100%",
     height: 250,
