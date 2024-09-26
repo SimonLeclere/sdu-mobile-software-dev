@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { ArrowRightIcon } from 'react-native-heroicons/outline';
+import { useTheme } from '../../../contexts/themeContext';
 
 import { getCarById } from '../../../api/cars';
 
@@ -10,6 +11,8 @@ export default function CarDetails({ route, navigation }) {
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { colors } = useTheme()
+  const styles = getStyles(colors)
 
   useEffect(() => {
     const fetchCarData = async () => {
@@ -78,21 +81,24 @@ export default function CarDetails({ route, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+function getStyles ( colors ) {
+  return StyleSheet.create({
   carCard: {
     flex: 1,
     borderRadius: 10,
     height: "100%",
     marginTop: 5,
-    width: '95%',
-    marginHorizontal: '2.5%',
+    width: '100%',
+    backgroundColor: colors.background
+    
   },
   tagContainer: {
     flexDirection: "row",
     marginTop: 10
   },
   tagText: {
-    backgroundColor: 'white',
+    backgroundColor: colors.cardBackground,
+    color: colors.secondaryText,
     padding: 10,
     borderRadius: 10,
     marginRight: 10,
@@ -101,49 +107,50 @@ const styles = StyleSheet.create({
   carImage: {
     width: "100%",
     height: 250,
-    borderRadius: 10,
-    backgroundColor: 'white',
+    // borderRadius: 10,
+    // backgroundColor: 'white',
   },
   cardContent: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingTop: 10,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 10,
+    color: colors.infoText
   },
 
   carName: {
     fontSize: 28,
     fontWeight: "bold",
+    color: colors.text
   },
   carBrand: {
     fontSize: 20,
-    color: "#666",
+    color: colors.secondaryText,
     marginBottom: 15
   },
   carPrice: {
     fontSize: 24,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
-    color: "black",
+    color: colors.text,
   },
   bottomContent: {
     position: "absolute",
-    backgroundColor: "white",
+    backgroundColor: colors.cardBackground,
     width: "100%",
-    height: 80,
-    borderRadius: 10,
+    height: 100,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    bottom: 10,
+    bottom: 0,
     elevation: 5,
   },
   rentButton: {
     borderRadius: 10,
     padding: 14,
-    backgroundColor: "#007BFF"
+    backgroundColor: colors.primary
   },
   rentButtonText: {
     color: '#FFF',
@@ -151,4 +158,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-});
+}
+  )};

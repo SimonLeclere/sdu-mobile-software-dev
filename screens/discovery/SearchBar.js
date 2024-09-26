@@ -7,8 +7,8 @@ import dayjs from 'dayjs';
 import useLocationAutoComplete from '../../hooks/useLocationAutoComplete';
 
 const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [query, setQuery] = useState('');
@@ -61,7 +61,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
     <SafeAreaView>
       <TouchableOpacity onPress={openModal} style={styles.searchBar}>
         <View style={styles.searchIconContainer}>
-          <MagnifyingGlassIcon size={25} color="#fe218b" />
+          <MagnifyingGlassIcon size={25} color={colors.accent} />
         </View>
         <View>
           <Text style={styles.searchTextLocation}>{locationQuery || 'Anywhere'}</Text>
@@ -85,7 +85,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
             </TouchableOpacity>
 
             <View style={styles.inputContainer}>
-              <MapPinIcon size={25} color="#fe218b" style={styles.inputIcon} />
+              <MapPinIcon size={25} color={colors.accent} style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 placeholder="Enter location"
@@ -129,7 +129,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
             </View>
 
             <Pressable
-              style={[styles.searchButton, { backgroundColor: isDateRangeValid && selectedSuggestion !== null ? (isColorful ? '#21B0FE' : '#000') : 'gray' }]}
+              style={[styles.searchButton, { backgroundColor: isDateRangeValid && selectedSuggestion !== null ? colors.primary : 'gray' }]}
               onPress={handleConfirmPress}
               disabled={!isDateRangeValid || selectedSuggestion === null}
             >
@@ -142,13 +142,12 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
   );
 };
 
-
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
   return StyleSheet.create({
     searchBar: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#fff',
+      backgroundColor: colors.cardBackground,
       paddingHorizontal: 10,
       paddingVertical: 5,
       borderRadius: 20,
@@ -162,11 +161,11 @@ const getStyles = (isColorful) => {
     },
     searchTextLocation: {
       fontSize: 16,
-      color: '#000',
+      color: colors.text,
     },
     searchTextDates: {
       fontSize: 14,
-      color: 'gray',
+      color: colors.timeLocationText,
     },
     backdrop: {
       flex: 1,
@@ -263,7 +262,7 @@ const getStyles = (isColorful) => {
       borderRadius: 5,
     },
     searchButtonText: {
-      color: 'white',
+      color: colors.text,
       fontWeight: 'bold',
     },
   });

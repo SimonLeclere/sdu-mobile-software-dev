@@ -51,8 +51,8 @@ export default function FilterScreen() {
     //   });
 
 
-    const { isColorful } = useTheme();
-    const styles = getStyles(isColorful);
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
     const navigation = useNavigation(); // Initialize navigation
 
     const [minPrice, setMinPrice] = useState(selectedFilters.priceRange[0]);
@@ -152,7 +152,7 @@ export default function FilterScreen() {
     );
 }
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
     return StyleSheet.create({
       container: {
         flex: 1,
@@ -180,7 +180,7 @@ const getStyles = (isColorful) => {
         marginTop: 10,
       },
       button: {
-        backgroundColor: isColorful ? '#21B0FE' : '#007bff',
+        backgroundColor: '#007bff',
         paddingVertical: 15,
         justifyContent: 'center',
         alignItems: 'center',

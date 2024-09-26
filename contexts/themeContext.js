@@ -7,8 +7,14 @@ const themeList = {
     accent: '#FE218B',
     background: '#fdf0d5',
     cardBackground: 'white',
+    filterBackground: 'white',
     text: 'black',
-    secondaryText: 'lightgray'
+    secondaryText: '#666',
+    tertiaryText: '#333',
+    infoText:'#555',
+    timeLocationText: '#888',
+    tabBar: "white",
+    statusBarStyle: 'dark'
   },
   dark: {
     primary:  '#21B0FE',
@@ -16,16 +22,29 @@ const themeList = {
     accent: '#FE218B',
     background: '#181818',
     cardBackground: '#1f1f1f',
+    filterBackground: '#1f1f1f',
     text: 'white',
-    secondaryText: 'lightgray'
+    secondaryText: '#666',
+    tertiaryText: '#333',
+    infoText: '#555',
+    timeLocationText: '#888',
+    tabBar: '#1f1f1f',
+    statusBarStyle: 'light'
   },
   colorful: {
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
-    background: 'black',
-    text: 'white',
-    secondaryText: 'lightgray'
+    background: '#fdf0d5',
+    cardBackground: 'white',
+    filterBackground: 'white',
+    text: 'black',
+    secondaryText: '#666',
+    tertiaryText: '#333',
+    infoText: '#555',
+    timeLocationText: '#888',
+    tabBar: "white",
+    statusBarStyle: 'dark'
   }
 }
 

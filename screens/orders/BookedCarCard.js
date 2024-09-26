@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/themeContext";
 
 // Helper function to calculate days left
-const calculateDaysLeft = (fromDate) => {
+export const calculateDaysLeft = (fromDate) => {
     const currentDate = new Date(); // Today's date
     const bookedDate = new Date(fromDate); // Convert the string date to a Date object
   
@@ -16,10 +16,10 @@ const calculateDaysLeft = (fromDate) => {
     const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   
     return daysLeft > 0 ? daysLeft : 0; // Ensure no negative days are returned
-  };
+};
 
-  // Helper function to format dates in "14 Sept. 2024" format
-  const formatDate = (dateString) => {
+// Helper function to format dates in "14 Sept. 2024" format
+export const formatDate = (dateString) => {
     const date = new Date(dateString);
   
     // Format the date using toLocaleDateString but manually add a dot to the month abbreviation
@@ -32,24 +32,23 @@ const calculateDaysLeft = (fromDate) => {
     });
   
     return monthWithDot;
-  };
-  
+};
 
 const BookedCarCard = ({ item }) => {
   const navigation = useNavigation();
-
-  const { isColorful } = useTheme();
-  const styles = getStyles(isColorful);
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   // Calculate days left until the booking starts
   const daysLeft = calculateDaysLeft(item.fromDate);
 
-// Conditional background color for the days left text
+  // Conditional background color for the days left text
   const daysLeftBackgroundColor = daysLeft < 10 ? '#6FCF97' : '#BDBDBD'; // Green if less than 10 days, grey otherwise
 
   return (
     <TouchableOpacity
       style={styles.carCard}
+      onPress={() => navigation.navigate("BookingDetails", { item })} // Navigate to BookingDetails with item data
     >
       <Image source={item.image} style={styles.carImage} />
       <View style={styles.cardContent}>
@@ -64,22 +63,28 @@ const BookedCarCard = ({ item }) => {
         <Text style={styles.carLocation}>
           {`Location: ${item.location}`}
         </Text>
-        <View style={styles.daysLeftContainer}>
-          <Text style={[styles.daysLeftText, { backgroundColor: daysLeftBackgroundColor }]}>
-            {daysLeft > 0 ? `${daysLeft} days before adventure` : "Booking date has passed"}
-          </Text>
+        {daysLeft > 0 ? (
+          <View style={styles.daysLeftContainer}>
+            <Text style={[styles.daysLeftText, { backgroundColor: daysLeftBackgroundColor }]}>
+              {`${daysLeft} days before adventure`}
+            </Text>
+            <ArrowRightIcon size={20} color={styles.arrowColor} style={styles.arrowIcon} />
+          </View>
+        ) : (
+          <View style={styles.arrowContainer}>
           <ArrowRightIcon size={20} color={styles.arrowColor} style={styles.arrowIcon} />
         </View>
+        )}
       </View>
     </TouchableOpacity>
   );
 };
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
     const { width } = Dimensions.get("window");
     return StyleSheet.create({
       carCard: {
-        backgroundColor: "#fff",
+        backgroundColor: colors.cardBackground,
         padding: 10,
         borderRadius: 10,
         elevation: 5,
@@ -101,22 +106,22 @@ const getStyles = (isColorful) => {
       carName: {
         fontSize: 16,
         fontWeight: "bold",
-        color: isColorful ? "#21B0FE" : "#000",
+        color: colors.primary,
         marginBottom: 5,
       },
       carBrand: {
         fontSize: 14,
-        color: "#666",
+        color: colors.secondaryText,
         marginBottom: 5,
       },
       carBookingDate: {
         fontSize: 12,
-        color: "#888",
+        color: colors.timeLocationText,
         marginBottom: 5,
       },
       carLocation: {
         fontSize: 12,
-        color: "#888",
+        color: colors.timeLocationText,
       },
       daysLeftContainer: {
         position: 'relative',
@@ -126,7 +131,7 @@ const getStyles = (isColorful) => {
       },
       daysLeftText: {
         fontSize: 10,
-        color: "#fff",
+        color: colors.text,
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 5,
@@ -135,14 +140,19 @@ const getStyles = (isColorful) => {
         position: 'absolute',
         right: 0,
       },
+      arrowContainer: {
+        position: 'relative',
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 10
+      },
       bottomContent: {
         flexDirection: "row",
         justifyContent: "flex-end",
         marginTop: 10,
       },
-      arrowColor: isColorful ? "#fe218b" : "#666",
+      arrowColor: colors.accent,
     });
 };
-  
 
 export default BookedCarCard;

@@ -5,6 +5,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
 
 import DiscoveryScreen from './screens/discovery';
 import ProfileScreen from './screens/profile';
@@ -12,6 +13,9 @@ import OrdersScreen from './screens/orders';
 import PaymentScreen from './screens/payment';
 import CarDetails from './screens/discovery/CarDetails/index';
 import FilterScreen from './screens/discovery/Filters/index';
+import BookingDetailsScreen from './screens/orders/BookingDetailsScreen';
+import PastBookingsScreen from './screens/orders/PastBookingsScreen';
+
 
 import { GlobeAltIcon, UserIcon, ShoppingCartIcon } from "react-native-heroicons/outline";
 
@@ -31,7 +35,7 @@ const Tab = createBottomTabNavigator();
 
 function HomeTabs() {
 
-  const { isColorful } = useTheme();
+  const { colors } = useTheme();
 
   return (
     <Tab.Navigator
@@ -41,9 +45,12 @@ function HomeTabs() {
             tabIcons[route.name] || DiscoveryIcon;
           return <Icon color={color} size={size} />;
         },
-        tabBarActiveTintColor: isColorful ? '#fe218b' : 'tomato',
+        tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.tabBar,
+        },
       })}
     >
       <Tab.Screen name="Discovery" component={DiscoveryScreen} />
@@ -58,16 +65,17 @@ function HomeTabs() {
 // see https://reactnavigation.org/docs/hiding-tabbar-in-screens 
 function AppContent() {
 
-  const { isColorful } = useTheme();
+  const { colors } = useTheme();
   const { resetSelectedFilters, isDefaultFilter } = useFilters();
 
-  NavigationBar.setBackgroundColorAsync('#fff');
+  NavigationBar.setBackgroundColorAsync(colors.tabBar);
 
   return (
+    <>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Home" component={HomeTabs} />
@@ -115,8 +123,27 @@ function AppContent() {
           name="Payment"
           component={PaymentScreen}
         />
+        {/* Add the BookingDetailsScreen to the stack */}
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: 'Booking Details'
+          }}
+          name="BookingDetails"
+          component={BookingDetailsScreen}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: 'Past Bookings'
+          }}
+          name="PastBookings"
+          component={PastBookingsScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
+    <StatusBar style={colors.statusBarStyle} />
+    </>
   );
 }
 
