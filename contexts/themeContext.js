@@ -1,7 +1,12 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext } from 'react';
+import { SunIcon, MoonIcon, SwatchIcon } from "react-native-heroicons/outline";
+
 
 const themeList = {
   light: {
+    icon: SunIcon,
+    markerIcon: require('../assets/marker.png'),
+    mapStyle: undefined,
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
@@ -17,6 +22,9 @@ const themeList = {
     statusBarStyle: 'dark'
   },
   dark: {
+    icon: MoonIcon,
+    markerIcon: require('../assets/marker-dark.png'),
+    mapStyle: require('../assets/mapstyle-dark.json'),
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
@@ -32,6 +40,9 @@ const themeList = {
     statusBarStyle: 'light'
   },
   colorful: {
+    icon: SwatchIcon,
+    markerIcon: require('../assets/marker.png'),
+    mapStyle: null,
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
@@ -60,10 +71,10 @@ export const ThemeProvider = ({ children }) => {
   };
 
   // Convert children to a function if it's a function
-  const renderChildren = typeof children === 'function' ? children({ colors: themeList[theme], switchTheme, theme }) : children;
+  const renderChildren = typeof children === 'function' ? children({ colors: themeList[theme], switchTheme, theme, themes: themeList }) : children;
 
   return (
-    <ThemeContext.Provider value={{ colors: themeList[theme], switchTheme, theme }}>
+    <ThemeContext.Provider value={{ colors: themeList[theme], switchTheme, theme, themes: themeList }}>
       {renderChildren}
     </ThemeContext.Provider>
   );

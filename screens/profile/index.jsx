@@ -1,44 +1,26 @@
 import { View, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SunIcon, MoonIcon, HomeIcon, PhoneIcon, EnvelopeIcon } from 'react-native-heroicons/outline';
+import { HomeIcon, PhoneIcon, EnvelopeIcon, SwatchIcon } from 'react-native-heroicons/outline';
 import { StarIcon } from 'react-native-heroicons/solid';
+import ThemeSelector from './themeSelector.jsx';
+
 
 const image = require ('../../assets/DonaldDuckProfilePic.png') 
 
 
 export default function ProfileScreen() {
   const { colors, switchTheme, theme } = useTheme();
-  console.log(theme, colors)
+  
   const styles = getStyles(colors)
-
-  let themeIcon
-  switch (theme) {
-    case 'light': 
-      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
-      break;
-    case 'dark':
-      themeIcon = <SunIcon size={35} color="gray" style={styles.inputIcon} />
-      break;
-    default: 
-      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
-      break;
-
-  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style = {styles.profileAndThemeContainer}>
         <Text style={styles.profile}>Profile</Text>
-      <TouchableOpacity style={styles.themeButton} onPress = {() => {
-        if (theme == 'light') {
-          switchTheme('dark')
-        } else {
-        switchTheme('light')
-      }
-      }}>
-          {themeIcon}
-        </TouchableOpacity>
+      
+      <ThemeSelector />
+
       </View>
         <View style = {styles.profileContainer}>
           <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>

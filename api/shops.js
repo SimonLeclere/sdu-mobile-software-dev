@@ -1,3 +1,5 @@
+// The name of the app is Carrie
+
 const shops = [
     {
         id: 1,
@@ -11,7 +13,7 @@ const shops = [
     {
         id: 2,
         city: "Copenhagen",
-        name: "The Little Mermaid Shop",
+        name: "Carrie's shop",
         location: {
             latitude: 55.6761,
             longitude: 12.5683
@@ -20,7 +22,7 @@ const shops = [
     {
         id: 3,
         city: "Aarhus",
-        name: "Viking Supplies",
+        name: "Carrie's shop",
         location: {
             latitude: 56.1629,
             longitude: 10.2039
@@ -29,7 +31,7 @@ const shops = [
     {
         id: 4,
         city: "Aalborg",
-        name: "North Sea Trading",
+        name: "Carrie's shop",
         location: {
             latitude: 57.0488,
             longitude: 9.9217
@@ -38,7 +40,7 @@ const shops = [
     {
         id: 5,
         city: "Esbjerg",
-        name: "West Coast Hub",
+        name: "Carrie's shop",
         location: {
             latitude: 55.4670,
             longitude: 8.4528
@@ -47,7 +49,7 @@ const shops = [
     {
         id: 6,
         city: "Roskilde",
-        name: "Viking Shipyard",
+        name: "Carrie's shop",
         location: {
             latitude: 55.6419,
             longitude: 12.0878

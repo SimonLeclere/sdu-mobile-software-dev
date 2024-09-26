@@ -20,6 +20,7 @@ const DiscoveryScreen = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [shopsInView, setShopsInView] = useState([]); // Nouvel état pour les magasins visibles
 
   const { colors } = useTheme();
   const styles = getStyles(colors);
@@ -78,14 +79,33 @@ const DiscoveryScreen = () => {
     fetchShops();
   }, [fetchCars]);
 
+  // Fonction pour déterminer si un shop est dans la région visible
+  const isShopInRegion = (shop, region) => {
+    const { latitude, longitude } = shop.location;
+    const { latitudeDelta, longitudeDelta } = region;
+    return (
+      latitude >= region.latitude - latitudeDelta / 2 &&
+      latitude <= region.latitude + latitudeDelta / 2 &&
+      longitude >= region.longitude - longitudeDelta / 2 &&
+      longitude <= region.longitude + longitudeDelta / 2
+    );
+  };
+
+  // Mettre à jour les magasins visibles quand la région de la carte change
+  const handleRegionChangeComplete = useCallback((region) => {
+    const visibleShops = shopsData.filter(shop => isShopInRegion(shop, region));
+    setShopsInView(visibleShops); // Mise à jour de l'état
+  }, [shopsData]);
+
   const filterCars = useMemo(() => {
     return carsData
       .filter(car => Object.keys(selectedFilters.tagFilter).every(filter => selectedFilters.tagFilter[filter] ? car.tags.includes(filter) : true))
       .filter(car => car.price >= selectedFilters.priceRange[0] && car.price <= selectedFilters.priceRange[1])
       .filter(car => selectedFilters.vehicleType.length === 0 || selectedFilters.vehicleType.includes(car.type))
       .filter(car => selectedFilters.brand === 'all' || selectedFilters.brand === car.brandName)
-      .filter(car => selectedFilters.gearbox === 'all' || selectedFilters.gearbox === car.transmission.toLowerCase());
-  }, [carsData, selectedFilters]);
+      .filter(car => selectedFilters.gearbox === 'all' || selectedFilters.gearbox === car.transmission.toLowerCase())
+      .filter(car => car.shops.some(shopId => shopsInView.some(shop => shop.id === shopId)))
+  }, [carsData, selectedFilters, shopsInView]);
 
   if (loading && !refreshing) {
     return <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />;
@@ -117,10 +137,12 @@ const DiscoveryScreen = () => {
       {/* Map behind the header and the bottom sheet */}
       <MapView
         ref={mapRef}
+        key={colors.mapStyle} // Re-render the map when the map style changes
         style={styles.map}
         showsCompass={false}
         rotateEnabled={false}
         pitchEnabled={false}
+        customMapStyle={colors.mapStyle}
         initialRegion={{
           // Default to Odense, Denmark
           latitude: 55.39594,
@@ -128,6 +150,7 @@ const DiscoveryScreen = () => {
           latitudeDelta: 0.1,
           longitudeDelta: 0.1,
         }}
+        onRegionChangeComplete={handleRegionChangeComplete} // Appel lors du changement de la région
         onPoiClick={e => {
           setLocationQuery(e.nativeEvent.name)
           mapRef.current.animateToRegion({
@@ -137,15 +160,29 @@ const DiscoveryScreen = () => {
             longitudeDelta: 0.1,
           });
         }}
+        onMarkerPress={e => {
+          const shop = shopsData.find(shop => shop.id.toString() === e.nativeEvent.id);
+          
+          if (!shop) return;
+          
+          setLocationQuery(shop.city);
+          mapRef.current.animateToRegion({
+            latitude: shop.location.latitude,
+            longitude: shop.location.longitude,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1,
+          });
+        }}
       >
         {
           shopsData.map(shop => (
             <Marker
-              key={shop.id}
+              key={shop.id + colors.markerIcon.toString()}
+              identifier={shop.id.toString()}
               coordinate={shop.location}
               title={shop.name}
               description={shop.city}
-              image={require('../../assets/marker.png')}
+              image={colors.markerIcon}
             />
           ))
         }
@@ -159,7 +196,7 @@ const DiscoveryScreen = () => {
         
         {/* Display number of available cars */}
         <Text style={styles.carsAvailableText}>{filterCars.length} available cars</Text>
-        
+
         <BottomSheetFlatList
           data={filterCars}
           renderItem={({ item }) => <CarCard item={item} />}
@@ -173,7 +210,6 @@ const DiscoveryScreen = () => {
   );
 };
 
-
 const getStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
@@ -183,7 +219,7 @@ const getStyles = (colors) => StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    zIndex: 1000, // Make sure the header is above the map
+    zIndex: 1000,
     gap: 10,
     paddingTop: 40,
     paddingHorizontal: 15,
@@ -208,6 +244,12 @@ const getStyles = (colors) => StyleSheet.create({
   emptyText: {
     textAlign: 'center',
     marginTop: 20,
+  },
+  shopsInViewText: {
+    textAlign: 'center',
+    marginVertical: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
