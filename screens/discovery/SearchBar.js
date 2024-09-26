@@ -50,8 +50,8 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
       });
     }
 
-    if (locationQuery !== query) {
-      setLocationQuery(query);
+    if (locationQuery !== selectedSuggestion.display_place) {
+      setLocationQuery(selectedSuggestion.display_place);
     }
 
     closeModal();

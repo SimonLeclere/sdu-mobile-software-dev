@@ -19,7 +19,8 @@ export default function ProfileScreen() {
       <View style = {styles.profileAndThemeContainer}>
         <Text style={styles.profile}>Profile</Text>
       
-      <ThemeSelector />
+      {/* Theme selector, placed on the top right */}
+      <ThemeSelector /> 
 
       </View>
         <View style = {styles.profileContainer}>
@@ -51,9 +52,6 @@ export default function ProfileScreen() {
           <Text style={styles.infoTextDescription}>donald.duck@disney.com</Text>
         </View>
       </View>
-      
-
-
     </SafeAreaView>
   );
 }
@@ -124,7 +122,8 @@ function getStyles (colors) {
       marginBottom: 20,
       flexDirection: 'row',
       gap: 10,
-      backgroundColor: colors.cardBackground
+      backgroundColor: colors.cardBackground,
+      elevation: 3,
     },
 
     infoIcon: {
@@ -139,10 +138,5 @@ function getStyles (colors) {
     infoTextDescription: {
       color: colors.text
     }
-
-
-
-
   });
-  
 }

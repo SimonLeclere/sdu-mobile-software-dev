@@ -11,6 +11,13 @@ import MapView, { Marker } from 'react-native-maps';
 import { getCars } from '../../api/cars';
 import { getShops } from '../../api/shops';
 
+const MAP_INITIAL_REGION = {
+  latitude: 55.39594,
+  longitude: 10.38831,
+  latitudeDelta: 0.1,
+  longitudeDelta: 0.1,
+};
+
 const DiscoveryScreen = () => {
   const [locationQuery, setLocationQuery] = useState('');
   
@@ -75,9 +82,10 @@ const DiscoveryScreen = () => {
   }, [setAvailableTagFilters, setSelectedFilters]);
 
   useEffect(() => {
-    fetchCars();
     fetchShops();
-  }, [fetchCars]);
+    fetchCars();
+    handleRegionChangeComplete(MAP_INITIAL_REGION);
+  }, [fetchCars, fetchShops, handleRegionChangeComplete]);
 
   // Fonction pour déterminer si un shop est dans la région visible
   const isShopInRegion = (shop, region) => {
@@ -143,13 +151,7 @@ const DiscoveryScreen = () => {
         rotateEnabled={false}
         pitchEnabled={false}
         customMapStyle={colors.mapStyle}
-        initialRegion={{
-          // Default to Odense, Denmark
-          latitude: 55.39594,
-          longitude: 10.38831,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}
+        initialRegion={MAP_INITIAL_REGION}
         onRegionChangeComplete={handleRegionChangeComplete} // Appel lors du changement de la région
         onPoiClick={e => {
           setLocationQuery(e.nativeEvent.name)
@@ -191,14 +193,15 @@ const DiscoveryScreen = () => {
       <BottomSheet
         snapPoints={snapPoints}
         handleIndicatorStyle={{ backgroundColor: 'lightgray' }}
-        backgroundStyle={{ borderRadius: 25 }}
+        backgroundStyle={styles.bottomSheet}
       >
         
         {/* Display number of available cars */}
-        <Text style={styles.carsAvailableText}>{filterCars.length} available cars</Text>
+        <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text>
 
         <BottomSheetFlatList
           data={filterCars}
+          style={styles.bottomSheetFlatList}
           renderItem={({ item }) => <CarCard item={item} />}
           keyExtractor={item => item.id.toString()}
           numColumns={2}
@@ -240,16 +243,25 @@ const getStyles = (colors) => StyleSheet.create({
     marginVertical: 10,
     fontSize: 16,
     fontWeight: 'bold',
+    color: colors.text,
   },
   emptyText: {
     textAlign: 'center',
     marginTop: 20,
+    color: colors.text,
   },
   shopsInViewText: {
     textAlign: 'center',
     marginVertical: 10,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  bottomSheet: {
+    borderRadius: 25,
+    backgroundColor: colors.background,
+  },
+  bottomSheetFlatList: {
+    backgroundColor: colors.background,
   },
 });
 

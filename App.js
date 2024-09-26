@@ -50,6 +50,7 @@ function HomeTabs() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: colors.tabBar,
+          borderColor: colors.tabBarBorder,
         },
       })}
     >

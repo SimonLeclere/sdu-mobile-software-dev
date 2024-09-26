@@ -4,27 +4,27 @@ import { SunIcon, MoonIcon, SwatchIcon } from "react-native-heroicons/outline";
 
 const themeList = {
   light: {
-    icon: SunIcon,
-    markerIcon: require('../assets/marker.png'),
-    mapStyle: undefined,
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
-    background: '#fdf0d5',
+    background: 'white',
     cardBackground: 'white',
     filterBackground: 'white',
     text: 'black',
     secondaryText: '#666',
     tertiaryText: '#333',
     infoText:'#555',
+    
+    icon: SunIcon,
+    markerIcon: require('../assets/marker.png'),
+    mapStyle: undefined,
+
     timeLocationText: '#888',
     tabBar: "white",
+    tabBarBorder: '#eee',
     statusBarStyle: 'dark'
   },
   dark: {
-    icon: MoonIcon,
-    markerIcon: require('../assets/marker-dark.png'),
-    mapStyle: require('../assets/mapstyle-dark.json'),
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
@@ -36,13 +36,16 @@ const themeList = {
     tertiaryText: '#333',
     infoText: '#555',
     timeLocationText: '#888',
+    
+    icon: MoonIcon,
+    markerIcon: require('../assets/marker-dark.png'),
+    mapStyle: require('../assets/mapstyle-dark.json'),
+
     tabBar: '#1f1f1f',
+    tabBarBorder: '#333',
     statusBarStyle: 'light'
   },
   colorful: {
-    icon: SwatchIcon,
-    markerIcon: require('../assets/marker.png'),
-    mapStyle: null,
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
@@ -54,7 +57,13 @@ const themeList = {
     tertiaryText: '#333',
     infoText: '#555',
     timeLocationText: '#888',
+    
+    icon: SwatchIcon,
+    markerIcon: require('../assets/marker.png'),
+    mapStyle: null,
+    
     tabBar: "white",
+    tabBarBorder: '#eee',
     statusBarStyle: 'dark'
   }
 }

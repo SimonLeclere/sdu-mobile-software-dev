@@ -37,8 +37,8 @@ const getStyles = (colors) => {
       elevation: 5,
       marginBottom: 20,
       marginTop: 5,
-      width: '45%', // Chaque carte prendra 45% de la largeur disponible
-      marginHorizontal: '2.5%', // Ajoute un espacement horizontal entre les cartes
+      width: '46%', // Chaque carte prendra 45% de la largeur disponible
+      marginHorizontal: '2%', // Ajoute un espacement horizontal entre les cartes
     },
     carImage: {
       width: "100%", // Assure que l'image prend toute la largeur disponible
