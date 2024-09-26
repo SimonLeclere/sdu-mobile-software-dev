@@ -5,13 +5,18 @@ import FilterButtons from './FilterButtons';
 import CarCard from './CarCard';
 import { useFilters } from '../../contexts/filterContext';
 import { useTheme } from '../../contexts/themeContext';
-import { getCars } from '../../api/cars';
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import MapView, { Marker } from 'react-native-maps';
 
+import { getCars } from '../../api/cars';
+import { getShops } from '../../api/shops';
+
 const DiscoveryScreen = () => {
   const [locationQuery, setLocationQuery] = useState('');
+  
   const [carsData, setCarsData] = useState([]);
+  const [shopsData, setShopsData] = useState([]);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -22,6 +27,15 @@ const DiscoveryScreen = () => {
 
   const mapRef = useRef(null);
   const snapPoints = useMemo(() => ["10%", "80%"], []);
+
+  const fetchShops = useCallback(async () => {
+    try {
+      const data = await getShops();
+      setShopsData(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, []);
 
   const fetchCars = useCallback(async () => {
     setLoading(true);
@@ -60,6 +74,7 @@ const DiscoveryScreen = () => {
 
   useEffect(() => {
     fetchCars();
+    fetchShops();
   }, [fetchCars]);
 
   const filterCars = useMemo(() => {
@@ -123,15 +138,13 @@ const DiscoveryScreen = () => {
         }}
       >
         {
-          filterCars.map(car => (
+          shopsData.map(shop => (
             <Marker
-              key={car.id}
-              coordinate={{
-                latitude: car.location.latitude,
-                longitude: car.location.longitude,
-              }}
-              title={`${car.brandName} ${car.modelName}`}
-              description={`${car.price} DKK/day`}
+              key={shop.id}
+              coordinate={shop.location}
+              title={shop.name}
+              description={shop.city}
+              image={require('../../assets/marker.png')}
             />
           ))
         }

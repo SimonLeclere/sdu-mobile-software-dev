@@ -12,10 +12,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.40733784138907,
-        longitude: 10.41841894551394
-      }
     },
     {
       id: 2,
@@ -31,10 +27,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 4,
-      location: {
-        latitude: 55.39581741930345,
-        longitude: 10.426239193099724
-      }
     },
     {
       id: 3,
@@ -50,10 +42,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Hybrid",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.402115101616886,
-        longitude: 10.433543507319722
-      }
     },
     {
       id: 4,
@@ -69,10 +57,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.378142961223524,
-        longitude: 10.408108839980603
-      }
     },
     {
       id: 5,
@@ -88,10 +72,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Electric",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.37750867847129,
-        longitude: 10.396726300637376
-      }
     },
     {
       id: 6,
@@ -107,10 +87,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Hybrid",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.34889909358107,
-        longitude: 10.339068750173913
-      }
     },
     {
       id: 7,
@@ -126,10 +102,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.38161958312142,
-        longitude: 10.399752920934622
-      }
     },
     {
       id: 8,
@@ -145,10 +117,6 @@ const carsData = [
       transmission: "Manual",
       fuelType: "Gasoline",
       seatingCapacity: 4,
-      location: {
-        latitude: 55.42470253201329,
-        longitude: 10.426577239421123
-      }
     },
     {
       id: 9,
@@ -164,10 +132,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 7,
-      location: {
-        latitude: 55.34759170638018,
-        longitude: 10.349122556668458
-      }
     },
     {
       id: 10,
@@ -183,10 +147,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Electric",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.38634655460643,
-        longitude: 10.389674970189843
-      }
     },
     {
       id: 11,
@@ -202,10 +162,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.437196285345955,
-        longitude: 10.397556754519874
-      }
     },
     {
       id: 12,
@@ -221,10 +177,6 @@ const carsData = [
       transmission: "Manual",
       fuelType: "Gasoline",
       seatingCapacity: 4,
-      location: {
-        latitude: 55.44022233576085,
-        longitude: 10.387943325355659
-      }
     },
     {
       id: 13,
@@ -240,10 +192,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Diesel",
       seatingCapacity: 12,
-      location: {
-        latitude: 55.43594223168204,
-        longitude: 10.343319991942549
-      }
     },
     {
       id: 14,
@@ -259,10 +207,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.41016003874683,
-        longitude: 10.402725455438464
-      }
     },
     {
       id: 15,
@@ -278,10 +222,6 @@ const carsData = [
       transmission: "Manual",
       fuelType: "Gasoline",
       seatingCapacity: 2,
-      location: {
-        latitude: 55.34894761494791,
-        longitude: 10.37817054385879
-      }
     },
     {
       id: 16,
@@ -297,10 +237,6 @@ const carsData = [
       transmission: "Manual",
       fuelType: "Gasoline",
       seatingCapacity: 2,
-      location: {
-        latitude: 55.40618283149757,
-        longitude: 10.347980697382907
-      }
     },
     {
       id: 17,
@@ -316,10 +252,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.41273768757781,
-        longitude: 10.374240131758906
-      }
     },
     {
       id: 18,
@@ -335,10 +267,6 @@ const carsData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
       seatingCapacity: 5,
-      location: {
-        latitude: 55.43382305595532,
-        longitude: 10.347593336101284
-      }
     }
   ];
 
