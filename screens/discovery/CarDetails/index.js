@@ -150,7 +150,7 @@ function getStyles ( colors ) {
   rentButton: {
     borderRadius: 10,
     padding: 14,
-    backgroundColor: colors.primary
+    backgroundColor: colors.background
   },
   rentButtonText: {
     color: '#FFF',

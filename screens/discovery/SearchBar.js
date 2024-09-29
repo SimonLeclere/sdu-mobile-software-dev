@@ -74,7 +74,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             </View>
 
             <Pressable
-              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (colors.primary) : 'gray' }]}
+              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (colors.cardBackground) : 'gray' }]}
               onPress={isDateRangeValid ? closeModal : undefined}
               disabled={!isDateRangeValid}
             >
@@ -118,7 +118,7 @@ const getStyles = (colors) => {
     },
     modalView: {
       marginTop: 10,
-      backgroundColor: 'white',
+      backgroundColor: colors.cardBackground,
       borderRadius: 10,
       padding: 20,
       width: '95%',
@@ -152,6 +152,7 @@ const getStyles = (colors) => {
     input: {
       flex: 1,
       height: 40,
+      color: 'green'
     },
     datesInputsContainer: {
       width: '100%',
@@ -159,6 +160,7 @@ const getStyles = (colors) => {
       justifyContent: 'space-between',
       marginBottom: 15,
       gap: 10,
+      color: colors.text
     },
     searchButton: {
       width: '100%',
@@ -170,6 +172,7 @@ const getStyles = (colors) => {
     searchButtonText: {
       color: colors.text,
       fontWeight: 'bold',
+      color: colors.text
     },
   });
 };

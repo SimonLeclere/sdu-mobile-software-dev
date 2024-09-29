@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/themeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SunIcon, MoonIcon, HomeIcon, PhoneIcon, EnvelopeIcon } from 'react-native-heroicons/outline';
 import { StarIcon } from 'react-native-heroicons/solid';
+import SelectorWithModal from '../discovery/Filters/SelectorWithModal';
 
 const image = require ('../../assets/DonaldDuckProfilePic.png') 
 
@@ -11,6 +12,12 @@ export default function ProfileScreen() {
   const { colors, switchTheme, theme } = useTheme();
   console.log(theme, colors)
   const styles = getStyles(colors)
+
+  const themeOptions = [
+    { label: 'Light Theme', value: 'light' },
+    { label: 'Dark Theme', value: 'dark' },
+    { label: 'Colorful Theme', value: 'colorful' },
+  ];
 
   let themeIcon
   switch (theme) {
@@ -30,7 +37,7 @@ export default function ProfileScreen() {
     <SafeAreaView style={styles.container}>
       <View style = {styles.profileAndThemeContainer}>
         <Text style={styles.profile}>Profile</Text>
-      <TouchableOpacity style={styles.themeButton} onPress = {() => {
+      {/* <TouchableOpacity style={styles.themeButton} onPress = {() => {
         if (theme == 'light') {
           switchTheme('dark')
         } else {
@@ -38,7 +45,13 @@ export default function ProfileScreen() {
       }
       }}>
           {themeIcon}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+      <SelectorWithModal
+          label=''
+          selectedSortOption={theme}
+          sortOptions={themeOptions}
+          setSortOption={switchTheme}
+      />
       </View>
         <View style = {styles.profileContainer}>
           <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
