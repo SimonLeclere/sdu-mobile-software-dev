@@ -14,7 +14,12 @@ Images sources : <https://imagelib.dealerinspire.com/>
 - If they picked up the car, show the drop off location and drop off time.
 - Add the price of the booking
 - Make it look better
-- Merge the different booking pages to have a clean code 
+- Merge the different booking pages to have a clean code
+- Add a "Cancel" button 
 
 ## Car Details : 
-- Find better icons for the details 
+- Find better icons for the details
+
+## Payment Page:
+- Create it
+- If we click on the pay button, we must see the car reservation on the booking page
