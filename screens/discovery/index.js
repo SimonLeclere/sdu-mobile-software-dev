@@ -7,6 +7,7 @@ import { useFilters } from '../../contexts/filterContext';
 import { useTheme } from '../../contexts/themeContext';
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import MapView, { Marker } from 'react-native-maps';
+import dayjs from 'dayjs';
 
 import { getCars } from '../../api/cars';
 import { getShops } from '../../api/shops';
@@ -19,7 +20,10 @@ const MAP_INITIAL_REGION = {
 };
 
 const DiscoveryScreen = () => {
+  
   const [locationQuery, setLocationQuery] = useState('');
+  const [dateRange, setDateRange] = useState([dayjs(), dayjs().add(1, 'day')]);
+  
   const [carsData, setCarsData] = useState([]);
   const [shopsData, setShopsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -124,6 +128,10 @@ const DiscoveryScreen = () => {
         <SearchBar
           locationQuery={locationQuery}
           setLocationQuery={setLocationQuery}
+
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+
           animateToRegion={({ latitude, longitude, latitudeDelta, longitudeDelta }) => {
             mapRef.current.animateToRegion({
               latitude,
@@ -190,7 +198,9 @@ const DiscoveryScreen = () => {
         handleIndicatorStyle={{ backgroundColor: 'lightgray' }}
         backgroundStyle={styles.bottomSheet}
       >
-        <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text>
+        {/* <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text> */}
+        <Text style={styles.carsAvailableText}>Lieu: {locationQuery === '' ? 'Anywhere' : locationQuery}</Text>
+        <Text style={styles.shopsInViewText}>Dates: {dateRange[0]?.format('DD MMM')} - {dateRange[1]?.format('DD MMM')}</Text>
 
         <BottomSheetFlatList
           data={filterCars}

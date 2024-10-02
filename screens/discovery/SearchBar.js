@@ -6,15 +6,13 @@ import DateInput from './DateInput';
 import dayjs from 'dayjs';
 import useLocationAutoComplete from '../../hooks/useLocationAutoComplete';
 
-const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
+const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, animateToRegion }) => {
   const { colors } = useTheme();
   const styles = getStyles(colors);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedSuggestion, setSelectedSuggestion] = useState(null);
-  const [fromDate, setFromDate] = useState(dayjs());
-  const [toDate, setToDate] = useState(dayjs().add(1, 'day'));
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -23,8 +21,8 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
 
-  const isDateRangeValid = fromDate.isBefore(toDate);
-  const daysBetween = toDate.diff(fromDate, 'day');
+  const isDateRangeValid = dateRange[0].isBefore(dateRange[1]);
+  const daysBetween = dateRange[1].diff(dateRange[0], 'day');
 
   const handleSuggestionPress = (suggestion) => {
     setLocationQuery(suggestion.display_place || suggestion.display_name);
@@ -66,7 +64,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
         <View>
           <Text style={styles.searchTextLocation}>{locationQuery || 'Anywhere'}</Text>
           <Text style={styles.searchTextDates}>
-            {fromDate.format('DD MMM')} - {toDate.format('DD MMM')} ({daysBetween > 1 ? `${daysBetween} days` : `${daysBetween} day`})
+            {dateRange[0].format('DD MMM')} - {dateRange[1].format('DD MMM')} ({daysBetween > 1 ? `${daysBetween} days` : `${daysBetween} day`})
           </Text>
         </View>
       </TouchableOpacity>
@@ -124,8 +122,8 @@ const SearchBar = ({ locationQuery, setLocationQuery, animateToRegion }) => {
             )}
 
             <View style={styles.datesInputsContainer}>
-              <DateInput label="From" value={fromDate} onChange={setFromDate} />
-              <DateInput label="To" value={toDate} onChange={setToDate} />
+              <DateInput label="From" value={dateRange[0]} onChange={(date) => setDateRange((previous) => [date, previous[1]])} />
+              <DateInput label="To" value={dateRange[1]} onChange={(date) => setDateRange((previous) => [previous[0], date])} />
             </View>
 
             <Pressable
