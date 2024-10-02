@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/themeContext";
 
-const CarCard = ({ item }) => {
+const CarCard = ({ item, location, dateRange }) => {
   const navigation = useNavigation();
 
   const { colors } = useTheme();
@@ -13,7 +13,7 @@ const CarCard = ({ item }) => {
   return (
     <TouchableOpacity
       style={styles.carCard}
-      onPress={() => navigation.navigate("CarDetails", { carId: item.id })}
+      onPress={() => navigation.navigate("CarDetails", { carId: item.id, location: location, dateRange: dateRange.map(date => date.toISOString()) })}
     >
       <Image source={item.image} style={styles.carImage} />
       <View style={styles.cardContent}>

@@ -205,7 +205,7 @@ const DiscoveryScreen = () => {
         <BottomSheetFlatList
           data={filterCars}
           style={styles.bottomSheetFlatList}
-          renderItem={({ item }) => <CarCard item={item} />}
+          renderItem={({ item }) => <CarCard item={item} location={locationQuery} dateRange={dateRange} />}
           keyExtractor={item => item.id.toString()}
           numColumns={2}
           showsVerticalScrollIndicator={false}

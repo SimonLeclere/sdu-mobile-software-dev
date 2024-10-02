@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { UserIcon, BoltIcon } from 'react-native-heroicons/outline'; 
 import { useTheme } from '../../../contexts/themeContext';
+import dayjs from 'dayjs';
 
 import { getCarById } from '../../../api/cars';
 
 export default function CarDetails({ route, navigation }) {
 
-  const { carId } = route.params;
+  const { carId, location, dateRange: rawDateRange } = route.params;
+
+  const dateRange = rawDateRange.map(date => dayjs(date));
+
+
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -71,6 +76,7 @@ export default function CarDetails({ route, navigation }) {
       >
         <Image source={carData.image} style={styles.carImage} />
         <View style={styles.cardContent}>
+          
           <Text style={styles.carName}>{carData.modelName}</Text>
           <Text style={styles.carBrand}>{carData.brandName}</Text>
 
