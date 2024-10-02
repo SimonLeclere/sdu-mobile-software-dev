@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import DiscoveryScreen from './screens/discovery';
 import ProfileScreen from './screens/profile';
 import OrdersScreen from './screens/orders';
-import PaymentScreen from './screens/payment';
+import PaymentScreen from './screens/discovery/CarDetails/payment/index';
 import CarDetails from './screens/discovery/CarDetails/index';
 import FilterScreen from './screens/discovery/Filters/index';
 import BookingDetailsScreen from './screens/orders/BookingDetailsScreen';
