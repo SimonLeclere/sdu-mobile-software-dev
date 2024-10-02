@@ -12,22 +12,38 @@ export default function CarDetails({ route, navigation }) {
 
   const dateRange = rawDateRange.map(date => dayjs(date));
 
+  const tripDays = dateRange[1].diff(dateRange[0], 'day') + 1;
 
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { colors } = useTheme();
-  const styles = getStyles(colors);
+  const styles = getStyles(colors); 
 
   const [selectedForfait, setSelectedForfait] = useState('300km'); 
   const [selectedInsurance, setSelectedInsurance] = useState('basic');
 
+  const [kmPrice, setKmPrice] = useState(0); // Initial km price
+  const [insurancePrice, setInsurancePrice] = useState(0); // Initial insurance price
+
   const handleForfaitSelection = (forfait) => {
     setSelectedForfait(forfait);
+    // Update kmPrice based on the selected forfait
+    if (forfait === '300km') {
+      setKmPrice(0); // Included
+    } else if (forfait === 'illimited') {
+      setKmPrice(50); // Additional cost for unlimited km
+    }
   };
 
   const handleInsuranceSelection = (insurance) => {
     setSelectedInsurance(insurance);
+    // Update insurancePrice based on the selected insurance
+    if (insurance === 'basic') {
+      setInsurancePrice(0); // Included
+    } else if (insurance === 'premium') {
+      setInsurancePrice(100); // Additional cost for premium insurance
+    }
   };
 
   useEffect(() => {
@@ -73,16 +89,18 @@ export default function CarDetails({ route, navigation }) {
     carImage: carData.image,
     brandName: carData.brandName,
     modelName: carData.modelName,
-    price: carData.price,
+    price: tripDays*carData.price+insurancePrice+kmPrice,
     image: carData.image,
     transmission: carData.transmission,
     fuelType: carData.fuelType,
     seatingCapacity: carData.seatingCapacity,
     selectedForfait: selectedForfait,
     selectedInsurance: selectedInsurance,
-    // Add any other relevant booking details
+    location: location,  
+    fromDate: dateRange[0].format('YYYY-MM-DD'), 
+    toDate: dateRange[1].format('YYYY-MM-DD'),  
+    tripDays: tripDays,
   };
-
   return (
     <View style={styles.container}>
       <ScrollView style={styles.carCard}>
@@ -157,7 +175,7 @@ export default function CarDetails({ route, navigation }) {
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Total</Text>
           <View style={styles.priceContainer}>
-            <Text style={styles.carPrice}>{carData.price} kr</Text>
+            <Text style={styles.carPrice}>{tripDays*carData.price+insurancePrice+kmPrice} kr</Text>
             <Text style={styles.carPricePerDay}>{carData.price} kr per day</Text>
           </View>
         </View>

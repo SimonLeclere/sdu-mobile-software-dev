@@ -20,136 +20,149 @@ const PaymentScreen = ({ route, navigation }) => {
     setIsExpanded(!isExpanded);
   };
 
+  
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Booking Details</Text>
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Booking Details</Text>
 
-      {/* Display booking details */}
-      <View style={styles.bookingDetails}>
-
-      {/* Horizontal layout for car image and details */}
-      <View style={styles.carInfoContainer}>
-        <Image source={item.image} style={styles.carImage} />
-        
-        <View>
-          <Text style={styles.carName}>{item.brandName} {item.modelName}</Text>
-          <Text style={styles.infoText}>Days:  days</Text>
-
-          {/* Expand/Collapse Button */}
-          <TouchableOpacity style={styles.toggleButton} onPress={toggleExpand}>
-            <Text style={styles.toggleButtonText}>
-              {isExpanded ? 'Hide Details' : 'Show Details'}
-            </Text>
-            {isExpanded ? (
-              <ChevronUpIcon color={colors.primary} size={20} />
-            ) : (
-              <ChevronDownIcon color={colors.primary} size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Expandable panel with booking details */}
-      {isExpanded && (
+        {/* Display booking details */}
         <View style={styles.bookingDetails}>
-        {/* Pickup Location */}
-        <View style={styles.detailsContainer}>
-          <View style={styles.iconContainer}>
-            {/* Replace with your actual icon component */}
-            <BuildingStorefrontIcon color={colors.infoText} size={24} />
-          </View>
-          <View style={styles.locationContainer}>
-            <Text style={styles.detailsTitle}>Pick-up Location</Text>
-            <Text style={styles.detailsText}>Address</Text>
-            <Text style={styles.detailsText}>Date | Time</Text>
-          </View>
-        </View>
-      
-        {/* Line Separator */}
-        <View style={styles.separator} />
-      
-        {/* Return Location */}
-        <View style={styles.detailsContainer}>
-          <View style={styles.iconContainer}>
-            {/* Replace with your actual icon component */}
-            <BuildingStorefrontIcon color={colors.infoText} size={24} />
-          </View>
-          <View style={styles.locationContainer}>
-            <Text style={styles.detailsTitle}>Return Location</Text>
-            <Text style={styles.detailsText}>Address</Text>
-            <Text style={styles.detailsText}>Date | Time</Text>
+
+        {/* Horizontal layout for car image and details */}
+        <View style={styles.carInfoContainer}>
+          <Image source={item.image} style={styles.carImage} />
+          
+          <View>
+            <Text style={styles.carName}>{item.brandName} {item.modelName}</Text>
+            <Text style={styles.infoText}>{item.tripDays} days trip</Text>
+
+            {/* Expand/Collapse Button */}
+            <TouchableOpacity style={styles.toggleButton} onPress={toggleExpand}>
+              <Text style={styles.toggleButtonText}>
+                {isExpanded ? 'Hide Details' : 'Show Details'}
+              </Text>
+              {isExpanded ? (
+                <ChevronUpIcon color={colors.primary} size={20} />
+              ) : (
+                <ChevronDownIcon color={colors.primary} size={20} />
+              )}
+            </TouchableOpacity>
           </View>
         </View>
-      </View>
-      
-      )}
-    </View>
 
-    <View style={styles.bookingDetails}>
-      <View>
-        <Text style={styles.carName}>Forfait</Text>
-        <Text style={styles.infoText}>
-          {item.selectedForfait === '300km' ? '300 km' : 'Unlimited kilometers'}
-        </Text>
-        <Text style={styles.detailsText}>
-          {item.selectedForfait === '300km' ? 'Up to 300 km, ideal for short trips. Additional kilometers will be charged at 1kr per km.' : 'Travel without limits.'}
-        </Text>
-      </View>
-    </View>
-
-    <View style={styles.bookingDetails}>      
-      <View>
-        <Text style={styles.carName}>Insurance</Text>
-         <Text style={styles.infoText}>
-          {item.selectedInsurance === 'basic' ? 'Basic' : 'Premium'}
-        </Text>
-        <Text style={styles.detailsText}>
-          {item.selectedForfait === 'basic' ? 'Covers vehicle damage and liability.' : 'Full coverage with reduced liability.'}
-        </Text>
-       </View>
-    </View>
-
-      {/* Driver information form */}
-      <View style={styles.driverInfo}>
-        <Text style={styles.title}>Driver Information</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType="phone-pad"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Birthdate (YYYY-MM-DD)"
-          value={birthdate}
-          onChangeText={setBirthdate}
-        />
+        {/* Expandable panel with booking details */}
+        {isExpanded && (
+          <View style={styles.bookingDetails}>
+          {/* Pickup Location */}
+          <View style={styles.detailsContainer}>
+            <View style={styles.iconContainer}>
+              {/* Replace with your actual icon component */}
+              <BuildingStorefrontIcon color={colors.infoText} size={24} />
+            </View>
+            <View style={styles.locationContainer}>
+              <Text style={styles.detailsTitle}>Pick-up Location</Text>
+              <Text style={styles.detailsText}>{item.location}</Text>
+              <Text style={styles.detailsText}>{formatDate(item.fromDate)} | Time</Text>
+            </View>
+          </View>
+        
+          {/* Line Separator */}
+          <View style={styles.separator} />
+        
+          {/* Return Location */}
+          <View style={styles.detailsContainer}>
+            <View style={styles.iconContainer}>
+              {/* Replace with your actual icon component */}
+              <BuildingStorefrontIcon color={colors.infoText} size={24} />
+            </View>
+            <View style={styles.locationContainer}>
+              <Text style={styles.detailsTitle}>Return Location</Text>
+              <Text style={styles.detailsText}>{item.location}</Text>
+              <Text style={styles.detailsText}>{formatDate(item.toDate)} | Time</Text>
+            </View>
+          </View>
+        </View>
+        
+        )}
       </View>
 
-      {/* Pay Now Button */}
-      <TouchableOpacity style={styles.payButton} onPress={() => navigation.navigate('Payment', { item, driver: { lastName, firstName, email, phoneNumber, birthdate } })}>
-        <Text style={styles.payButtonText}>Pay Now</Text>
-      </TouchableOpacity>
+      <View style={styles.bookingDetails}>
+        <View>
+          <Text style={styles.carName}>Forfait</Text>
+          <Text style={styles.infoText}>
+            {item.selectedForfait === '300km' ? '300 km' : 'Unlimited kilometers'}
+          </Text>
+          <Text style={styles.detailsText}>
+            {item.selectedForfait === '300km' ? 'Up to 300 km, ideal for short trips. Additional kilometers will be charged at 1kr per km.' : 'Travel without limits.'}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.bookingDetails}>      
+        <View>
+          <Text style={styles.carName}>Insurance</Text>
+          <Text style={styles.infoText}>
+            {item.selectedInsurance === 'basic' ? 'Basic' : 'Premium'}
+          </Text>
+          <Text style={styles.detailsText}>
+            {item.selectedForfait === 'basic' ? 'Covers vehicle damage and liability.' : 'Full coverage with reduced liability.'}
+          </Text>
+        </View>
+      </View>
+
+        {/* Driver information form */}
+        <View style={styles.driverInfo}>
+          <Text style={styles.title}>Driver Information</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Birthdate (YYYY-MM-DD)"
+            value={birthdate}
+            onChangeText={setBirthdate}
+          />
+        </View>
+
+        <View style={styles.priceDetails}>
+          <Text style={styles.totalText}>Total</Text>
+          <Text style={styles.priceText}>
+            {item.price} kr
+          </Text>
+        </View>
+
+
+
+        {/* Pay Now Button */}
+        <TouchableOpacity style={styles.payButton} onPress={() => navigation.navigate('Payment', { item, driver: { lastName, firstName, email, phoneNumber, birthdate } })}>
+          <Text style={styles.payButtonText}>Pay & Book</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -160,6 +173,9 @@ const getStyles = (colors) => StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: colors.backgroundColor,
+  },
+  scrollContainer: {
+    flex: 1,
   },
   detailsContainer: {
     flexDirection: 'row',
@@ -190,7 +206,7 @@ const getStyles = (colors) => StyleSheet.create({
     color: colors.primary,
   },
   infoText: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.text,
     marginBottom: 5,
   },
@@ -224,13 +240,14 @@ const getStyles = (colors) => StyleSheet.create({
   payButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.buttonText,
+    color: colors.cardBackground,
+    marginTop: 'auto'
   },  
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: colors.primary,
+    color: colors.accent,
   },
   carInfoContainer: {
     flexDirection: 'row',
@@ -244,7 +261,7 @@ const getStyles = (colors) => StyleSheet.create({
     marginRight: 20,
   },
   carName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
     color: colors.text,
@@ -254,7 +271,7 @@ const getStyles = (colors) => StyleSheet.create({
     alignItems: 'center',
   },
   toggleButtonText: {
-    fontSize: 16,
+    fontSize: 12,
     color: colors.primary,
     marginRight: 5,
   },
@@ -263,6 +280,28 @@ const getStyles = (colors) => StyleSheet.create({
     backgroundColor: colors.cardBackground,
     borderRadius: 10,
     },
+  totalText: {
+    fontSize: 16,
+    color: colors.text,
+    marginBottom: 5,
+    fontWeight: 'bold',
+  },
+  priceText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginBottom: 5,
+  },
+  priceDetails: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: colors.cardBackground,
+    borderRadius: 10,
+  },
+
 });
 
 const formatDate = (dateString) => {
