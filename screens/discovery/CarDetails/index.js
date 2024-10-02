@@ -16,12 +16,11 @@ export default function CarDetails({ route, navigation }) {
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { colors } = useTheme()
-  const styles = getStyles(colors)
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
 
   const [selectedForfait, setSelectedForfait] = useState('300km'); 
   const [selectedInsurance, setSelectedInsurance] = useState('basic');
-
 
   const handleForfaitSelection = (forfait) => {
     setSelectedForfait(forfait);
@@ -30,7 +29,6 @@ export default function CarDetails({ route, navigation }) {
   const handleInsuranceSelection = (insurance) => {
     setSelectedInsurance(insurance);
   };
-
 
   useEffect(() => {
     const fetchCarData = async () => {
@@ -69,11 +67,25 @@ export default function CarDetails({ route, navigation }) {
     );
   }
 
+  // Create the bookingItem object
+  const bookingItem = {
+    carId: carData.id,
+    carImage: carData.image,
+    brandName: carData.brandName,
+    modelName: carData.modelName,
+    price: carData.price,
+    image: carData.image,
+    transmission: carData.transmission,
+    fuelType: carData.fuelType,
+    seatingCapacity: carData.seatingCapacity,
+    selectedForfait: selectedForfait,
+    selectedInsurance: selectedInsurance,
+    // Add any other relevant booking details
+  };
+
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.carCard}
-      >
+      <ScrollView style={styles.carCard}>
         <Image source={carData.image} style={styles.carImage} />
         <View style={styles.cardContent}>
           
@@ -96,25 +108,12 @@ export default function CarDetails({ route, navigation }) {
           </View>
         </View>
 
-          {/* <View style={styles.tagContainer}>
-            {carData.tags.map((tag, index) => (
-              <View key={index} style={styles.tag}>
-                <Text style={styles.tagText}>{tag}</Text>
-              </View>
-            ))}
-          </View> */}
-          {/* <Text style={styles.footnote}>
-            When renting a vehicle, it’s important to understand your insurance coverage. Our rental cars come with basic insurance included, which protects you against damage to the vehicle and liability for injuries to others.We recommend checking your personal auto insurance policy and credit card benefits, as they may offer additional coverage during your rental period. If you have questions or need assistance, our customer service team is here to help!
-          </Text> */}
         <View style={styles.paymentAdditionInfos}>
           {/* Kilometer Forfait */}
           <Text style={styles.carBrand}>Kilometer Forfait:</Text>
 
           <TouchableOpacity
-            style={[
-              styles.framedBox,
-              selectedForfait === '300km' ? styles.selectedBox : {},
-            ]}
+            style={[styles.framedBox, selectedForfait === '300km' ? styles.selectedBox : {}]}
             onPress={() => handleForfaitSelection('300km')}
           >
             <Text style={styles.titleAdditionInfo}>300 kilometers</Text>
@@ -123,10 +122,7 @@ export default function CarDetails({ route, navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[
-              styles.framedBox,
-              selectedForfait === 'illimited' ? styles.selectedBox : {},
-            ]}
+            style={[styles.framedBox, selectedForfait === 'illimited' ? styles.selectedBox : {}]}
             onPress={() => handleForfaitSelection('illimited')}
           >
             <Text style={styles.titleAdditionInfo}>Illimited kilometers</Text>
@@ -134,41 +130,29 @@ export default function CarDetails({ route, navigation }) {
             <Text style={styles.price}>+ 50 kr</Text>
           </TouchableOpacity>
 
-          
-
           {/* Insurance Option */}
           <Text style={styles.carBrand}>Insurance Option:</Text>
 
           <TouchableOpacity
-            style={[
-              styles.framedBox,
-              selectedInsurance === 'basic' ? styles.selectedBox : {},
-            ]}
+            style={[styles.framedBox, selectedInsurance === 'basic' ? styles.selectedBox : {}]}
             onPress={() => handleInsuranceSelection('basic')}
           >
             <Text style={styles.titleAdditionInfo}>Basic Insurance</Text>
-            <Text style={styles.smallInfo}>
-              Covers vehicle damage and liability.
-            </Text>
+            <Text style={styles.smallInfo}>Covers vehicle damage and liability.</Text>
             <Text style={styles.price}>Included</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[
-              styles.framedBox,
-              selectedInsurance === 'premium' ? styles.selectedBox : {},
-            ]}
+            style={[styles.framedBox, selectedInsurance === 'premium' ? styles.selectedBox : {}]}
             onPress={() => handleInsuranceSelection('premium')}
           >
             <Text style={styles.titleAdditionInfo}>Premium Insurance</Text>
-            <Text style={styles.smallInfo}>
-              Full coverage with reduced liability.
-            </Text>
+            <Text style={styles.smallInfo}>Full coverage with reduced liability.</Text>
             <Text style={styles.price}>+ 100 kr</Text>
           </TouchableOpacity>
         </View>
-        
       </ScrollView>
+
       <View style={styles.bottomContent}>
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Total</Text>
@@ -177,26 +161,30 @@ export default function CarDetails({ route, navigation }) {
             <Text style={styles.carPricePerDay}>{carData.price} kr per day</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.rentButton}>
+        <TouchableOpacity
+          style={styles.rentButton}
+          onPress={() => navigation.navigate('Payment', { item: bookingItem })}
+        >
           <Text style={styles.rentButtonText}>RENT NOW</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
+
 
 function getStyles(colors) {
   return StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: colors.background,
     },
     carCard: {
       flex: 1,
       borderRadius: 10,
       height: "100%",
       width: '100%',
-      backgroundColor: 'white',
+      backgroundColor: colors.background,
       marginBottom: 100,
     },
     tagContainer: {
@@ -225,7 +213,7 @@ function getStyles(colors) {
     cardContent: {
       paddingHorizontal: 20,
       paddingTop: 10,
-      backgroundColor: '#f0f0f0',
+      backgroundColor: colors.cardBackground,
     },
     carName: {
       fontSize: 28,
