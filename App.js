@@ -84,7 +84,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Details'
+            title: 'Details',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="CarDetails"
           component={CarDetails}
@@ -94,6 +98,10 @@ function AppContent() {
             headerShown: true,
             title: 'Filters',
             headerShadowVisible: false,
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
 
             headerRight: () => (
               <TouchableOpacity
@@ -107,7 +115,7 @@ function AppContent() {
               >
                 <Text
                   style={{
-                    color: '#000',
+                    color: colors.tertiaryText,
                     fontWeight: 'bold',
                   }}
                 >Reset</Text>
@@ -116,11 +124,17 @@ function AppContent() {
           })}
           name="Filters"
           component={FilterScreen}
+          
+
         />
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Payment'
+            title: 'Payment',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="Payment"
           component={PaymentScreen}
@@ -129,7 +143,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Booking Details'
+            title: 'Booking Details',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="BookingDetails"
           component={BookingDetailsScreen}
@@ -147,7 +165,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Past Bookings'
+            title: 'Past Bookings',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="PastBookings"
           component={PastBookingsScreen}

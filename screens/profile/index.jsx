@@ -1,10 +1,11 @@
 import { View, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { HomeIcon, PhoneIcon, EnvelopeIcon, SwatchIcon } from 'react-native-heroicons/outline';
+import { HomeIcon, PhoneIcon, EnvelopeIcon, SwatchIcon, MoonIcon, SunIcon } from 'react-native-heroicons/outline';
 import { StarIcon } from 'react-native-heroicons/solid';
 import ThemeSelector from './themeSelector.jsx';
 
+import SelectorWithModal from '../discovery/Filters/SelectorWithModal';
 
 const image = require ('../../assets/DonaldDuckProfilePic.png') 
 
@@ -14,6 +15,27 @@ export default function ProfileScreen() {
   
   const styles = getStyles(colors)
 
+
+  const themeOptions = [
+    { label: 'Light Theme', value: 'light' },
+    { label: 'Dark Theme', value: 'dark' },
+    { label: 'Colorful Theme', value: 'colorful' },
+  ];
+
+  let themeIcon
+  switch (theme) {
+    case 'light': 
+      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
+      break;
+    case 'dark':
+      themeIcon = <SunIcon size={35} color="gray" style={styles.inputIcon} />
+      break;
+    default: 
+      themeIcon = <MoonIcon size={35} color="gray" style={styles.inputIcon} />
+      break;
+
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style = {styles.profileAndThemeContainer}>
@@ -22,6 +44,22 @@ export default function ProfileScreen() {
       {/* Theme selector, placed on the top right */}
       <ThemeSelector /> 
 
+
+      {/* <TouchableOpacity style={styles.themeButton} onPress = {() => {
+        if (theme == 'light') {
+          switchTheme('dark')
+        } else {
+        switchTheme('light')
+      }
+      }}>
+          {themeIcon}
+        </TouchableOpacity> */}
+      {/* <SelectorWithModal
+          label=''
+          selectedSortOption={theme}
+          sortOptions={themeOptions}
+          setSortOption={switchTheme}
+      /> */}
       </View>
         <View style = {styles.profileContainer}>
           <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>

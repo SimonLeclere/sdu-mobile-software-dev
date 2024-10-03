@@ -4,8 +4,8 @@ import { useTheme } from '../../../contexts/themeContext';
 
 export default function VehicleTypeGrid({ vehicleTypes, selectedVehicleTypes, toggleVehicleType, isSelected }) {
 
-    const { isColorful } = useTheme();
-    const styles = getStyles(isColorful);
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
 
     return (
         <View style={styles.grid}>
@@ -38,7 +38,7 @@ export default function VehicleTypeGrid({ vehicleTypes, selectedVehicleTypes, to
     );
 }
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
     return StyleSheet.create({
       grid: {
         flexDirection: 'row',
@@ -47,7 +47,7 @@ const getStyles = (isColorful) => {
         marginTop: 10,
       },
       gridItem: {
-        backgroundColor: '#f0f0f0',
+        backgroundColor: colors.cardBackground,
         borderRadius: 10,
         paddingVertical: 15,
         paddingHorizontal: 8,
@@ -58,7 +58,7 @@ const getStyles = (isColorful) => {
         borderWidth: 2,
       },
       gridItemSelected: {
-        borderColor: isColorful ? '#669bbc' : '#007bff',
+        borderColor: colors.primary,
         borderWidth: 2,
       },
       iconContainer: {
@@ -69,7 +69,7 @@ const getStyles = (isColorful) => {
       },
       gridItemText: {
         fontSize: 14,
-        color: '#333',
+        color: colors.text,
         textAlign: 'center',
         overflow: 'hidden',
         flexShrink: 1,
