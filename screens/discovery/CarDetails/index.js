@@ -338,4 +338,5 @@ function getStyles(colors) {
       marginTop: 5,
     },
   });
+
 }

@@ -156,7 +156,7 @@ const getStyles = (colors) => {
     return StyleSheet.create({
       container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.background,
       },
       scrollContainer: {
         flex: 1,
@@ -176,11 +176,11 @@ const getStyles = (colors) => {
       },
       categoryLabel: {
         fontSize: 16,
-        color: '#333',
+        color: colors.tertiarytext,
         marginTop: 10,
       },
       button: {
-        backgroundColor: '#007bff',
+        backgroundColor: colors.primary,
         paddingVertical: 15,
         justifyContent: 'center',
         alignItems: 'center',
@@ -188,7 +188,7 @@ const getStyles = (colors) => {
         margin: 15,
       },
       buttonText: {
-        color: '#fff',
+        color: colors.text,
         fontSize: 18,
         fontWeight: 'bold',
       },

@@ -5,8 +5,8 @@ import { useTheme } from '../../../contexts/themeContext';
 export default function SelectorWithModal({ label, selectedSortOption, sortOptions, setSortOption }) {
     const [modalVisible, setModalVisible] = useState(false);
 
-    const { isColorful } = useTheme();
-    const styles = getStyles(isColorful);
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
 
     const handleSortOptionSelect = (option) => {
         setSortOption(option.value);
@@ -58,7 +58,7 @@ export default function SelectorWithModal({ label, selectedSortOption, sortOptio
     );
 }
 
-const getStyles = (isColorful) => {
+const getStyles = (colors) => {
     return StyleSheet.create({
       sortSelector: {
         flexDirection: 'row',
@@ -71,7 +71,7 @@ const getStyles = (isColorful) => {
         fontSize: 16,
       },
       selectedLabel: {
-        color: isColorful ? '#21B0FE' : '#007bff',
+        color: colors.primary,
         fontSize: 16,
       },
       modalContainer: {
@@ -81,7 +81,7 @@ const getStyles = (isColorful) => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
       modalContent: {
-        backgroundColor: '#fff',
+        backgroundColor: colors.background,
         borderRadius: 10,
         paddingHorizontal: 20,
         width: '80%',
@@ -92,7 +92,7 @@ const getStyles = (isColorful) => {
       },
       modalOptionText: {
         fontSize: 16,
-        color: '#333',
+        color: colors.secondaryText,
       },
       modalCloseButton: {
         paddingVertical: 10,
@@ -100,7 +100,7 @@ const getStyles = (isColorful) => {
       },
       modalCloseButtonText: {
         fontSize: 16,
-        color: isColorful ? '#21B0FE' : '#007bff',
+        color: colors.primary,
       },
     });
   };
