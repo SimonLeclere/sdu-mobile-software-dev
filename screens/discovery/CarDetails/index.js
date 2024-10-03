@@ -85,9 +85,9 @@ function getStyles ( colors ) {
   return StyleSheet.create({
   carCard: {
     flex: 1,
-    borderRadius: 10,
+    // borderRadius: 10,
     height: "100%",
-    marginTop: 5,
+    // marginTop: 5,
     width: '100%',
     backgroundColor: colors.background
     
@@ -95,7 +95,7 @@ function getStyles ( colors ) {
   tagContainer: {
     flexDirection: "row",
     marginTop: 10
-  },
+  },  
   tagText: {
     backgroundColor: colors.cardBackground,
     color: colors.secondaryText,
