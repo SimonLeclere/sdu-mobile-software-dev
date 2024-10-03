@@ -79,7 +79,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
         <Pressable style={styles.backdrop} onPress={closeModal}>
           <Pressable style={styles.modalView} onStartShouldSetResponder={() => true}>
             <TouchableOpacity onPress={closeModal} style={styles.backButton}>
-              <ArrowLeftIcon size={25} color="black" />
+              <ArrowLeftIcon size={25} color={colors.text} />
             </TouchableOpacity>
 
             <View style={styles.inputContainer}>
@@ -87,6 +87,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
               <TextInput
                 style={styles.input}
                 placeholder="Enter location"
+                placeholderTextColor={colors.secondaryText}
                 value={query}
                 onChangeText={(text) => {
                   setQuery(text);
@@ -208,7 +209,7 @@ const getStyles = (colors) => {
     input: {
       flex: 1,
       height: 40,
-      color: 'green'
+      color: colors.text
     },
     loadingContainer: {
       marginVertical: 10,

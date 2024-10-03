@@ -118,18 +118,21 @@ const PaymentScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Last Name"
+            placeholderTextColor={colors.secondaryText}
             value={lastName}
             onChangeText={setLastName}
           />
           <TextInput
             style={styles.input}
             placeholder="First Name"
+            placeholderTextColor={colors.secondaryText}
             value={firstName}
             onChangeText={setFirstName}
           />
           <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholderTextColor={colors.secondaryText}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -137,6 +140,7 @@ const PaymentScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Phone Number"
+            placeholderTextColor={colors.secondaryText}
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -144,6 +148,7 @@ const PaymentScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Birthdate (YYYY-MM-DD)"
+            placeholderTextColor={colors.secondaryText}
             value={birthdate}
             onChangeText={setBirthdate}
           />
@@ -172,7 +177,7 @@ const getStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     flex: 1,
@@ -240,7 +245,7 @@ const getStyles = (colors) => StyleSheet.create({
   payButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.cardBackground,
+    color: 'white',
     marginTop: 'auto'
   },  
   title: {

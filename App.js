@@ -115,7 +115,7 @@ function AppContent() {
               >
                 <Text
                   style={{
-                    color: '#000',
+                    color: colors.tertiaryText,
                     fontWeight: 'bold',
                   }}
                 >Reset</Text>
@@ -130,7 +130,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Payment'
+            title: 'Payment',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="Payment"
           component={PaymentScreen}

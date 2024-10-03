@@ -67,7 +67,7 @@ const getStyles = (colors) => {
         paddingVertical: 15,
       },
       label: {
-        color: '#999',
+        color: colors.text,
         fontSize: 16,
       },
       selectedLabel: {

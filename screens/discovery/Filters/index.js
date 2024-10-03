@@ -176,7 +176,7 @@ const getStyles = (colors) => {
       },
       categoryLabel: {
         fontSize: 16,
-        color: colors.tertiarytext,
+        color: colors.tertiaryText,
         marginTop: 10,
       },
       button: {

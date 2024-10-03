@@ -69,7 +69,7 @@ const getStyles = (colors) => {
       },
       gridItemText: {
         fontSize: 14,
-        color: colors.tertiaryText,
+        color: colors.text,
         textAlign: 'center',
         overflow: 'hidden',
         flexShrink: 1,
