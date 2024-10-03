@@ -126,6 +126,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
               <DateInput label="To" value={dateRange[1]} onChange={(date) => setDateRange((previous) => [previous[0], date])} />
             </View>
 
+            <Pressable
               style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (colors.cardBackground) : 'gray' }]}
               onPress={isDateRangeValid ? closeModal : undefined}
               disabled={!isDateRangeValid}

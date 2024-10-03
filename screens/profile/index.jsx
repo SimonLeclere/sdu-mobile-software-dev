@@ -1,7 +1,7 @@
 import { View, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { HomeIcon, PhoneIcon, EnvelopeIcon, SwatchIcon } from 'react-native-heroicons/outline';
+import { HomeIcon, PhoneIcon, EnvelopeIcon, SwatchIcon, MoonIcon, SunIcon } from 'react-native-heroicons/outline';
 import { StarIcon } from 'react-native-heroicons/solid';
 import ThemeSelector from './themeSelector.jsx';
 
@@ -54,12 +54,12 @@ export default function ProfileScreen() {
       }}>
           {themeIcon}
         </TouchableOpacity> */}
-      <SelectorWithModal
+      {/* <SelectorWithModal
           label=''
           selectedSortOption={theme}
           sortOptions={themeOptions}
           setSortOption={switchTheme}
-      />
+      /> */}
       </View>
         <View style = {styles.profileContainer}>
           <Image source={image} style={styles.profilepic} width = {30} height = {30}></Image>
