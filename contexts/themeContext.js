@@ -22,7 +22,8 @@ const themeList = {
     timeLocationText: '#888',
     tabBar: "white",
     tabBarBorder: '#eee',
-    statusBarStyle: 'dark'
+    statusBarStyle: 'dark', 
+    selectedBox: '#e0f7ff',
   },
   dark: {
     primary:  '#21B0FE',
@@ -43,7 +44,9 @@ const themeList = {
 
     tabBar: '#1f1f1f',
     tabBarBorder: '#333',
-    statusBarStyle: 'light'
+    statusBarStyle: 'light', 
+
+    selectedBox: '#32679b',
   },
 }
 

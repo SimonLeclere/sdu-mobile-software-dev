@@ -316,23 +316,25 @@ function getStyles(colors) {
       padding: 10,
       borderRadius: 8,
       marginVertical: 10,
-      backgroundColor: '#f0f0f0',
+      backgroundColor: colors.cardBackground,
     },
     selectedBox: {
       borderWidth: 2,
       borderColor: colors.primary,
-      backgroundColor: '#e0f7ff', 
+      backgroundColor: colors.selectedBox 
     },
     titleAdditionInfo: {
+      color: colors.text,
       fontSize: 14,
       fontWeight: 'bold',
     },
     smallInfo: {
       fontSize: 12,
-      color: '#555',
+      color: colors.secondaryText,
       marginTop: 5,
     },
     price: {
+      color: colors.text,
       fontSize: 14,
       fontWeight: 'bold',
       marginTop: 5,
