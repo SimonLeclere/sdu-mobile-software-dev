@@ -60,7 +60,7 @@ const getStyles = (colors) => {
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.background,
     },
     carImage: {
       width: '80%',

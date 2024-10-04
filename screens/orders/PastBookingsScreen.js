@@ -74,7 +74,7 @@ const getStyles = (colors) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.background,
       paddingHorizontal: 15,
       paddingTop: 10,
     },
