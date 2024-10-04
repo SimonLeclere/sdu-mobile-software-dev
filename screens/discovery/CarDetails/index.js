@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native';
-import { UserIcon, BoltIcon } from 'react-native-heroicons/outline'; 
+import { UserIcon, BoltIcon, ArrowRightIcon } from 'react-native-heroicons/outline';
+
 import { useTheme } from '../../../contexts/themeContext';
 import dayjs from 'dayjs';
 
@@ -173,7 +174,6 @@ export default function CarDetails({ route, navigation }) {
 
       <View style={styles.bottomContent}>
         <View style={styles.totalContainer}>
-          <Text style={styles.totalText}>Total</Text>
           <View style={styles.priceContainer}>
             <Text style={styles.carPrice}>{tripDays*carData.price+insurancePrice+kmPrice} kr</Text>
             <Text style={styles.carPricePerDay}>{carData.price} kr per day</Text>
@@ -184,6 +184,7 @@ export default function CarDetails({ route, navigation }) {
           onPress={() => navigation.navigate('Payment', { item: bookingItem })}
         >
           <Text style={styles.rentButtonText}>RENT NOW</Text>
+          <ArrowRightIcon size={20} color={"white"} />
         </TouchableOpacity>
       </View>
     </View>
@@ -203,7 +204,7 @@ function getStyles(colors) {
       height: "100%",
       width: '100%',
       backgroundColor: colors.background,
-      marginBottom: 100,
+      marginBottom: 80,
     },
     tagContainer: {
       flexDirection: "row",
@@ -259,23 +260,19 @@ function getStyles(colors) {
       position: "absolute",
       backgroundColor: colors.cardBackground,
       width: "100%",
-      height: 100,
+      height: 80,
       flexDirection: "row",
       justifyContent: "space-between", // Space between total section and rent button
       alignItems: "center",
       paddingHorizontal: 20, // Add horizontal padding for better spacing
       bottom: 0,
       elevation: 5,
+      borderTopWidth: 1,
+      borderColor: colors.tabBarBorder,
     },
     totalContainer: {
       flexDirection: 'row', // Arrange Total and Price horizontally
       alignItems: 'center', // Center vertically
-    },
-    totalText: {
-      fontSize: 20,
-      color: colors.secondaryText,
-      fontWeight: 'bold',
-      marginRight: 30, 
     },
     priceContainer: {
       alignItems: 'flex-start', // Align the price and price per day to the left
@@ -283,6 +280,8 @@ function getStyles(colors) {
     rentButton: {
       borderRadius: 10,
       padding: 14,
+      flexDirection: 'row',
+      gap: 5,
       backgroundColor: colors.primary,
     },
     rentButtonText: {
