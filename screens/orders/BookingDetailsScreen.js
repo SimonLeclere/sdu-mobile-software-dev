@@ -1,53 +1,71 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Linking } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { formatDate } from './BookedCarCard';
+import { useReservations } from '../../contexts/reservationContext';
 
 const BookingDetailsScreen = ({ route }) => {
-  const { item } = route.params; 
+  const { itemId } = route.params; // Get the reservation ID from navigation params
+  const { reservations } = useReservations(); // Access reservation data from context
   const { colors } = useTheme(); 
   const styles = getStyles(colors);
 
-  
+  const reservation = reservations.find(res => res.id === itemId);
+
+  if (!reservation) {
+    return <Text>No reservation found.</Text>;
+  }
+
+  const { car, driver } = reservation; // Destructure reservation data
+
+
+  const openMap = () => {
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(car.exactAddress)}`;
+    Linking.openURL(mapUrl);
+  };
 
   return (
     <View style={styles.container}>
-      {/* Display the image of the car */}
-      <Image source={item.image} style={styles.carImage} />
+      {/* Car Image */}
+      <Image source={car.image} style={styles.carImage} />
 
-      {/* Display car details */}
-      <Text style={styles.carName}>{item.modelName}</Text>
-      <Text style={styles.carBrand}>{item.brandName}</Text>
+      {/* Car Info */}
+      <Text style={styles.carName}>{car.modelName}</Text>
+      <Text style={styles.carBrand}>{car.brandName}</Text>
       
-      {/* Display booking dates */}
+      {/* Booking Dates */}
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.label}>Booking Dates:</Text>
-          <Text style={styles.infoText}>From: {formatDate(item.fromDate)} at {item.pickUpTime}</Text>
-          <Text style={styles.infoText}>To: {formatDate(item.toDate)} at {item.dropOffTime}</Text>
+          <Text style={styles.infoText}>From: {formatDate(car.fromDate)} at {car.pickUpTime}</Text>
+          <Text style={styles.infoText}>To: {formatDate(car.toDate)} at {car.dropOffTime}</Text>
         </View>
       </View>
-      
-      {/* Display pick up location */}
+
+      {/* Pickup and Dropoff Location */}
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.label}>Where?</Text>
-          <Text style={styles.infoText}>{item.exactAddress}</Text>
+          <Text style={styles.infoText}>{car.exactAddress}</Text>
+          <Text style={styles.linkText} onPress={openMap}>Open in Maps</Text>
         </View>
       </View>
-      
 
-     
-      
-      
-      {/* Add the complete address with a link to open a map */}
-      {/* Add more details here like the payment infos */}
-
+      {/* Driver Information */}
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.label}>Driver Information:</Text>
+          <Text style={styles.infoText}>Name: {driver.firstName} {driver.lastName}</Text>
+          <Text style={styles.infoText}>Email: {driver.email}</Text>
+          <Text style={styles.infoText}>Phone: {driver.phoneNumber}</Text>
+          <Text style={styles.infoText}>Birthdate: {driver.birthdate}</Text>
+        </View>
+      </View>    
     </View>
   );
 };
 
-const getStyles = (colors) =>{
+const getStyles = (colors) => {
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -90,9 +108,14 @@ const getStyles = (colors) =>{
       marginBottom: 20,
       flexDirection: 'row',
       gap: 10,
-      backgroundColor: colors.cardBackground
+      backgroundColor: colors.cardBackground,
+    },
+    linkText: {
+      color: colors.primary,
+      textDecorationLine: 'underline',
+      marginTop: 5,
     },
   });
-}; 
+};
 
 export default BookingDetailsScreen;
