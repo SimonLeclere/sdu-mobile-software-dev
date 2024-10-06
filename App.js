@@ -157,7 +157,7 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'PastBooking Details'
+            title: 'Details'
           }}
           name="PastBookingDetails"
           component={PastBookingDetailsScreen}
