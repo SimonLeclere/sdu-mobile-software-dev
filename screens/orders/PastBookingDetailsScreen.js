@@ -9,9 +9,6 @@ const PastBookingDetailsScreen = ({ route }) => {
   const { colors } = useTheme(); 
   const styles = getStyles(colors);
 
-  // Debugging: Log the item to check its content
-  console.log(item);
-
   // Check if item is defined
   if (!item) {
     return <Text>No booking details available.</Text>;

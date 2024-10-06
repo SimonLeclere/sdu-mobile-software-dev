@@ -20,8 +20,6 @@ const themeSelector = () => {
       label: name,
       icon: <Icon size={30} color="gray" />,
       action: () => {
-        console.log("Switching theme to", name);
-        
         switchTheme(name)
       },
     };
