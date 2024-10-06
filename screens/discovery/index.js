@@ -11,16 +11,19 @@ import dayjs from 'dayjs';
 
 import { getCars } from '../../api/cars';
 import { getShops } from '../../api/shops';
+import FirstOpenView from './firstOpenView';
 
 const MAP_INITIAL_REGION = {
   latitude: 55.39594,
   longitude: 10.38831,
-  latitudeDelta: 0.1,
-  longitudeDelta: 0.1,
+  latitudeDelta: 10,
+  longitudeDelta: 10,
 };
 
 const DiscoveryScreen = () => {
   
+  const [firstOpen, setFirstOpen] = useState(true);
+
   const [locationQuery, setLocationQuery] = useState('');
   const [dateRange, setDateRange] = useState([dayjs(), dayjs().add(1, 'day')]);
   
@@ -30,6 +33,7 @@ const DiscoveryScreen = () => {
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [shopsInView, setShopsInView] = useState([]);
+
 
   const { colors } = useTheme();
   const styles = getStyles(colors);
@@ -124,6 +128,32 @@ const DiscoveryScreen = () => {
 
   return (
     <View style={styles.container}>
+
+
+      {
+        firstOpen && (
+          <FirstOpenView
+            setFirstOpen={setFirstOpen}
+
+            locationQuery={locationQuery}
+            setLocationQuery={setLocationQuery}
+
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+
+            animateToRegion={({ latitude, longitude, latitudeDelta, longitudeDelta }) => {
+              mapRef.current.animateToRegion({
+                latitude,
+                longitude,
+                latitudeDelta,
+                longitudeDelta,
+              })
+            }}
+          />
+        )
+      }
+
+
       <View style={styles.header}>
         <SearchBar
           locationQuery={locationQuery}
@@ -198,10 +228,8 @@ const DiscoveryScreen = () => {
         handleIndicatorStyle={{ backgroundColor: 'lightgray' }}
         backgroundStyle={styles.bottomSheet}
       >
-        {/* <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text> */}
-        <Text style={styles.carsAvailableText}>Lieu: {locationQuery === '' ? 'Anywhere' : locationQuery}</Text>
-        <Text style={styles.shopsInViewText}>Dates: {dateRange[0]?.format('DD MMM')} - {dateRange[1]?.format('DD MMM')}</Text>
-
+        <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text>
+        
         <BottomSheetFlatList
           data={filterCars}
           style={styles.bottomSheetFlatList}

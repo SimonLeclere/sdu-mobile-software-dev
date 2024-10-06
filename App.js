@@ -26,6 +26,14 @@ import { ThemeProvider, useTheme } from './contexts/themeContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ReservationProvider } from './contexts/reservationContext';
 
+
+import { useFonts } from 'expo-font'; 
+import * as SplashScreen from 'expo-splash-screen'; 
+import {useEffect} from 'react';
+
+
+SplashScreen.preventAutoHideAsync();
+
 const tabIcons = {
   Discovery: GlobeAltIcon,
   Profile: UserIcon,
@@ -50,6 +58,7 @@ function HomeTabs() {
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: colors.tabBar,
           borderColor: colors.tabBarBorder,
@@ -184,6 +193,21 @@ function AppContent() {
 
 
 export default function App() {
+
+  const [loaded, error] = useFonts({
+    'quebecks': require('./assets/Quebecks-rgX4L.ttf'),
+  });
+ 
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+ 
+  if (!loaded && !error) {
+    return null;
+  }
+
   // The FilterProvider is a context provider that will allow us to share the selected filters between the filter screen and the discovery screen
   return (
     <GestureHandlerRootView>

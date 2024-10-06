@@ -39,8 +39,6 @@ const DateInput = ({ label, value, onChange }) => {
 };
 
 const getStyles = (colors) => {
-console.log(colors);
-
 
     return StyleSheet.create({
     dateInputContainer: {
