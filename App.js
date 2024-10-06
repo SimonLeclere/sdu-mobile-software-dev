@@ -24,6 +24,7 @@ import { FilterProvider, useFilters } from './contexts/filterContext';
 import { ThemeProvider, useTheme } from './contexts/themeContext';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ReservationProvider } from './contexts/reservationContext';
 
 const tabIcons = {
   Discovery: GlobeAltIcon,
@@ -188,7 +189,9 @@ export default function App() {
     <GestureHandlerRootView>
       <ThemeProvider >
         <FilterProvider>
-          <AppContent />
+          <ReservationProvider>
+            <AppContent />
+          </ReservationProvider>
         </FilterProvider>
       </ThemeProvider >
     </GestureHandlerRootView>
