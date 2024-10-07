@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { ArrowRightIcon } from "react-native-heroicons/outline";
+import { ArrowRightIcon, MapPinIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/themeContext";
 
@@ -17,7 +17,10 @@ const CarCard = ({ item, location, dateRange }) => {
     >
       {
         item.city ?
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+          <MapPinIcon size={18} color={colors.secondaryText} />
           <Text style={styles.carCity}>{item.city}</Text>
+        </View>
           : null
       }
       <Image source={item.image} style={styles.carImage} />
@@ -53,7 +56,7 @@ const getStyles = (colors) => {
     carCity: {
       fontSize: 14,
       color: colors.secondaryText,
-      alignSelf: 'center',
+      alignSelf: 'left',
     },
     cardContent: {
       paddingHorizontal: 10,
@@ -62,7 +65,7 @@ const getStyles = (colors) => {
     carName: {
       fontSize: 14,
       fontWeight: "bold",
-      color: colors.primary, // Changement de couleur selon isColorful
+      color: colors.primary,
     },
     carBrand: {
       fontSize: 14,
@@ -78,7 +81,7 @@ const getStyles = (colors) => {
       alignItems: "center",
       marginTop: 10,
     },
-    arrowColor: colors.accent, // Changement de couleur selon isColorful
+    arrowColor: colors.accent,
   });
 };
 

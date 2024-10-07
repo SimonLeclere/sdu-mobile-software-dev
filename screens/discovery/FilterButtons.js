@@ -22,10 +22,13 @@ const FilterButtons = () => {
     <View style={styles.filterButtons}>
 
       <TouchableOpacity
-        style={atLeastOneFilterSet ? [styles.filterButton, { backgroundColor: colors.primary, borderColor: colors.primary }] :  styles.filterButton}
+        style={[
+          styles.filterButton,
+          atLeastOneFilterSet ? styles.filterButtonSelected : null,
+        ]}
         onPress={() => navigation.navigate("Filters")}
       >
-        <AdjustmentsHorizontalIcon size={24} color={"#333"} />
+        <AdjustmentsHorizontalIcon size={24} color={atLeastOneFilterSet ? colors.text : colors.secondaryText} />
       </TouchableOpacity>
 
       <View style={{ flex: 1 }}>

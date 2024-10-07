@@ -75,15 +75,25 @@ export default function FirstOpenView({
                 <View style={styles.dateInputContainer}>
                     <DateTimePicker
                         mode="range"
+                        
+                        calendarTextStyle={styles.calendarTextStyle}
+                        headerTextStyle={styles.headerTextStyle}
+                        headerButtonColor={colors.text}
+                        weekDaysTextStyle={styles.calendarTextStyle}
+                        selectedItemColor={colors.accent}
+                        
                         startDate={dateRange[0]}
                         endDate={dateRange[1]}
+                        
                         onChange={(params) => {
                             setDateRange([params.startDate, params.endDate]);
                         }}
                     />
                 </View>
                 <TouchableOpacity style={styles.button} onPress={handleContinuePress}>
-                    <Text>Continue</Text>
+                    <Text
+                        style={styles.buttonText}
+                    >Continue</Text>
                 </TouchableOpacity>
             </View>
 
@@ -132,7 +142,9 @@ export default function FirstOpenView({
 
                 <View>
                     <TouchableOpacity style={styles.button} onPress={handleConfirmPress}>
-                        <Text>Confirm</Text>
+                        <Text
+                            style={styles.buttonText}
+                        >Confirm</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.backButton}
@@ -179,12 +191,21 @@ const getStyles = (colors) => StyleSheet.create({
         borderRadius: 20,
         padding: 20,
     },
+    calendarTextStyle: {
+        color: colors.text,
+    },
+    headerTextStyle: {
+        color: colors.text,
+    },
     button: {
         marginTop: 40,
         backgroundColor: colors.cardBackground,
         padding: 20,
         borderRadius: 20,
         alignItems: 'center',
+    },
+    buttonText: {
+        color: colors.text,
     },
     backButton: {
         marginTop: 10,

@@ -23,7 +23,7 @@ const useLocationAutoComplete = (query) => {
             tag: "place:city",
             countrycodes: 'dk', // Limit results to Denmark
           },
-        });        
+        });
         
         setSuggestions(response.data);
       } catch (err) {
