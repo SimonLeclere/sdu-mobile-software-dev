@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { ChevronDownIcon, ChevronUpIcon, BuildingStorefrontIcon } from 'react-native-heroicons/outline';
 import { useTheme } from '../../../../contexts/themeContext';
+import { useReservations } from '../../../../contexts/reservationContext';
+
+
 
 const PaymentScreen = ({ route, navigation }) => {
   const { item } = route.params; // Get the booking item details
@@ -12,6 +15,9 @@ const PaymentScreen = ({ route, navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [birthdate, setBirthdate] = useState('');
 
+  const [reservations, setReservations] = useState([]); 
+  const { addReservation } = useReservations(); // Use the context to add a new reservation
+
   const styles = getStyles(colors);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -19,6 +25,18 @@ const PaymentScreen = ({ route, navigation }) => {
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const handlePay = () => {
+    const newReservation = {
+      car: item,
+      driver: { lastName, firstName, email, phoneNumber, birthdate }
+    };
+
+    addReservation(newReservation); // Add the new reservation to the list
+  };
+
+  
+
 
   
 
@@ -118,18 +136,21 @@ const PaymentScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Last Name"
+            placeholderTextColor={colors.secondaryText}
             value={lastName}
             onChangeText={setLastName}
           />
           <TextInput
             style={styles.input}
             placeholder="First Name"
+            placeholderTextColor={colors.secondaryText}
             value={firstName}
             onChangeText={setFirstName}
           />
           <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholderTextColor={colors.secondaryText}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -137,6 +158,7 @@ const PaymentScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Phone Number"
+            placeholderTextColor={colors.secondaryText}
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             keyboardType="phone-pad"
@@ -144,6 +166,7 @@ const PaymentScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Birthdate (YYYY-MM-DD)"
+            placeholderTextColor={colors.secondaryText}
             value={birthdate}
             onChangeText={setBirthdate}
           />
@@ -159,8 +182,8 @@ const PaymentScreen = ({ route, navigation }) => {
 
 
         {/* Pay Now Button */}
-        <TouchableOpacity style={styles.payButton} onPress={() => navigation.navigate('Payment', { item, driver: { lastName, firstName, email, phoneNumber, birthdate } })}>
-          <Text style={styles.payButtonText}>Pay & Book</Text>
+        <TouchableOpacity style={styles.payButton} onPress={handlePay}>
+          <Text style={styles.payButtonText}>PAY</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -172,7 +195,7 @@ const getStyles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     flex: 1,
@@ -240,7 +263,7 @@ const getStyles = (colors) => StyleSheet.create({
   payButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.cardBackground,
+    color: 'white',
     marginTop: 'auto'
   },  
   title: {

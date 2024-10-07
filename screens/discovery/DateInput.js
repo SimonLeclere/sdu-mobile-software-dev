@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Pressable } from 'react-native';
 import { CalendarIcon } from 'react-native-heroicons/outline';
 import DateTimePicker from 'react-native-ui-datepicker';
+import { useTheme } from '../../contexts/themeContext';
 
 const DateInput = ({ label, value, onChange }) => {
     const [open, setOpen] = useState(false);
+    const { colors } = useTheme();
+    const styles = getStyles(colors);
 
     return (
         <View style={styles.dateInputContainer}>
@@ -35,7 +38,9 @@ const DateInput = ({ label, value, onChange }) => {
     );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (colors) => {
+
+    return StyleSheet.create({
     dateInputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -56,7 +61,8 @@ const styles = StyleSheet.create({
     dateText: {
         flex: 1,
         height: 40,
-        lineHeight: 40, // Aligner le texte verticalement
+        lineHeight: 40, // Aligner le texte verticalement,
+        color: colors.secondaryText
     },
     modalOverlay: {
         flex: 1,
@@ -71,6 +77,8 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
     },
+
 });
+}
 
 export default DateInput;

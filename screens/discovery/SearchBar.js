@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform, StatusBar, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 import { MagnifyingGlassIcon, ArrowLeftIcon, MapPinIcon } from 'react-native-heroicons/outline';
 import { useTheme } from '../../contexts/themeContext';
 import DateInput from './DateInput';
-import dayjs from 'dayjs';
+
 import useLocationAutoComplete from '../../hooks/useLocationAutoComplete';
 
 const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, animateToRegion }) => {
@@ -15,14 +15,23 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
   const [selectedSuggestion, setSelectedSuggestion] = useState(null);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const locationInputRef = useRef(null);
 
   const { suggestions, loading, error } = useLocationAutoComplete(query);
 
-  const openModal = () => setModalVisible(true);
+  const openModal = () => {
+    setModalVisible(true);
+  };
   const closeModal = () => setModalVisible(false);
 
+  useEffect(() => {
+    if (modalVisible && locationInputRef.current) {
+      locationInputRef.current.focus(); // Focus the TextInput when modal opens
+    }
+  }, [modalVisible]);
+
   const isDateRangeValid = dateRange[0].isBefore(dateRange[1]);
-  const daysBetween = dateRange[1].diff(dateRange[0], 'day');
+  const daysBetween = dateRange[1] ? dateRange[1].diff(dateRange[0], 'day') : dateRange[0].diff(dateRange[0], 'day');
 
   const handleSuggestionPress = (suggestion) => {
     setLocationQuery(suggestion.display_place || suggestion.display_name);
@@ -64,7 +73,7 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
         <View>
           <Text style={styles.searchTextLocation}>{locationQuery || 'Anywhere'}</Text>
           <Text style={styles.searchTextDates}>
-            {dateRange[0].format('DD MMM')} - {dateRange[1].format('DD MMM')} ({daysBetween > 1 ? `${daysBetween} days` : `${daysBetween} day`})
+            {dateRange[0].format('DD MMM')} - {dateRange[1]?.format('DD MMM') || ''} ({daysBetween > 1 ? `${daysBetween} days` : `${daysBetween} day`})
           </Text>
         </View>
       </TouchableOpacity>
@@ -79,14 +88,16 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
         <Pressable style={styles.backdrop} onPress={closeModal}>
           <Pressable style={styles.modalView} onStartShouldSetResponder={() => true}>
             <TouchableOpacity onPress={closeModal} style={styles.backButton}>
-              <ArrowLeftIcon size={25} color="black" />
+              <ArrowLeftIcon size={25} color={colors.text} />
             </TouchableOpacity>
 
             <View style={styles.inputContainer}>
               <MapPinIcon size={25} color={colors.accent} style={styles.inputIcon} />
               <TextInput
+                ref={locationInputRef}
                 style={styles.input}
                 placeholder="Enter location"
+                placeholderTextColor={colors.secondaryText}
                 value={query}
                 onChangeText={(text) => {
                   setQuery(text);
@@ -127,9 +138,9 @@ const SearchBar = ({ locationQuery, setLocationQuery, dateRange, setDateRange, a
             </View>
 
             <Pressable
-              style={[styles.searchButton, { backgroundColor: isDateRangeValid && selectedSuggestion !== null ? colors.primary : 'gray' }]}
-              onPress={handleConfirmPress}
-              disabled={!isDateRangeValid || selectedSuggestion === null}
+              style={[styles.searchButton, { backgroundColor: isDateRangeValid ? (colors.cardBackground) : 'gray' }]}
+              onPress={isDateRangeValid ? handleConfirmPress : undefined}
+              disabled={!isDateRangeValid}
             >
               <Text style={styles.searchButtonText}>Search</Text>
             </Pressable>
@@ -174,7 +185,7 @@ const getStyles = (colors) => {
     },
     modalView: {
       marginTop: 10,
-      backgroundColor: 'white',
+      backgroundColor: colors.cardBackground,
       borderRadius: 10,
       padding: 20,
       width: '95%',
@@ -208,6 +219,7 @@ const getStyles = (colors) => {
     input: {
       flex: 1,
       height: 40,
+      color: colors.text
     },
     loadingContainer: {
       marginVertical: 10,
@@ -251,6 +263,7 @@ const getStyles = (colors) => {
       justifyContent: 'space-between',
       marginBottom: 15,
       gap: 10,
+      color: colors.text
     },
     searchButton: {
       width: '100%',
@@ -262,6 +275,7 @@ const getStyles = (colors) => {
     searchButtonText: {
       color: colors.text,
       fontWeight: 'bold',
+      color: colors.text
     },
   });
 };

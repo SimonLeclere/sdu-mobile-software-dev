@@ -19,6 +19,7 @@ const useLocationAutoComplete = (query) => {
           params: {
             key: API_KEY,
             q: query,
+            tag: "place:city",
             countrycodes: 'dk', // Limit results to Denmark
           },
         });

@@ -1,72 +1,56 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Text, StyleSheet, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useReservations } from '../../contexts/reservationContext';
+import React from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import BookedCarCard from './BookedCarCard';
 import { useTheme } from '../../contexts/themeContext';
-import { getBookedCars } from './bookedCarsData'; // Fetch booked cars
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 const BookedCarsScreen = ({ navigation }) => {
-  const [carsData, setCarsData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
-
+  const { reservations } = useReservations(); // Fetch reservations from context
   const { colors } = useTheme();
   const styles = getStyles(colors);
 
-  // Fetch booked cars data when the component mounts
-  const fetchCars = useCallback(async () => {
-    setLoading(true);
-    setRefreshing(true);
-    try {
-      const data = await getBookedCars(); // Fetch booked cars
-      setCarsData(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Screen is focused. Refreshing reservation list.');
+      
+    }, [])
+  );
 
-  useEffect(() => {
-    fetchCars();
-  }, [fetchCars]);
+  console.log('All bookings:', reservations);
+  
 
-  if (loading && !refreshing) {
-    return <ActivityIndicator size="large" color="#0000ff" style={{ flex: 1, justifyContent: 'center' }} />;
-  }
-
-  if (error) {
-    return <Text style={{ textAlign: 'center', marginTop: 20 }}>Error: {error}</Text>;
-  }
-
-  // Separate upcoming bookings
   const currentDate = new Date();
-  const upcomingBookings = carsData.filter(item => new Date(item.fromDate) >= currentDate);
+  const upcomingBookings = reservations.filter(item => {
+    const fromDate = new Date(item.car.fromDate);
+    const toDate = new Date(item.car.toDate);
+
+    // Include bookings where current date is between fromDate and toDate, or fromDate is in the future
+    return fromDate <= currentDate && currentDate <= toDate || fromDate >= currentDate;
+  });
+
+  console.log('Upcoming bookings:', upcomingBookings);
+  
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.title}>My Trips</Text>
-      
+
       {upcomingBookings.length === 0 && (
         <Text style={{ textAlign: 'center', marginTop: 20 }}>
           No upcoming trips found.
         </Text>
       )}
-      
+
       <FlatList
         data={upcomingBookings}
-        renderItem={({ item }) => <BookedCarCard item={item} />}
-        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <BookedCarCard item={item.car} />}
+        keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={fetchCars}
-            colors={['#0000ff']}
-          />
-        }
+        onRefresh={() => console.log('Refreshing')}
+        refreshing={false}
       />
 
       {/* Link to Past Bookings Screen */}
@@ -74,9 +58,9 @@ const BookedCarsScreen = ({ navigation }) => {
         <Text style={styles.linkText}>View Past Bookings</Text>
       </TouchableOpacity>
     </View>
-
   );
 };
+
 
 const getStyles = (colors) => {
   return StyleSheet.create({

@@ -27,6 +27,15 @@ import { ThemeProvider, useTheme } from './contexts/themeContext';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider, useAuth } from './contexts/authContext';
+import { ReservationProvider } from './contexts/reservationContext';
+
+
+import { useFonts } from 'expo-font'; 
+import * as SplashScreen from 'expo-splash-screen'; 
+import {useEffect} from 'react';
+
+
+SplashScreen.preventAutoHideAsync();
 
 const tabIcons = {
   Discovery: GlobeAltIcon,
@@ -52,6 +61,7 @@ function HomeTabs() {
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: colors.tabBar,
           borderColor: colors.tabBarBorder,
@@ -105,7 +115,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Details'
+            title: 'Details',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="CarDetails"
           component={CarDetails}
@@ -115,6 +129,10 @@ function AppContent() {
             headerShown: true,
             title: 'Filters',
             headerShadowVisible: false,
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
 
             headerRight: () => (
               <TouchableOpacity
@@ -128,7 +146,7 @@ function AppContent() {
               >
                 <Text
                   style={{
-                    color: '#000',
+                    color: colors.tertiaryText,
                     fontWeight: 'bold',
                   }}
                 >Reset</Text>
@@ -137,11 +155,17 @@ function AppContent() {
           })}
           name="Filters"
           component={FilterScreen}
+          
+
         />
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Payment'
+            title: 'Payment',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="Payment"
           component={PaymentScreen}
@@ -150,7 +174,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Booking Details'
+            title: 'Booking Details',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="BookingDetails"
           component={BookingDetailsScreen}
@@ -159,7 +187,7 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'PastBooking Details'
+            title: 'Details'
           }}
           name="PastBookingDetails"
           component={PastBookingDetailsScreen}
@@ -168,7 +196,11 @@ function AppContent() {
         <Stack.Screen
           options={{
             headerShown: true,
-            title: 'Past Bookings'
+            title: 'Past Bookings',
+            headerStyle: {
+              backgroundColor: colors.background
+            },
+            headerTintColor: colors.text,
           }}
           name="PastBookings"
           component={PastBookingsScreen}
@@ -182,13 +214,30 @@ function AppContent() {
 
 
 export default function App() {
+
+  const [loaded, error] = useFonts({
+    'quebecks': require('./assets/Quebecks-rgX4L.ttf'),
+  });
+ 
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+ 
+  if (!loaded && !error) {
+    return null;
+  }
+
   // The FilterProvider is a context provider that will allow us to share the selected filters between the filter screen and the discovery screen
   return (
     <GestureHandlerRootView>
       <AuthProvider>
       <ThemeProvider >
         <FilterProvider>
-          <AppContent />
+          <ReservationProvider>
+            <AppContent />
+          </ReservationProvider>
         </FilterProvider>
       </ThemeProvider >
       </AuthProvider>

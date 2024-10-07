@@ -7,12 +7,12 @@ const themeList = {
     primary:  '#21B0FE',
     secondary: '#FED700',
     accent: '#FE218B',
-    background: 'white',
+    background: '#f2f2f2',
     cardBackground: 'white',
     filterBackground: 'white',
     text: 'black',
-    secondaryText: '#666',
-    tertiaryText: '#333',
+    secondaryText: '#333',
+    tertiaryText: '#666',
     infoText:'#555',
     
     icon: SunIcon,
@@ -22,7 +22,8 @@ const themeList = {
     timeLocationText: '#888',
     tabBar: "white",
     tabBarBorder: '#eee',
-    statusBarStyle: 'dark'
+    statusBarStyle: 'dark', 
+    selectedBox: '#e0f7ff',
   },
   dark: {
     primary:  '#21B0FE',
@@ -32,8 +33,8 @@ const themeList = {
     cardBackground: '#1f1f1f',
     filterBackground: '#1f1f1f',
     text: 'white',
-    secondaryText: '#666',
-    tertiaryText: '#333',
+    secondaryText: '#999',
+    tertiaryText: '#666',
     infoText: '#555',
     timeLocationText: '#888',
     
@@ -43,7 +44,9 @@ const themeList = {
 
     tabBar: '#1f1f1f',
     tabBarBorder: '#333',
-    statusBarStyle: 'light'
+    statusBarStyle: 'light', 
+
+    selectedBox: '#32679b',
   },
 }
 
