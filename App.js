@@ -8,6 +8,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 
 import DiscoveryScreen from './screens/discovery';
+import LoginScreen from './screens/login';
+import SignupScreen from './screens/signup';
 import ProfileScreen from './screens/profile';
 import OrdersScreen from './screens/orders';
 import PaymentScreen from './screens/discovery/CarDetails/payment/index';
@@ -24,6 +26,7 @@ import { FilterProvider, useFilters } from './contexts/filterContext';
 import { ThemeProvider, useTheme } from './contexts/themeContext';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { AuthProvider, useAuth } from './contexts/authContext';
 
 const tabIcons = {
   Discovery: GlobeAltIcon,
@@ -58,6 +61,8 @@ function HomeTabs() {
       <Tab.Screen name="Discovery" component={DiscoveryScreen} />
       <Tab.Screen name="Orders" component={OrdersScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      {/* <Tab.Screen name="Sign up" component={SignupScreen} />
+      <Tab.Screen name="Login" component={LoginScreen} /> */}
     </Tab.Navigator>
   );
 }
@@ -69,8 +74,24 @@ function AppContent() {
 
   const { colors } = useTheme();
   const { resetSelectedFilters, isDefaultFilter } = useFilters();
-
   NavigationBar.setBackgroundColorAsync(colors.tabBar);
+
+  const {authState} = useAuth();
+
+  if (authState === 0) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 
   return (
     <>
@@ -164,11 +185,13 @@ export default function App() {
   // The FilterProvider is a context provider that will allow us to share the selected filters between the filter screen and the discovery screen
   return (
     <GestureHandlerRootView>
+      <AuthProvider>
       <ThemeProvider >
         <FilterProvider>
           <AppContent />
         </FilterProvider>
       </ThemeProvider >
+      </AuthProvider>
     </GestureHandlerRootView>
   );
 }
