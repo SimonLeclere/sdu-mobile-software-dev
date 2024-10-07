@@ -35,8 +35,16 @@ export const FilterProvider = ({ children }) => {
     }));
   }
 
+  let atLeastOneFilterSet = false;
+
+  if (selectedFilters.sortBy !== defaultFilters.sortBy) atLeastOneFilterSet = true;
+  if (selectedFilters.priceRange[0] !== defaultFilters.priceRange[0] || selectedFilters.priceRange[1] < selectedFilters.maxPrice) atLeastOneFilterSet = true;
+  if (selectedFilters.vehicleType.length > 0) atLeastOneFilterSet = true;
+  if (selectedFilters.brand !== defaultFilters.brand) atLeastOneFilterSet = true;
+  if (selectedFilters.gearbox !== defaultFilters.gearbox) atLeastOneFilterSet = true;
+
   return (
-    <FilterContext.Provider value={{ selectedFilters, availableTagFilters, setSelectedFilters, setAvailableTagFilters, resetSelectedFilters }}>
+    <FilterContext.Provider value={{ selectedFilters, availableTagFilters, setSelectedFilters, setAvailableTagFilters, resetSelectedFilters, atLeastOneFilterSet }}>
       {children}
     </FilterContext.Provider>
   );

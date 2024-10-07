@@ -15,6 +15,11 @@ const CarCard = ({ item, location, dateRange }) => {
       style={styles.carCard}
       onPress={() => navigation.navigate("CarDetails", { carId: item.id, location: location, dateRange: dateRange.map(date => date.toISOString()) })}
     >
+      {
+        item.city ?
+          <Text style={styles.carCity}>{item.city}</Text>
+          : null
+      }
       <Image source={item.image} style={styles.carImage} />
       <View style={styles.cardContent}>
         <Text style={styles.carName}>{item.modelName}</Text>
@@ -44,6 +49,11 @@ const getStyles = (colors) => {
       width: "100%", // Assure que l'image prend toute la largeur disponible
       height: 90,
       borderRadius: 10,
+    },
+    carCity: {
+      fontSize: 14,
+      color: colors.secondaryText,
+      alignSelf: 'center',
     },
     cardContent: {
       paddingHorizontal: 10,

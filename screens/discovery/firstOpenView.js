@@ -42,7 +42,8 @@ export default function FirstOpenView({
     };
 
     const handleConfirmPress = () => {
-        if (!selectedSuggestion || !dateRange[0] || !dateRange[1]) return;
+        if (!selectedSuggestion) return;
+        if (!dateRange[0] || !dateRange[1]) return;
         setFirstOpen(false);
 
         const latitude = parseFloat(selectedSuggestion.lat);
@@ -151,6 +152,11 @@ export default function FirstOpenView({
 const getStyles = (colors) => StyleSheet.create({
     scrollView: {
         flex: 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         zIndex: 10000,
     },
     page: {

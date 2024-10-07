@@ -5,8 +5,8 @@ import { formatDate } from './BookedCarCard';
 import { useReservations } from '../../contexts/reservationContext';
 
 const BookingDetailsScreen = ({ route }) => {
-  const { itemId } = route.params; // Get the reservation ID from navigation params
-  const { reservations } = useReservations(); // Access reservation data from context
+  const { itemId } = route.params;
+  const { reservations } = useReservations();
   const { colors } = useTheme(); 
   const styles = getStyles(colors);
 
@@ -16,7 +16,7 @@ const BookingDetailsScreen = ({ route }) => {
     return <Text>No reservation found.</Text>;
   }
 
-  const { car, driver } = reservation; // Destructure reservation data
+  const { car, driver } = reservation;
 
 
   const openMap = () => {

@@ -41,6 +41,7 @@ const DiscoveryScreen = () => {
   const { selectedFilters, setSelectedFilters, setAvailableTagFilters } = useFilters();
 
   const mapRef = useRef(null);
+  const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["10%", "80%"], []);
 
   const fetchShops = useCallback(async () => {
@@ -101,7 +102,12 @@ const DiscoveryScreen = () => {
   const handleRegionChangeComplete = useCallback((region) => {
     const visibleShops = shopsData.filter(shop => isShopInRegion(shop, region));
     setShopsInView(visibleShops);
-  }, [shopsData, isShopInRegion]);
+    
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.snapToIndex(0); // to avoid the bottom sheet from being stuck outside the screen
+    }
+
+  }, [shopsData, isShopInRegion, bottomSheetRef]);
 
   useEffect(() => {
     fetchShops();
@@ -109,13 +115,26 @@ const DiscoveryScreen = () => {
   }, []);
 
   const filterCars = useMemo(() => {
-    return carsData
+
+    const carsDataWithCity = carsData.flatMap(car => {
+      return car.shops
+        .map(shopId => {
+          const shop = shopsData.find(s => s.id === shopId);
+          if (shop) {
+            return { ...car, city: shop.city, shopId: shop.id }; // Ajoute l'attribut city
+          }
+          return null; // Si le shopId ne correspond à aucun shop, on ne retourne rien
+        })
+        .filter(car => car !== null); // Filtrer les null au cas où certains shops ne sont pas trouvés
+    });
+
+    return carsDataWithCity
       .filter(car => Object.keys(selectedFilters.tagFilter).every(filter => selectedFilters.tagFilter[filter] ? car.tags.includes(filter) : true))
       .filter(car => car.price >= selectedFilters.priceRange[0] && car.price <= selectedFilters.priceRange[1])
       .filter(car => selectedFilters.vehicleType.length === 0 || selectedFilters.vehicleType.includes(car.type))
       .filter(car => selectedFilters.brand === 'all' || selectedFilters.brand === car.brandName)
       .filter(car => selectedFilters.gearbox === 'all' || selectedFilters.gearbox === car.transmission.toLowerCase())
-      .filter(car => car.shops.some(shopId => shopsInView.some(shop => shop.id === shopId)))
+      .filter(car => shopsInView.some(shop => shop.id === car.shopId));
   }, [carsData, selectedFilters, shopsInView]);
 
   if (loading && !refreshing) {
@@ -181,6 +200,7 @@ const DiscoveryScreen = () => {
         showsCompass={false}
         rotateEnabled={false}
         pitchEnabled={false}
+        toolbarEnabled={false}
         customMapStyle={colors.mapStyle}
         initialRegion={MAP_INITIAL_REGION}
         onRegionChangeComplete={handleRegionChangeComplete}
@@ -224,6 +244,7 @@ const DiscoveryScreen = () => {
       </MapView>
 
       <BottomSheet
+        ref={bottomSheetRef}
         snapPoints={snapPoints}
         handleIndicatorStyle={{ backgroundColor: 'lightgray' }}
         backgroundStyle={styles.bottomSheet}

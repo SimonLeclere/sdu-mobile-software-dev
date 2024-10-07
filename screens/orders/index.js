@@ -18,8 +18,6 @@ const BookedCarsScreen = ({ navigation }) => {
       
     }, [])
   );
-
-  console.log('All bookings:', reservations);
   
 
   const currentDate = new Date();
@@ -30,9 +28,6 @@ const BookedCarsScreen = ({ navigation }) => {
     // Include bookings where current date is between fromDate and toDate, or fromDate is in the future
     return fromDate <= currentDate && currentDate <= toDate || fromDate >= currentDate;
   });
-
-  console.log('Upcoming bookings:', upcomingBookings);
-  
 
   return (
     <View style={styles.container}>
@@ -71,8 +66,9 @@ const getStyles = (colors) => {
       paddingTop: 55,
     },
     title: {
-      fontSize: 32,
-      fontWeight: 'bold',
+      fontSize: 70,
+      lineHeight: 70,
+      fontFamily: 'quebecks',
       marginBottom: 20,
       color: colors.accent,
     },

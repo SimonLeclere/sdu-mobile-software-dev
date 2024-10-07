@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce';
 const API_URL = 'https://api.locationiq.com/v1/autocomplete';
 const API_KEY = process.env.EXPO_PUBLIC_LOCATIONIQ_API_KEY;
 
+
 const useLocationAutoComplete = (query) => {
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,8 @@ const useLocationAutoComplete = (query) => {
             tag: "place:city",
             countrycodes: 'dk', // Limit results to Denmark
           },
-        });
+        });        
+        
         setSuggestions(response.data);
       } catch (err) {
         setError('Unable to fetch location suggestions');

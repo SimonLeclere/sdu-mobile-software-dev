@@ -90,7 +90,7 @@ export default function CarDetails({ route, navigation }) {
     carImage: carData.image,
     brandName: carData.brandName,
     modelName: carData.modelName,
-    price: tripDays*carData.price+insurancePrice+kmPrice,
+    price: tripDays * carData.price + insurancePrice+kmPrice,
     image: carData.image,
     transmission: carData.transmission,
     fuelType: carData.fuelType,
@@ -98,11 +98,12 @@ export default function CarDetails({ route, navigation }) {
     selectedForfait: selectedForfait,
     selectedInsurance: selectedInsurance,
     location: location,
-    exactAddress: carData.exactAddress,  
+    exactAddress: carData.exactAddress, // TODO: Replace with actual address
     fromDate: dateRange[0].format('YYYY-MM-DD'), 
     toDate: dateRange[1].format('YYYY-MM-DD'),  
     tripDays: tripDays,
   };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.carCard}>
