@@ -252,6 +252,7 @@ const DiscoveryScreen = () => {
         <Text style={styles.carsAvailableText}>{filterCars.length} available cars in this area</Text>
         
         <BottomSheetFlatList
+          fadingEdgeLength={150}
           data={filterCars}
           style={styles.bottomSheetFlatList}
           renderItem={({ item }) => <CarCard item={item} location={locationQuery} dateRange={dateRange} />}

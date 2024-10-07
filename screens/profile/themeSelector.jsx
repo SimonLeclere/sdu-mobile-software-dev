@@ -5,7 +5,9 @@ import { useTheme } from "../../contexts/themeContext";
 import { SwatchIcon } from "react-native-heroicons/outline";
 
 const themeSelector = () => {
+  
   const { colors, switchTheme, theme, themes } = useTheme();
+
 
   const [showMenu, setShowMenu] = useState(false);
 

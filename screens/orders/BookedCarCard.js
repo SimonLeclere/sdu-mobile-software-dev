@@ -3,6 +3,7 @@ import { View, Image, Text, TouchableOpacity, StyleSheet, Dimensions } from "rea
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../contexts/themeContext";
+import { getShopById } from "../../api/shops";
 
 export const calculateDaysLeft = (fromDate) => {
     const currentDate = new Date(); 
@@ -45,6 +46,8 @@ const BookedCarCard = ({ item }) => {
 
   const daysLeftBackgroundColor = daysLeft < 10 ? '#6FCF97' : '#BDBDBD'; 
 
+  const shop = getShopById(item.shopId);
+
   return (
     <TouchableOpacity
       style={styles.carCard}
@@ -67,7 +70,7 @@ const BookedCarCard = ({ item }) => {
           {`To: ${formatDate(item.toDate)}`}
         </Text>
         <Text style={styles.carLocation}>
-          {`Location: ${item.location}`}
+          {`Location: ${shop?.city}`}
         </Text>
         {daysLeft > 0 ? (
           <View style={styles.daysLeftContainer}>

@@ -7,7 +7,11 @@ export const useReservations = () => useContext(ReservationContext);
 export const ReservationProvider = ({ children }) => {
   const [reservations, setReservations] = useState([]);
 
-  const addReservation = (reservation) => {    
+  const addReservation = async (reservation) => {    
+
+      // wait 1s
+      await new Promise(resolve => setTimeout(resolve, 1000));
+  
       setReservations([...reservations, reservation]);
   };
 

@@ -296,7 +296,6 @@ async function getCars() {
 }
 
 async function getCarById(id) {
-
     // wait for 1 second to simulate a network request
     await new Promise(resolve => setTimeout(resolve, 1000));
 

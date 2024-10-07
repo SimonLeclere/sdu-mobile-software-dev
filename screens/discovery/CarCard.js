@@ -9,11 +9,12 @@ const CarCard = ({ item, location, dateRange }) => {
 
   const { colors } = useTheme();
   const styles = getStyles(colors);
+  
 
   return (
     <TouchableOpacity
       style={styles.carCard}
-      onPress={() => navigation.navigate("CarDetails", { carId: item.id, location: location, dateRange: dateRange.map(date => date.toISOString()) })}
+      onPress={() => navigation.navigate("CarDetails", { carId: item.id, shopId: item.shopId, dateRange: dateRange.map(date => date.toISOString()) })}
     >
       {
         item.city ?

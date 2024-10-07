@@ -9,7 +9,7 @@ import { getCarById } from '../../../api/cars';
 
 export default function CarDetails({ route, navigation }) {
 
-  const { carId, location, dateRange: rawDateRange } = route.params;
+  const { carId, shopId, dateRange: rawDateRange } = route.params;
 
   const dateRange = rawDateRange.map(date => dayjs(date));
 
@@ -88,6 +88,7 @@ export default function CarDetails({ route, navigation }) {
   const bookingItem = {
     carId: carData.id,
     carImage: carData.image,
+    shopId: shopId,
     brandName: carData.brandName,
     modelName: carData.modelName,
     price: tripDays * carData.price + insurancePrice+kmPrice,
@@ -97,8 +98,6 @@ export default function CarDetails({ route, navigation }) {
     seatingCapacity: carData.seatingCapacity,
     selectedForfait: selectedForfait,
     selectedInsurance: selectedInsurance,
-    location: location,
-    exactAddress: carData.exactAddress, // TODO: Replace with actual address
     fromDate: dateRange[0].format('YYYY-MM-DD'), 
     toDate: dateRange[1].format('YYYY-MM-DD'),  
     tripDays: tripDays,

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, TextInput, Image, View } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -30,30 +30,35 @@ export default function LoginScreen() {
     <SafeAreaView style={styles.container}>
       <Image style={styles.login} source={require('./../../assets/carrie_white.png')} />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginText}>Log In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-        <Text style={styles.signUpText}>Sign Up for an Account</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.signUpButton} onPress={handleLoginGuest}>
-        <Text style={styles.signUpText}>Continue as guest</Text>
-      </TouchableOpacity>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginText}>Log In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+          <Text style={styles.signUpText}>Sign Up for an Account</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.signUpButton} onPress={handleLoginGuest}>
+          <Text style={styles.signUpText}>Continue as guest</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -63,13 +68,12 @@ function getStyles (colors) {
     container: {
       backgroundColor: colors.background,
       flex: 1,
-      paddingTop: 10,
-      justifyContent: 'center',
+      justifyContent: 'space-around',
       alignItems: 'center',
     },
     login: {
-      width: 200,
-      height: 200,
+      width: 300,
+      height: 300,
       resizeMode: 'contain'
     },
     input: {
@@ -99,6 +103,13 @@ function getStyles (colors) {
     signUpText: {
       color: colors.primary,
       fontSize: 16,
+    },
+    inputContainer: {
+      width: '100%',
+      alignItems: 'center',
+    },
+    buttonContainer: {
+      alignItems: 'center',
     },
   });
 }

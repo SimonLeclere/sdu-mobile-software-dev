@@ -68,7 +68,7 @@ const getStyles = (colors) => {
             borderRadius: 10,
         },
         unselectedStyle: {
-            backgroundColor: colors.backgroundColor
+            backgroundColor: colors.tertiaryText
         },
         selectedStyle: {
             backgroundColor: colors.primary

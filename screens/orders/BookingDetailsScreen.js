@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, Linking } from 'react-native';
 import { useTheme } from '../../contexts/themeContext';
 import { formatDate } from './BookedCarCard';
 import { useReservations } from '../../contexts/reservationContext';
+import { getShopById } from '../../api/shops';
 
 const BookingDetailsScreen = ({ route }) => {
   const { itemId } = route.params;
@@ -18,9 +19,10 @@ const BookingDetailsScreen = ({ route }) => {
 
   const { car, driver } = reservation;
 
+  const shop = getShopById(car.shopId);
 
   const openMap = () => {
-    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(car.exactAddress)}`;
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`;
     Linking.openURL(mapUrl);
   };
 
@@ -46,7 +48,8 @@ const BookingDetailsScreen = ({ route }) => {
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.label}>Where?</Text>
-          <Text style={styles.infoText}>{car.exactAddress}</Text>
+          <Text style={styles.infoText}>{shop.name}</Text>
+          <Text style={styles.infoText}>{shop.address}</Text>
           <Text style={styles.linkText} onPress={openMap}>Open in Maps</Text>
         </View>
       </View>

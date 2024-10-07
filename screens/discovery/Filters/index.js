@@ -38,18 +38,6 @@ const vehicleTypes = {
 
 export default function FilterScreen() {
     const { selectedFilters, setSelectedFilters } = useFilters();
-    // const [selectedFilters, setSelectedFilters] = useState({
-    //     sortBy: 'relevance', // relevance | priceAsc | priceDesc
-        
-    //     priceRange: [Number.MIN_VALUE, Number.MAX_VALUE],
-        
-    //     vehicleType: [],
-    //     brand: 'all',
-    //     gearbox: 'all',
-    
-    //     tagFilter: {},
-    //   });
-
 
     const { colors } = useTheme();
     const styles = getStyles(colors);
@@ -188,7 +176,7 @@ const getStyles = (colors) => {
         margin: 15,
       },
       buttonText: {
-        color: colors.text,
+        color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
       },

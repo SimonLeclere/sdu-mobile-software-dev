@@ -1,45 +1,65 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, Modal } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator } from 'react-native';
 import { ChevronDownIcon, ChevronUpIcon, BuildingStorefrontIcon } from 'react-native-heroicons/outline';
 import { useTheme } from '../../../../contexts/themeContext';
 import { useReservations } from '../../../../contexts/reservationContext';
 import LottieView from "lottie-react-native";
-
+import { getShopById } from '../../../../api/shops';
 
 const PaymentScreen = ({ route, navigation }) => {
   const { item } = route.params; // Get the booking item details
-
   const { colors } = useTheme();
+  
+  // States for form inputs and error messages
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [birthdate, setBirthdate] = useState('');
-
-  const [reservations, setReservations] = useState([]);
+  
+  // Error states
+  const [errorMessages, setErrorMessages] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const shop = getShopById(item.shopId);
+  const animationRef = React.useRef(null);
   const { addReservation } = useReservations(); // Use the context to add a new reservation
 
   const styles = getStyles(colors);
-
   const [isExpanded, setIsExpanded] = useState(false);
-
   const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handlePay = () => {
+  const handlePay = async () => {
+    const newErrorMessages = {};
+
+    if (!lastName) newErrorMessages.lastName = 'Last name is required';
+    if (!firstName) newErrorMessages.firstName = 'First name is required';
+    if (!email) newErrorMessages.email = 'Email is required';
+    if (!phoneNumber) newErrorMessages.phoneNumber = 'Phone number is required';
+    if (!birthdate) newErrorMessages.birthdate = 'Birthdate is required';
+
+    // Check if there are any errors
+    if (Object.keys(newErrorMessages).length > 0) {
+      setErrorMessages(newErrorMessages);
+      return; // Stop the payment process
+    }
+
+    setIsLoading(true);
+
     const newReservation = {
       car: item,
       driver: { lastName, firstName, email, phoneNumber, birthdate }
     };
 
+    await addReservation(newReservation);
+
+    setIsLoading(false);
     setShowPaymentConfirmation(true);
-
-    // addReservation(newReservation); // Add the new reservation to the list
   };
-
 
   return (
     <ScrollView style={styles.scrollContainer}>
@@ -48,16 +68,11 @@ const PaymentScreen = ({ route, navigation }) => {
 
         {/* Display booking details */}
         <View style={styles.bookingDetails}>
-
-          {/* Horizontal layout for car image and details */}
           <View style={styles.carInfoContainer}>
             <Image source={item.image} style={styles.carImage} />
-
             <View>
               <Text style={styles.carName}>{item.brandName} {item.modelName}</Text>
               <Text style={styles.infoText}>{item.tripDays} days trip</Text>
-
-              {/* Expand/Collapse Button */}
               <TouchableOpacity style={styles.toggleButton} onPress={toggleExpand}>
                 <Text style={styles.toggleButtonText}>
                   {isExpanded ? 'Hide Details' : 'Show Details'}
@@ -73,33 +88,30 @@ const PaymentScreen = ({ route, navigation }) => {
 
           {isExpanded && (
             <View style={styles.locations}>
-              {/* Pickup Location */}
               <View style={styles.detailsContainer}>
                 <View style={styles.iconContainer}>
                   <BuildingStorefrontIcon color={colors.infoText} size={24} />
                 </View>
                 <View style={styles.locationContainer}>
                   <Text style={styles.detailsTitle}>Pick-up Location</Text>
-                  <Text style={styles.detailsText}>{item.location}</Text>
-                  <Text style={styles.detailsText}>{formatDate(item.fromDate)} | Time</Text>
+                  <Text style={styles.detailsText}>{shop.name}</Text>
+                  <Text style={styles.detailsText}>{shop.address}</Text>
+                  <Text style={styles.detailsText}>{formatDate(item.fromDate)}</Text>
                 </View>
               </View>
 
-
-              {/* Return Location */}
               <View style={styles.detailsContainer}>
                 <View style={styles.iconContainer}>
-                  {/* Replace with your actual icon component */}
                   <BuildingStorefrontIcon color={colors.infoText} size={24} />
                 </View>
                 <View style={styles.locationContainer}>
                   <Text style={styles.detailsTitle}>Return Location</Text>
-                  <Text style={styles.detailsText}>{item.location}</Text>
-                  <Text style={styles.detailsText}>{formatDate(item.toDate)} | Time</Text>
+                  <Text style={styles.detailsText}>{shop.name}</Text>
+                  <Text style={styles.detailsText}>{shop.address}</Text>
+                  <Text style={styles.detailsText}>{formatDate(item.toDate)}</Text>
                 </View>
               </View>
             </View>
-
           )}
         </View>
 
@@ -130,43 +142,78 @@ const PaymentScreen = ({ route, navigation }) => {
         {/* Driver information form */}
         <View style={styles.driverInfo}>
           <Text style={styles.title}>Driver Information</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Last Name"
-            placeholderTextColor={colors.secondaryText}
-            value={lastName}
-            onChangeText={setLastName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="First Name"
-            placeholderTextColor={colors.secondaryText}
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor={colors.secondaryText}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Phone Number"
-            placeholderTextColor={colors.secondaryText}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Birthdate (YYYY-MM-DD)"
-            placeholderTextColor={colors.secondaryText}
-            value={birthdate}
-            onChangeText={setBirthdate}
-          />
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, errorMessages.firstName && styles.inputError]}
+              placeholder="First Name"
+              placeholderTextColor={colors.secondaryText}
+              value={firstName}
+              onChangeText={(text) => {
+                setFirstName(text)
+                setErrorMessages({ ...errorMessages, firstName: '' })
+              }}
+            />
+            {errorMessages.firstName && <Text style={styles.errorText}>{errorMessages.firstName}</Text>}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, errorMessages.lastName && styles.inputError]}
+              placeholder="Last Name"
+              placeholderTextColor={colors.secondaryText}
+              value={lastName}
+              onChangeText={(text) => {
+                setLastName(text)
+                setErrorMessages({ ...errorMessages, lastName: '' })
+              }}
+            />
+            {errorMessages.lastName && <Text style={styles.errorText}>{errorMessages.lastName}</Text>}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, errorMessages.email && styles.inputError]}
+              placeholder="Email"
+              placeholderTextColor={colors.secondaryText}
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text)
+                setErrorMessages({ ...errorMessages, email: '' })
+              }}
+              keyboardType="email-address"
+            />
+            {errorMessages.email && <Text style={styles.errorText}>{errorMessages.email}</Text>}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, errorMessages.phoneNumber && styles.inputError]}
+              placeholder="Phone Number"
+              placeholderTextColor={colors.secondaryText}
+              value={phoneNumber}
+              onChangeText={(text) => {
+                setPhoneNumber(text)
+                setErrorMessages({ ...errorMessages, phoneNumber: '' })
+              }}
+              keyboardType="phone-pad"
+            />
+            {errorMessages.phoneNumber && <Text style={styles.errorText}>{errorMessages.phoneNumber}</Text>}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, errorMessages.birthdate && styles.inputError]}
+              placeholder="Birthdate (YYYY-MM-DD)"
+              placeholderTextColor={colors.secondaryText}
+              value={birthdate}
+              onChangeText={(text) => {
+                setBirthdate(text)
+                setErrorMessages({ ...errorMessages, birthdate: '' })
+              }}
+            />
+            {errorMessages.birthdate && <Text style={styles.errorText}>{errorMessages.birthdate}</Text>}
+          </View>
         </View>
 
         <View style={styles.priceDetails}>
@@ -176,32 +223,36 @@ const PaymentScreen = ({ route, navigation }) => {
           </Text>
         </View>
 
-
         {/* Pay Now Button */}
         <TouchableOpacity style={styles.payButton} onPress={handlePay}>
-          <Text style={styles.payButtonText}>PAY</Text>
+          {
+            isLoading ? <ActivityIndicator size="small" color={colors.accent} /> : <Text style={styles.payButtonText}>PAY</Text>
+          }
         </TouchableOpacity>
 
-
         {/* Modal for Payment Confirmation */}
-        {showPaymentConfirmation && (
-          <Modal
-            transparent={true}
-            visible={showPaymentConfirmation}
-            animationType="slide"
-          >
-            <View style={styles.modalOverlay}>
-              <View style={styles.modalContent}>
+        <Modal
+          onShow={() => animationRef.current.play()}
+          transparent={true}
+          visible={showPaymentConfirmation}
+          animationType="slide"
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
               <LottieView
-                source={require("../../../../assets/paymentconfirmation.lottie")}
-                autoPlay
-                loop
+                ref={animationRef}
+                source={require('../../../../assets/paymentconfirmation - Copie.lottie/animations/12345.json')}
+                autoPlay={false}
+                loop={false}
+                style={styles.lottieAnimation}
+                onAnimationFinish={() => {
+                  setShowPaymentConfirmation(false);
+                  navigation.navigate('Orders');
+                }}
               />
-              </View>
             </View>
-          </Modal>
-        )}
-
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -260,6 +311,7 @@ const getStyles = (colors) => StyleSheet.create({
   },
   driverInfo: {
     marginBottom: 20,
+    gap: 15,
   },
   input: {
     height: 50,
@@ -267,15 +319,21 @@ const getStyles = (colors) => StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 15,
-    marginBottom: 15,
+    // marginBottom: 15,
     color: colors.text,
     backgroundColor: colors.inputBackground,
+  },
+  inputContainer: {
+    
   },
   payButton: {
     backgroundColor: colors.primary,
     padding: 15,
     borderRadius: 10,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
   },
   payButtonText: {
     fontSize: 18,
@@ -345,29 +403,24 @@ const getStyles = (colors) => StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     width: '80%',
-    padding: 20,
     backgroundColor: colors.cardBackground,
     borderRadius: 10,
     alignItems: 'center',
   },
-  modalText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.primary,
-    marginBottom: 20,
+  lottieAnimation: {
+    width: 400,
+    height: 250,
   },
-  closeButton: {
-    padding: 10,
-    backgroundColor: colors.primary,
-    borderRadius: 5,
+  inputError: {
+    borderColor: 'red',
   },
-  closeButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
 

@@ -1,22 +1,9 @@
-/* Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+const { getDefaultConfig } = require('expo/metro-config');
 
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const config = getDefaultConfig(__dirname);
 
-const defaultConfig = getDefaultConfig(__dirname);
+config.resolver.assetExts.push(
+  'ttf', 'lottie', 'png'
+);
 
-const {
-  resolver: { sourceExts, assetExts },
-} = getDefaultConfig(__dirname);
-
-const config = {
-  resolver: {
-    assetExts: assetExts.concat(['ttf', 'lottie', 'png']),
-    sourceExts: sourceExts
-  },
-};
-
-module.exports = mergeConfig(defaultConfig, config);
+module.exports = config;
