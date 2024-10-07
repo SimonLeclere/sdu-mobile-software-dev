@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/themeContext';
 
-
-const GiveStars = () => {
+const GiveStars = ({ rating, setRating }) => {
     const { colors } = useTheme(); 
     const styles = getStyles(colors);
 
-    const [rating, setRating] = useState(0);
-
     const handlePress = (star) => {
-        setRating(star);
+        if (setRating) {
+            setRating(star); // Only allow setting rating if setRating is provided (not disabled)
+        }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Rate your experience</Text>
             <View style={styles.stars}>
                 {[1, 2, 3, 4, 5].map((star) => (
                     <TouchableOpacity key={star} onPress={() => handlePress(star)}>
@@ -48,7 +46,7 @@ const getStyles = (colors) => {
         stars: {
             flexDirection: 'row',
         },
-    })
+    });
 };
 
 export default GiveStars;

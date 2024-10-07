@@ -37,8 +37,8 @@ const BookingDetailsScreen = ({ route }) => {
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.label}>Booking Dates:</Text>
-          <Text style={styles.infoText}>From: {formatDate(car.fromDate)} at {car.pickUpTime}</Text>
-          <Text style={styles.infoText}>To: {formatDate(car.toDate)} at {car.dropOffTime}</Text>
+          <Text style={styles.infoText}>From: {formatDate(car.fromDate)}</Text>
+          <Text style={styles.infoText}>To: {formatDate(car.toDate)}</Text>
         </View>
       </View>
 
